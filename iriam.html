@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRIAM - warudora Space</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --iriam-blue: #2193b0;
+            --iriam-grad: linear-gradient(135deg, #6dd5ed, #2193b0);
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        nav.top-nav {
+            background: var(--white);
+            padding: 10px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-link { text-decoration: none; color: var(--iriam-blue); font-weight: bold; }
+        .logo-area img { height: 35px; width: auto; }
+
+        .hero {
+            background: var(--iriam-grad);
+            color: var(--white);
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 95%;
+            margin: -2rem auto 3rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            color: var(--iriam-blue);
+            border-left: 5px solid var(--iriam-blue);
+            padding-left: 15px;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .intro-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--white);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .info-item { background: #f8fbff; padding: 1.5rem; border-radius: 10px; }
+
+        .badge-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .badge-table th, .badge-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+        .badge-table th { color: var(--iriam-blue); }
+
+        /* 歌リストのデザイン */
+        .song-list-container {
+            max-height: 450px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 5px;
+            background: #fafafa;
+        }
+        .song-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+        }
+        .song-item:last-child { border-bottom: none; }
+        .song-item:hover { background: #f0f7f9; }
+        
+        .song-info { display: flex; flex-direction: column; }
+        .song-name { font-weight: bold; color: #333; font-size: 1rem; }
+        .artist-name { font-size: 0.8rem; color: #777; }
+        .yt-link { color: #ff0000; text-decoration: none; font-size: 1.4rem; transition: transform 0.2s; }
+        .yt-link:hover { transform: scale(1.2); }
+
+        .schedule-box {
+            background: #2c3e50;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .btn-live {
+            display: block;
+            background: var(--iriam-grad);
+            color: white;
+            text-align: center;
+            padding: 1.2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-top: 2rem;
+            box-shadow: 0 4px 15px rgba(33, 147, 176, 0.3);
+        }
+
+        footer { text-align: center; padding: 2rem; color: #999; }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav">
+    <a href="index.html" class="back-link"><i class="fas fa-chevron-left"></i> Portfolio Home</a>
+    <div class="logo-area">
+        <img src="logo.png" alt="warudora logo" onerror="this.style.display='none';">
+    </div>
+</nav>
+
+<div class="hero">
+    <h1>warudora IRIAM Space</h1>
+    <p>雑談・歌・作業・勉強配信</p>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2><i class="fas fa-user"></i> 自己紹介</h2>
+        <div class="intro-content">
+            <img src="profile_iriam.jpg" alt="warudora" class="profile-img" onerror="this.src='https://via.placeholder.com/180'">
+            <div style="text-align: center;">
+                <p>
+                    こんにちは、warudoraです！<br>
+                    普段はMinecraftのMod制作やコミュニティ運営をしていますが、<br>
+                    IRIAMではリスナーさんと「楽しく」「またり」交流することを大切にしています。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-grid">
+        <div class="card info-item">
+            <h2><i class="fas fa-microphone"></i> 配信スタイル</h2>
+            <p><strong>雑談：</strong>まったり日常トーク</p>
+            <p><strong>歌：</strong>ボカロとかアニソンとか</p>
+            <p><strong>作業・勉強：</strong>作業・勉強仲間が欲しい方</p>
+        </div>
+        <div class="card info-item">
+            <h2><i class="fas fa-star"></i> 挨拶・ルール</h2>
+            <p><strong>挨拶：</strong>入室「こんどら！」退室「おつどら！」</p>
+            <p><strong>ルール：</strong>リスナーさん同士の挨拶・会話大歓迎！</p>
+        </div>
+    </div>
+
+    <div class="card schedule-box">
+        <h2><i class="fas fa-calendar-alt" style="color: white; border: none;"></i> 配信予定日</h2>
+        <p>毎週月曜日〜金曜日 21:00〜 22:00配信中！</p>
+    </div>
+
+    <div class="card">
+        <h2><i class="fas fa-medal"></i> バッジ特典</h2>
+        <table class="badge-table">
+            <thead>
+                <tr><th>星</th><th>特典内容</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>★1</td><td>歌枠の依頼・曲のリクエスト ＋ 枠内でお礼</td></tr>
+                <tr><td>★2</td><td>リクエスト曲 優先権</td></tr>
+                <tr><td>★3</td><td>未定なのだ</td></tr>
+                <tr><td>★5</td><td>シークレット特典（お楽しみに！）</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2><i class="fas fa-music"></i> 歌枠の歌一覧</h2>
+        <div id="song-list" class="song-list-container"></div>
+    </div>
+
+    <a href="https://v.iriam.com/v1/user/warudora" class="btn-live" target="_blank">IRIAMで配信を聴く</a>
+</div>
+
+<footer>
+    <p>&copy; 2026 warudora. All Rights Reserved.</p>
+</footer>
+
+<script>
+    // ★ここに曲を追加してね！★
+    const songs = [
+        { title: "君の神様になりたい", artist: "カンザキ　イオリ", url: "https://music.youtube.com/watch?v=X5kQR92kYn0&list=OLAK5uy_ku-TXwkKNpamDfulT9D3KqcriZyw6_Xjc" },
+        { title: "命に嫌われている", artist: "カンザキ　イオリ", url: "https://music.youtube.com/watch?v=0HYm60Mjm0k&list=OLAK5uy_ku-TXwkKNpamDfulT9D3KqcriZyw6_Xjc" },
+        { title: "忘れじの言の葉", artist: "未来古代楽団feat.安次嶺希和子", url: "https://music.youtube.com/watch?v=uB2GnZ1IVxA" },
+        { title: "回る空うさぎ", artist: "Orangestar", url: "https://music.youtube.com/watch?v=CLywtSOj4NA" },
+        { title: "愛の唄", artist: "Myuk", url: "https://music.youtube.com/watch?v=go6iydhxbW0" },
+        { title: "酔いどれ知らず", artist: "Kanaria", url: "https://music.youtube.com/watch?v=vB8sxY_PJ_w" },
+        { title: "ハッピーシンセサイザ", artist: "ＥＡＳＹ　ＰＯＰ　ＦＥＡＴ．巡音ルカ．ＧＵＭＩ", url: "https://music.youtube.com/watch?v=xOKplMgHxxA&list=OLAK5uy_kZH1MHlqHV1QwfHT4m4gVtWh9ivMTf2EE" },
+        { title: "神のまにまに", artist: "れるりり", url: "https://music.youtube.com/watch?v=b2GJcYBoVyg" },
+        { title: "Happy　Halloween", artist: "Junky", url: "https://music.youtube.com/watch?v=1DcgczDzQPk&list=OLAK5uy_nYJBmcfH1rZuzT3BI8PoAW-BluFnoAijY" },
+        { title: "残酷な天使のテーゼ", artist: "高橋　洋子", url: "https://music.youtube.com/watch?v=o6wtDPVkKqI" },
+    ];
+
+    const songListContainer = document.getElementById('song-list');
+
+    // リストを生成する関数
+    songs.forEach(song => {
+        const songItem = document.createElement('div');
+        songItem.className = 'song-item';
+        
+        songItem.innerHTML = `
+            <div class="song-info">
+                <span class="song-name">${song.title}</span>
+                <span class="artist-name">${song.artist}</span>
+            </div>
+            <a href="${song.url}" class="yt-link" target="_blank">
+                <i class="fab fa-youtube"></i>
+            </a>
+        `;
+        
+        songListContainer.appendChild(songItem);
+    });
+</script>
+
+</body>
+</html>
