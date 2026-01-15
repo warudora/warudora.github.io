@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>warudora Official Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --tool-color: #27ae60;
+            --link-color: #e67e22;
+            --x-color: #000000;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        nav.top-nav {
+            background: var(--white);
+            padding: 10px 5%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-area img { height: 40px; width: auto; display: block; }
+
+        header {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 90%;
+            margin: 0 auto;
+            padding: 2rem 0;
+            flex-grow: 1;
+        }
+
+        .profile-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+        }
+
+        .profile-thumb {
+            width: 150px;
+            height: 150px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 4px solid var(--accent-color);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        section {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        section:hover { transform: translateY(-5px); }
+
+        h2 {
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.8rem;
+            color: var(--primary-color);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 0;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-tool { background: var(--tool-color); }
+
+        .work-item { width: 100%; margin-bottom: 1rem; }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 0.8rem;
+        }
+
+        .link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.4rem 1.2rem;
+            border: 1px solid var(--link-color);
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+
+        .link-btn:hover { background: var(--link-color); color: white; }
+
+        .link-btn.btn-x {
+            color: var(--x-color);
+            border-color: var(--x-color);
+        }
+        .link-btn.btn-x:hover {
+            background: var(--x-color);
+            color: white;
+        }
+
+        .btn-main {
+            display: inline-block;
+            background: linear-gradient(135deg, #6dd5ed, #2193b0);
+            color: white;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .iriam-banner {
+            grid-column: 1 / -1;
+            background: var(--white);
+            padding: 3.5rem;
+            text-align: center;
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+        }
+
+        hr { width: 60%; border: 0; border-top: 1px solid #eee; margin: 1.5rem auto; }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav">
+    <div class="logo-area">
+        <img src="logo.png" alt="warudora logo" onerror="this.src='https://via.placeholder.com/200x50?text=WARUDORA+LOGO'">
+    </div>
+</nav>
+
+<header>
+    <h1>warudora's Portfolio</h1>
+    <p>Minecraft Mod Developer & IRIAM Liver</p>
+</header>
+
+<div class="container">
+    <div class="profile-card">
+        <img src="profile_top.jpg" alt="warudora" class="profile-thumb" onerror="this.src='https://via.placeholder.com/150'">
+        <div>
+            <h2><i class="fas fa-user-circle"></i> Profile</h2>
+            <p>
+                Japanituremod制作者、MJaS管理者、MTRJapanUsers創設者のwarudoraです。<br>
+                MinecraftのMod制作を軸に、鉄道アドオン支援システムの構築や、<br>
+                コミュニティ運営を通じて「創る楽しさ、交流の楽しさ」を共有しています。
+            </p>
+            <div class="button-group">
+                <a href="https://x.com/warudora36" class="link-btn btn-x" target="_blank"><i class="fab fa-x-twitter"></i> Official X</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <section>
+            <h2><i class="fas fa-hammer"></i> Mod & Community</h2>
+            <div class="work-item">
+                <span class="badge">Minecraft Mod</span>
+                <h3>Japanituremod</h3>
+                <p>日本の家具や内装を追加し、現代建築を彩るMod。</p>
+                <div class="button-group">
+                    <a href="https://modrinth.com/mod/japaniture/versions" class="link-btn" target="_blank"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+            <hr>
+            <div class="work-item">
+                <span class="badge">Management</span>
+                <h3>MJaS / MTRJapanUsers</h3>
+                <p>国内最大級のMTRユーザーコミュニティを運営。</p>
+                <div class="button-group">
+                    <a href="http://pro1.ssnetwork.io:54103/homepage/home" class="link-btn" target="_blank"><i class="fas fa-users"></i> Community</a>
+                    <a href="https://x.com/MJaS2024_MTR" class="link-btn btn-x" target="_blank"><i class="fab fa-x-twitter"></i> Community X</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2><i class="fas fa-code"></i> Systems</h2>
+            <div class="work-item">
+                <span class="badge badge-tool">Tool</span>
+                <h3>駅名標エディター</h3>
+                <p>誰でも簡単に高品質な駅名標が作れるエディター。</p>
+                <div class="button-group">
+                    <a href="https://drive.google.com/drive/folders/19q8T3CVB1trJgwMbGFnxpcy8ti7r1VvV" class="link-btn" target="_blank"><i class="fas fa-edit"></i> Open Editor</a>
+                </div>
+            </div>
+            <hr>
+            <div class="work-item">
+                <span class="badge badge-tool">Web tool</span>
+                <h3>soundjson作成システム</h3>
+                <p>複雑なjson設定を自動化し、制作効率を劇的に向上。</p>
+                <div class="button-group">
+                    <a href="https://sakurapack.f5.si/" class="link-btn" target="_blank"><i class="fas fa-cogs"></i> Use System</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="iriam-banner">
+            <h2><i class="fas fa-broadcast-tower"></i> IRIAM Streaming</h2>
+            <p>
+                「warudora」として、雑談・歌・作業・勉強配信をメインに活動中！<br>
+                配信の雰囲気や詳細、挨拶のルールなどは専用ページをご覧ください。
+            </p>
+            <div style="margin-top: 1.5rem;">
+                <a href="iriam.html" class="btn-main">IRIAM専用ページへ</a>
+            </div>
+        </section>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2026 warudora. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
