@@ -27,6 +27,7 @@
             --white: #ffffff;
             --news-accent: #e74c3c;
             --yt-music-color: #ff0000;
+            --copy-success: #27ae60;
         }
 
         body {
@@ -90,7 +91,6 @@
             font-size: 1.5rem;
         }
 
-        /* お知らせバッジのスタイル */
         .new-badge {
             background: var(--news-accent);
             color: white;
@@ -108,7 +108,6 @@
             100% { opacity: 1; }
         }
 
-        /* お知らせトースト通知（画面右下） */
         #notification-toast {
             position: fixed;
             bottom: 20px;
@@ -239,8 +238,20 @@
         .song-info { display: flex; flex-direction: column; }
         .song-name { font-weight: bold; color: #333; font-size: 1rem; }
         .artist-name { font-size: 0.8rem; color: #777; }
+        
+        .song-actions { display: flex; gap: 15px; align-items: center; }
+        .copy-btn { background: #eee; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; color: #555; transition: all 0.2s; }
+        .copy-btn:hover { background: #ddd; }
+        .copy-btn.success { background: var(--copy-success); color: white; }
+
         .yt-link { color: #ff0000; text-decoration: none; font-size: 1.4rem; transition: transform 0.2s; }
         .yt-link:hover { transform: scale(1.2); }
+
+        .faq-container { display: flex; flex-direction: column; gap: 1.5rem; }
+        .faq-item { border-bottom: 1px solid #eee; padding-bottom: 1rem; }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-q { font-weight: bold; color: var(--iriam-blue); display: flex; gap: 8px; }
+        .faq-a { margin-top: 5px; padding-left: 24px; font-size: 0.95rem; color: #555; }
 
         .no-result {
             padding: 20px;
@@ -354,6 +365,11 @@
         <div id="song-list" class="song-list-container"></div>
     </div>
 
+    <div class="card">
+        <h2><i class="fas fa-question-circle"></i> よくある質問 (FAQ)</h2>
+        <div id="faq-list" class="faq-container"></div>
+    </div>
+
     <a href="https://web.iriam.app/s/user/NwCrmCkvi6" class="btn-live" target="_blank">IRIAMで配信を聴く</a>
 </div>
 
@@ -366,14 +382,18 @@
 </footer>
 
 <script>
-    // ニュースデータ（日付の形式は YYYY/MM/DD）
+    // ==========================================
+    // 設定・データ項目 (ここを編集してください)
+    // ==========================================
+
+    // 1. お知らせデータ
     const newsData = [
-        { date: "2026/01/16", text: "サイトが完成しました！" },
-        { date: "2026/01/16", text: "歌枠新曲「フォニイ」「高音厨音域テスト」をリストに追加しました。" },
+        { date: "2026/01/16", text: "歌枠リストに「コピー機能」を追加しました！リクエストに便利です。" },
         { date: "2026/01/16", text: "ポートフォリオサイトを公開しました！" },
         { date: "2026/01/15", text: "2月からのバッジ特典内容を更新しました。詳細は表をチェック！" },
     ];
 
+    // 2. 歌枠データ
     const songs = [
         { title: "君の神様になりたい", artist: "カンザキ　イオリ", url: "https://music.youtube.com/watch?v=X5kQR92kYn0" },
         { title: "命に嫌われている", artist: "カンザキ　イオリ", url: "https://music.youtube.com/watch?v=0HYm60Mjm0k" },
@@ -389,12 +409,21 @@
         { title: "高音厨音域テスト", artist: "木村ワイP", url: "https://music.youtube.com/watch?v=f91sM4rI76w" },        
     ];
 
-    // お知らせのレンダリング
+    // 3. FAQデータ
+    const faqData = [
+        { q: "歌のリクエストはどうすればいい？", a: "バッジ特典(★1〜)をお持ちの方を優先していますが、初見さんもお気軽にどうぞ！" },
+        { q: "Modの二次配布はしていい？", a: "二次配布は禁止しています。紹介はMod名と制作者名を記載いただければOKです！" },
+        { q: "配信の切り抜きをSNSに上げてもいい？", a: "大歓迎です！ハッシュタグやメンションを付けていただけると見に行きやすくなります。" },
+    ];
+
+    // ==========================================
+    // 実行スクリプト (基本変更不要)
+    // ==========================================
+
+    // お知らせ生成
     const newsList = document.getElementById('news-list');
     const now = new Date();
-    const threeDaysAgo = new Date(now.getTime() - (1 * 24 * 60 * 60 * 1000));
-    
-    // 前回の最終確認時間を取得（localStorage）
+    const oneDayAgo = new Date(now.getTime() - (1 * 24 * 60 * 60 * 1000));
     const lastCheck = localStorage.getItem('lastNewsCheck') || 0;
     let hasNewNews = false;
 
@@ -402,18 +431,12 @@
         const itemDate = new Date(item.date);
         const div = document.createElement('div');
         div.className = 'news-item';
-        
-        // 投稿から3日以内ならNEWバッジ
-        const newLabel = itemDate > threeDaysAgo ? '<span class="new-badge">NEW</span>' : '';
-        
-        // 前回の訪問より新しい投稿があればフラグを立てる
+        const newLabel = itemDate > oneDayAgo ? '<span class="new-badge">NEW</span>' : '';
         if (itemDate.getTime() > lastCheck) hasNewNews = true;
-
         div.innerHTML = `<span class="news-date">${item.date}</span><span class="news-text">${item.text}${newLabel}</span>`;
         newsList.appendChild(div);
     });
 
-    // 通知トーストの表示
     if (hasNewNews) {
         const toast = document.getElementById('notification-toast');
         toast.style.display = 'block';
@@ -422,11 +445,10 @@
             toast.style.display = 'none';
             localStorage.setItem('lastNewsCheck', Date.now());
         };
-        // 10秒後に自動で消える
         setTimeout(() => { toast.style.display = 'none'; }, 10000);
     }
 
-    // --- 以下、歌検索と西暦更新の既存スクリプト ---
+    // 歌リスト生成 & 検索 & コピー
     function displaySongs(filterText = "") {
         const songList = document.getElementById('song-list');
         songList.innerHTML = "";
@@ -441,10 +463,40 @@
         filteredSongs.forEach(song => {
             const div = document.createElement('div');
             div.className = 'song-item';
-            div.innerHTML = `<div class="song-info"><span class="song-name">${song.title}</span><span class="artist-name">${song.artist}</span></div><a href="${song.url}" class="yt-link" target="_blank"><i class="fab fa-youtube"></i></a>`;
+            div.innerHTML = `
+                <div class="song-info">
+                    <span class="song-name">${song.title}</span>
+                    <span class="artist-name">${song.artist}</span>
+                </div>
+                <div class="song-actions">
+                    <button class="copy-btn" onclick="copyText('${song.title}')"><i class="fas fa-copy"></i></button>
+                    <a href="${song.url}" class="yt-link" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>`;
             songList.appendChild(div);
         });
     }
+
+    async function copyText(text) {
+        await navigator.clipboard.writeText(text);
+        const btn = event.currentTarget;
+        btn.innerHTML = '<i class="fas fa-check"></i>';
+        btn.classList.add('success');
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fas fa-copy"></i>';
+            btn.classList.remove('success');
+        }, 1500);
+    }
+
+    // FAQ生成
+    const faqList = document.getElementById('faq-list');
+    faqData.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'faq-item';
+        div.innerHTML = `<div class="faq-q"><span>Q.</span> ${item.q}</div><div class="faq-a">A. ${item.a}</div>`;
+        faqList.appendChild(div);
+    });
+
+    // 初期化
     displaySongs();
     document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
     document.getElementById('current-year').textContent = new Date().getFullYear();
