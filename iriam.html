@@ -266,6 +266,10 @@
             border-radius: 12px;
             text-align: center;
         }
+        .schedule-box h2 i {
+            color: white;
+            border: none;
+        }
 
         .btn-live {
             display: block;
@@ -327,13 +331,16 @@
         <div class="card info-item">
             <h2><i class="fas fa-star"></i> 挨拶・ルール</h2>
             <p><strong>挨拶：</strong>入室「こんどら！」退室「おつどら！」</p>
-            <p><strong>ルール：</strong>リスナーさん同士の挨拶・会話大歓迎！<br>参加退出時は挨拶をお願いします。<br>歌枠の曲の追加に関しては枠内でお申し付けください。
+            <p><strong>ルール：</strong>
+                リスナーさん同士の挨拶・会話大歓迎！<br>
+                参加退出時は挨拶をお願いします。<br>
+                歌枠の曲の追加に関しては枠内でお申し付けください。
             </p>
         </div>
     </div>
 
     <div class="card schedule-box">
-        <h2><i class="fas fa-calendar-alt" style="color: white; border: none;"></i> 配信予定日</h2>
+        <h2><i class="fas fa-calendar-alt"></i> 配信予定日</h2>
         <p>毎週月曜日〜金曜日 21:00〜 22:00配信中！</p>
     </div>
 
@@ -384,20 +391,20 @@
 
 <script>
     // ==========================================
-    // 設定・データ項目 (ここを編集してください)
+    // 設定・データ項目
     // ==========================================
 
     // 1. お知らせデータ
     const newsData = [
         { date: "2026/01/16", text: "歌枠リストに「コピー機能」を追加しました！リクエストに便利です。" },
-        { date: "2026/01/16", text: "歌枠新曲情報　「フォニイ」「高音中音域テスト」を追加しました！" },
+        { date: "2026/01/16", text: "歌枠新曲情報 「フォニイ」「高音中音域テスト」を追加しました！" },
         { date: "2026/01/15", text: "2月からのバッジ特典内容を更新しました。詳細は表をチェック！" },
     ];
 
     // 2. 歌枠データ
     const songs = [
-        { title: "君の神様になりたい", artist: "カンザキ　イオリ", url: "https://music.youtube.com/watch?v=X5kQR92kYn0" },
-        { title: "命に嫌われている", artist: "カンザキ　イオリ", url: "https://music.youtube.com/watch?v=0HYm60Mjm0k" },
+        { title: "君の神様になりたい", artist: "カンザキ イオリ", url: "https://music.youtube.com/watch?v=X5kQR92kYn0" },
+        { title: "命に嫌われている", artist: "カンザキ イオリ", url: "https://music.youtube.com/watch?v=0HYm60Mjm0k" },
         { title: "忘れじの言の葉", artist: "未来古代楽団feat.安次嶺希和子", url: "https://music.youtube.com/watch?v=uB2GnZ1IVxA" },
         { title: "回る空うさぎ", artist: "Orangestar", url: "https://music.youtube.com/watch?v=CLywtSOj4NA" },
         { title: "愛の唄", artist: "Myuk", url: "https://music.youtube.com/watch?v=go6iydhxbW0" },
@@ -417,7 +424,7 @@
     ];
 
     // ==========================================
-    // 実行スクリプト (基本変更不要)
+    // 実行スクリプト
     // ==========================================
 
     // お知らせ生成
@@ -469,22 +476,31 @@
                     <span class="artist-name">${song.artist}</span>
                 </div>
                 <div class="song-actions">
-                    <button class="copy-btn" onclick="copyText('${song.title}')"><i class="fas fa-copy"></i></button>
+                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
                     <a href="${song.url}" class="yt-link" target="_blank"><i class="fab fa-youtube"></i></a>
                 </div>`;
+            
+            // コピーイベントの設定
+            const copyBtn = div.querySelector('.copy-btn');
+            copyBtn.onclick = (e) => copyText(e, song.title);
+            
             songList.appendChild(div);
         });
     }
 
-    async function copyText(text) {
-        await navigator.clipboard.writeText(text);
-        const btn = event.currentTarget;
-        btn.innerHTML = '<i class="fas fa-check"></i>';
-        btn.classList.add('success');
-        setTimeout(() => {
-            btn.innerHTML = '<i class="fas fa-copy"></i>';
-            btn.classList.remove('success');
-        }, 1500);
+    async function copyText(event, text) {
+        try {
+            await navigator.clipboard.writeText(text);
+            const btn = event.currentTarget;
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            btn.classList.add('success');
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-copy"></i>';
+                btn.classList.remove('success');
+            }, 1500);
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+        }
     }
 
     // FAQ生成
