@@ -106,7 +106,6 @@
         .playlist-btn:hover { background: #333; transform: scale(1.05); }
         .playlist-btn i { color: var(--yt-music-color); font-size: 1.1rem; }
 
-        /* 検索ボックスのスタイル */
         .search-container {
             margin-bottom: 1rem;
             position: relative;
@@ -319,11 +318,11 @@
         <div id="song-list" class="song-list-container"></div>
     </div>
 
-    <a href="https://web.iriam.app/s/user/NwCrmCkvi6?uuid=308a5060" class="btn-live" target="_blank">IRIAMで配信を聴く  (視聴にはアプリが必要です)</a>
+    <a href="https://web.iriam.app/s/user/NwCrmCkvi6" class="btn-live" target="_blank">IRIAMで配信を聴く</a>
 </div>
 
 <footer>
-    <p>&copy; 2026 warudora. All Rights Reserved.</p>
+    <p>&copy; <span id="current-year"></span> warudora. All Rights Reserved.</p>
 </footer>
 
 <script>
@@ -356,10 +355,9 @@
         newsList.appendChild(div);
     });
 
-    // 歌リストを表示する関数
     function displaySongs(filterText = "") {
         const songList = document.getElementById('song-list');
-        songList.innerHTML = ""; // 一旦クリア
+        songList.innerHTML = "";
 
         const filteredSongs = songs.filter(song => 
             song.title.toLowerCase().includes(filterText.toLowerCase()) || 
@@ -385,13 +383,14 @@
         });
     }
 
-    // 初回表示
     displaySongs();
 
-    // 検索イベント
     document.getElementById('song-search').addEventListener('input', (e) => {
         displaySongs(e.target.value);
     });
+
+    // 西暦を自動更新
+    document.getElementById('current-year').textContent = new Date().getFullYear();
 </script>
 
 </body>
