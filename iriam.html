@@ -25,7 +25,7 @@
             --bg-color: #f4f7f6;
             --text-color: #333;
             --white: #ffffff;
-            --news-accent: #e74c3c; /* お知らせ用のアクセントカラー */
+            --news-accent: #e74c3c;
         }
 
         body {
@@ -80,7 +80,6 @@
             font-size: 1.5rem;
         }
 
-        /* お知らせエリアのスタイル */
         .news-container {
             list-style: none;
             padding: 0;
@@ -129,6 +128,16 @@
         .badge-table th, .badge-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
         .badge-table th { color: var(--iriam-blue); }
 
+        /* 歌枠セクションのレイアウト：PCで2カラム、スマホで1カラム */
+        .music-flex-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .music-flex-container { grid-template-columns: 1fr; }
+        }
+
         .song-list-container {
             max-height: 450px;
             overflow-y: auto;
@@ -153,6 +162,18 @@
         .artist-name { font-size: 0.8rem; color: #777; }
         .yt-link { color: #ff0000; text-decoration: none; font-size: 1.4rem; transition: transform 0.2s; }
         .yt-link:hover { transform: scale(1.2); }
+
+        /* プレイリスト埋め込みのスタイル */
+        .playlist-wrapper {
+            width: 100%;
+            height: 450px;
+        }
+        .playlist-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            border: none;
+        }
 
         .schedule-box {
             background: #2c3e50;
@@ -195,8 +216,7 @@
 <div class="container">
     <div class="card">
         <h2><i class="fas fa-bullhorn"></i> お知らせ</h2>
-        <div id="news-list" class="news-container">
-            </div>
+        <div id="news-list" class="news-container"></div>
     </div>
 
     <div class="card">
@@ -207,7 +227,7 @@
                 <p>
                     こんにちは、warudoraです！<br>
                     普段はMinecraftのMod制作やコミュニティ運営をしていますが、<br>
-                    IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。
+                    IRIAMではリスナーさんと「楽しく」「またり」交流することを大切にしています。
                 </p>
             </div>
         </div>
@@ -248,8 +268,18 @@
     </div>
 
     <div class="card">
-        <h2><i class="fas fa-music"></i> 歌枠の歌一覧</h2>
-        <div id="song-list" class="song-list-container"></div>
+        <h2><i class="fas fa-music"></i> 歌枠の歌一覧 & Playlist</h2>
+        <div class="music-flex-container">
+            <div id="song-list" class="song-list-container"></div>
+            
+            <div class="playlist-wrapper">
+                <iframe src="https://www.youtube.com/embed/videoseries?list=PLJ7JuhVqBNnRkj50rW2LtsXuQW1HXEUWp" 
+                    title="warudora 歌枠プレイリスト" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
     </div>
 
     <a href="https://web.iriam.app/s/user/NwCrmCkvi6?uuid=308a5060" class="btn-live" target="_blank">IRIAMで配信を聴く  (視聴にはアプリが必要です)</a>
@@ -260,14 +290,12 @@
 </footer>
 
 <script>
-    // ★お知らせの追加：ここを編集★
     const newsData = [
         { date: "2026/01/16", text: "歌枠新曲「フォニイ」「高音厨音域テスト」をリストに追加しました。" },
         { date: "2026/01/16", text: "ポートフォリオサイトを公開しました！" },
         { date: "2026/01/15", text: "2月からのバッジ特典内容を更新しました。詳細は表をチェック！" },
     ];
 
-    // ★歌枠リストの追加★
     const songs = [
         { title: "君の神様になりたい", artist: "カンザキ　イオリ", url: "https://music.youtube.com/watch?v=X5kQR92kYn0" },
         { title: "命に嫌われている", artist: "カンザキ　イオリ", url: "https://music.youtube.com/watch?v=0HYm60Mjm0k" },
@@ -283,7 +311,6 @@
         { title: "高音厨音域テスト", artist: "木村ワイP", url: "https://music.youtube.com/watch?v=f91sM4rI76w" },        
     ];
 
-    // お知らせ生成
     const newsList = document.getElementById('news-list');
     newsData.forEach(item => {
         const div = document.createElement('div');
@@ -292,7 +319,6 @@
         newsList.appendChild(div);
     });
 
-    // 歌リスト生成
     const songList = document.getElementById('song-list');
     songs.forEach(song => {
         const div = document.createElement('div');
