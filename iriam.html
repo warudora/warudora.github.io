@@ -73,7 +73,6 @@
             margin-bottom: 2rem;
         }
 
-        /* 見出しとボタンを並べる設定 */
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -91,7 +90,6 @@
             font-size: 1.5rem;
         }
 
-        /* YouTube Musicボタンのスタイル */
         .playlist-btn {
             display: inline-flex;
             align-items: center;
@@ -107,6 +105,32 @@
         }
         .playlist-btn:hover { background: #333; transform: scale(1.05); }
         .playlist-btn i { color: var(--yt-music-color); font-size: 1.1rem; }
+
+        /* 検索ボックスのスタイル */
+        .search-container {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+        .search-input:focus {
+            border-color: var(--iriam-blue);
+        }
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
 
         .news-container {
             list-style: none;
@@ -180,6 +204,12 @@
         .artist-name { font-size: 0.8rem; color: #777; }
         .yt-link { color: #ff0000; text-decoration: none; font-size: 1.4rem; transition: transform 0.2s; }
         .yt-link:hover { transform: scale(1.2); }
+
+        .no-result {
+            padding: 20px;
+            text-align: center;
+            color: #999;
+        }
 
         .schedule-box {
             background: #2c3e50;
@@ -280,6 +310,12 @@
                 <i class="fab fa-youtube"></i> YouTube Musicで聴く
             </a>
         </div>
+
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="song-search" class="search-input" placeholder="曲名やアーティスト名で検索...">
+        </div>
+
         <div id="song-list" class="song-list-container"></div>
     </div>
 
@@ -320,18 +356,41 @@
         newsList.appendChild(div);
     });
 
-    const songList = document.getElementById('song-list');
-    songs.forEach(song => {
-        const div = document.createElement('div');
-        div.className = 'song-item';
-        div.innerHTML = `
-            <div class="song-info">
-                <span class="song-name">${song.title}</span>
-                <span class="artist-name">${song.artist}</span>
-            </div>
-            <a href="${song.url}" class="yt-link" target="_blank"><i class="fab fa-youtube"></i></a>
-        `;
-        songList.appendChild(div);
+    // 歌リストを表示する関数
+    function displaySongs(filterText = "") {
+        const songList = document.getElementById('song-list');
+        songList.innerHTML = ""; // 一旦クリア
+
+        const filteredSongs = songs.filter(song => 
+            song.title.toLowerCase().includes(filterText.toLowerCase()) || 
+            song.artist.toLowerCase().includes(filterText.toLowerCase())
+        );
+
+        if (filteredSongs.length === 0) {
+            songList.innerHTML = '<div class="no-result">曲が見つかりませんでした。</div>';
+            return;
+        }
+
+        filteredSongs.forEach(song => {
+            const div = document.createElement('div');
+            div.className = 'song-item';
+            div.innerHTML = `
+                <div class="song-info">
+                    <span class="song-name">${song.title}</span>
+                    <span class="artist-name">${song.artist}</span>
+                </div>
+                <a href="${song.url}" class="yt-link" target="_blank"><i class="fab fa-youtube"></i></a>
+            `;
+            songList.appendChild(div);
+        });
+    }
+
+    // 初回表示
+    displaySongs();
+
+    // 検索イベント
+    document.getElementById('song-search').addEventListener('input', (e) => {
+        displaySongs(e.target.value);
     });
 </script>
 
