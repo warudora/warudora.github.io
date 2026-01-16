@@ -26,6 +26,7 @@
             --text-color: #333;
             --white: #ffffff;
             --news-accent: #e74c3c;
+            --yt-music-color: #ff0000;
         }
 
         body {
@@ -72,13 +73,40 @@
             margin-bottom: 2rem;
         }
 
-        h2 {
-            color: var(--iriam-blue);
+        /* 見出しとボタンを並べる設定 */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1.5rem;
             border-left: 5px solid var(--iriam-blue);
             padding-left: 15px;
-            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            color: var(--iriam-blue);
+            margin: 0;
             font-size: 1.5rem;
         }
+
+        /* YouTube Musicボタンのスタイル */
+        .playlist-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #000;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .playlist-btn:hover { background: #333; transform: scale(1.05); }
+        .playlist-btn i { color: var(--yt-music-color); font-size: 1.1rem; }
 
         .news-container {
             list-style: none;
@@ -128,16 +156,6 @@
         .badge-table th, .badge-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
         .badge-table th { color: var(--iriam-blue); }
 
-        /* 歌枠セクションのレイアウト：PCで2カラム、スマホで1カラム */
-        .music-flex-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-        @media (max-width: 768px) {
-            .music-flex-container { grid-template-columns: 1fr; }
-        }
-
         .song-list-container {
             max-height: 450px;
             overflow-y: auto;
@@ -162,18 +180,6 @@
         .artist-name { font-size: 0.8rem; color: #777; }
         .yt-link { color: #ff0000; text-decoration: none; font-size: 1.4rem; transition: transform 0.2s; }
         .yt-link:hover { transform: scale(1.2); }
-
-        /* プレイリスト埋め込みのスタイル */
-        .playlist-wrapper {
-            width: 100%;
-            height: 450px;
-        }
-        .playlist-wrapper iframe {
-            width: 100%;
-            height: 100%;
-            border-radius: 8px;
-            border: none;
-        }
 
         .schedule-box {
             background: #2c3e50;
@@ -227,7 +233,7 @@
                 <p>
                     こんにちは、warudoraです！<br>
                     普段はMinecraftのMod制作やコミュニティ運営をしていますが、<br>
-                    IRIAMではリスナーさんと「楽しく」「またり」交流することを大切にしています。
+                    IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。
                 </p>
             </div>
         </div>
@@ -268,18 +274,13 @@
     </div>
 
     <div class="card">
-        <h2><i class="fas fa-music"></i> 歌枠の歌一覧 & Playlist</h2>
-        <div class="music-flex-container">
-            <div id="song-list" class="song-list-container"></div>
-            
-            <div class="playlist-wrapper">
-                <iframe src="https://www.youtube.com/embed/videoseries?list=PLJ7JuhVqBNnRkj50rW2LtsXuQW1HXEUWp" 
-                    title="warudora 歌枠プレイリスト" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-            </div>
+        <div class="section-header">
+            <h2><i class="fas fa-music"></i> 歌枠の歌一覧</h2>
+            <a href="https://music.youtube.com/playlist?list=PLJ7JuhVqBNnRkj50rW2LtsXuQW1HXEUWp" class="playlist-btn" target="_blank">
+                <i class="fab fa-youtube"></i> YouTube Musicで聴く
+            </a>
         </div>
+        <div id="song-list" class="song-list-container"></div>
     </div>
 
     <a href="https://web.iriam.app/s/user/NwCrmCkvi6?uuid=308a5060" class="btn-live" target="_blank">IRIAMで配信を聴く  (視聴にはアプリが必要です)</a>
