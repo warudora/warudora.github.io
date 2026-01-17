@@ -28,6 +28,7 @@
             --news-accent: #e74c3c;
             --yt-music-color: #ff0000;
             --copy-success: #27ae60;
+            --song-info-bg: #fff9e6; /* 歌枠インフォ用の薄い黄色 */
         }
 
         body {
@@ -189,6 +190,31 @@
             padding-top: 2px;
         }
         .news-text { font-size: 0.95rem; flex-grow: 1; }
+
+        /* 歌枠専用インフォスタイル */
+        .song-info-board {
+            background: var(--song-info-bg);
+            border: 1px solid #ffeeba;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .song-info-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        .song-info-list {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .song-info-list li { margin-bottom: 4px; }
 
         .intro-content {
             display: flex;
@@ -366,6 +392,14 @@
                 <i class="fab fa-youtube"></i> YouTube Musicで聴く
             </a>
         </div>
+
+        <div class="song-info-board">
+            <div class="song-info-title"><i class="fas fa-info-circle"></i> 歌枠インフォメーション</div>
+            <ul class="song-info-list" id="song-info-auto">
+                <li>コピーボタンで曲名をコピーしてコメントに貼り付けてね！</li>
+                </ul>
+        </div>
+
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
             <input type="text" id="song-search" class="search-input" placeholder="曲名やアーティスト名で検索...">
@@ -394,7 +428,7 @@
     // 設定・データ項目
     // ==========================================
 
-    // 1. お知らせデータ（※自動生成される新曲お知らせがこの上に挿入されます）
+    // 1. お知らせデータ
     const newsData = [
         { date: "2026/01/16", text: "歌枠リストに「コピー機能」を追加しました！リクエストに便利です。" },
         { date: "2026/01/15", text: "2月からのバッジ特典内容を更新しました。詳細は表をチェック！" },
@@ -429,38 +463,41 @@
     // 実行スクリプト
     // ==========================================
 
-    // お知らせ生成（自動新曲チェック機能付き）
     const newsList = document.getElementById('news-list');
+    const songInfoAutoList = document.getElementById('song-info-auto');
     const now = new Date();
     const oneDayAgo = new Date(now.getTime() - (1 * 24 * 60 * 60 * 1000));
     const lastCheck = localStorage.getItem('lastNewsCheck') || 0;
     let hasNewNews = false;
 
     // --- 自動新曲お知らせ生成 ---
-    const songNewsCount = 3; // 最新何曲をお知らせに出すか
+    const songNewsCount = 3; 
     const latestSongs = [...songs].slice(-songNewsCount).reverse();
     const todayStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')}`;
     
-    // 曲リストの末尾にある曲をお知らせとして追加
+    // 全体お知らせ用データ
     const autoNews = latestSongs.map(s => ({
         date: todayStr,
         text: `歌枠新曲情報 「${s.title}」を追加しました！`,
         isAuto: true
     }));
 
-    // 合体させて表示
-    const combinedNews = [...autoNews, ...newsData];
+    // 歌枠専用ボードに新曲リストを差し込み
+    latestSongs.forEach(s => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>新曲追加：</strong> 「${s.title}」を追加しました！`;
+        songInfoAutoList.appendChild(li);
+    });
 
+    // 全体お知らせ表示
+    const combinedNews = [...autoNews, ...newsData];
     combinedNews.forEach(item => {
         const itemDate = new Date(item.date);
         const div = document.createElement('div');
         div.className = 'news-item';
-        // 自動生成または24時間以内の投稿にNEWバッジ
         const isNew = item.isAuto || itemDate > oneDayAgo;
         const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
-        
         if (itemDate.getTime() > lastCheck) hasNewNews = true;
-        
         div.innerHTML = `<span class="news-date">${item.date}</span><span class="news-text">${item.text}${newLabel}</span>`;
         newsList.appendChild(div);
     });
@@ -500,10 +537,8 @@
                     <button class="copy-btn"><i class="fas fa-copy"></i></button>
                     <a href="${song.url}" class="yt-link" target="_blank"><i class="fab fa-youtube"></i></a>
                 </div>`;
-            
             const copyBtn = div.querySelector('.copy-btn');
             copyBtn.onclick = (e) => copyText(e, song.title);
-            
             songList.appendChild(div);
         });
     }
