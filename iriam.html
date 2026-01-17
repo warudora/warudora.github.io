@@ -394,11 +394,9 @@
     // 設定・データ項目
     // ==========================================
 
-    // 1. お知らせデータ
+    // 1. お知らせデータ（※自動生成される新曲お知らせがこの上に挿入されます）
     const newsData = [
-        { date: "2026/01/17", text: "歌枠新曲情報 「KING」を追加しました！" },
         { date: "2026/01/16", text: "歌枠リストに「コピー機能」を追加しました！リクエストに便利です。" },
-        { date: "2026/01/16", text: "歌枠新曲情報 「フォニイ」「高音中音域テスト」を追加しました！" },
         { date: "2026/01/15", text: "2月からのバッジ特典内容を更新しました。詳細は表をチェック！" },
     ];
 
@@ -429,19 +427,38 @@
     // 実行スクリプト
     // ==========================================
 
-    // お知らせ生成
+    // お知らせ生成（自動新曲チェック機能付き）
     const newsList = document.getElementById('news-list');
     const now = new Date();
     const oneDayAgo = new Date(now.getTime() - (1 * 24 * 60 * 60 * 1000));
     const lastCheck = localStorage.getItem('lastNewsCheck') || 0;
     let hasNewNews = false;
 
-    newsData.forEach(item => {
+    // --- 自動新曲お知らせ生成 ---
+    const songNewsCount = 3; // 最新何曲をお知らせに出すか
+    const latestSongs = [...songs].slice(-songNewsCount).reverse();
+    const todayStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')}`;
+    
+    // 曲リストの末尾にある曲をお知らせとして追加
+    const autoNews = latestSongs.map(s => ({
+        date: todayStr,
+        text: `歌枠新曲情報 「${s.title}」を追加しました！`,
+        isAuto: true
+    }));
+
+    // 合体させて表示
+    const combinedNews = [...autoNews, ...newsData];
+
+    combinedNews.forEach(item => {
         const itemDate = new Date(item.date);
         const div = document.createElement('div');
         div.className = 'news-item';
-        const newLabel = itemDate > oneDayAgo ? '<span class="new-badge">NEW</span>' : '';
+        // 自動生成または24時間以内の投稿にNEWバッジ
+        const isNew = item.isAuto || itemDate > oneDayAgo;
+        const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
+        
         if (itemDate.getTime() > lastCheck) hasNewNews = true;
+        
         div.innerHTML = `<span class="news-date">${item.date}</span><span class="news-text">${item.text}${newLabel}</span>`;
         newsList.appendChild(div);
     });
@@ -482,7 +499,6 @@
                     <a href="${song.url}" class="yt-link" target="_blank"><i class="fab fa-youtube"></i></a>
                 </div>`;
             
-            // コピーイベントの設定
             const copyBtn = div.querySelector('.copy-btn');
             copyBtn.onclick = (e) => copyText(e, song.title);
             
