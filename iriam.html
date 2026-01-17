@@ -28,7 +28,7 @@
             --news-accent: #e74c3c;
             --yt-music-color: #ff0000;
             --copy-success: #27ae60;
-            --song-info-bg: #fff9e6; /* 歌枠インフォ用の薄い黄色 */
+            --song-info-bg: #fff9e6;
         }
 
         body {
@@ -191,7 +191,6 @@
         }
         .news-text { font-size: 0.95rem; flex-grow: 1; }
 
-        /* 歌枠専用インフォスタイル */
         .song-info-board {
             background: var(--song-info-bg);
             border: 1px solid #ffeeba;
@@ -397,7 +396,7 @@
             <div class="song-info-title"><i class="fas fa-info-circle"></i> 歌枠インフォメーション</div>
             <ul class="song-info-list" id="song-info-auto">
                 <li>コピーボタンで曲名をコピーしてコメントに貼り付けてね！</li>
-                </ul>
+            </ul>
         </div>
 
         <div class="search-container">
@@ -428,13 +427,11 @@
     // 設定・データ項目
     // ==========================================
 
-    // 1. お知らせデータ
     const newsData = [
         { date: "2026/01/16", text: "歌枠リストに「コピー機能」を追加しました！リクエストに便利です。" },
         { date: "2026/01/15", text: "2月からのバッジ特典内容を更新しました。詳細は表をチェック！" },
     ];
 
-    // 2. 歌枠データ
     const songs = [
         { title: "君の神様になりたい", artist: "カンザキ イオリ", url: "https://music.youtube.com/watch?v=X5kQR92kYn0" },
         { title: "命に嫌われている", artist: "カンザキ イオリ", url: "https://music.youtube.com/watch?v=0HYm60Mjm0k" },
@@ -453,7 +450,6 @@
         { title: "さよならエレジー", artist: "菅田 将暉", url: "https://music.youtube.com/watch?v=XSkpuDseenY&si=kN-y3AWXdnVntIVb" },
     ];
 
-    // 3. FAQデータ
     const faqData = [
         { q: "歌のリクエストはどうすればいい？", a: "バッジ特典(★1〜)をお持ちの方を優先していますが、初見さんもお気軽にどうぞ！" },
         { q: "配信の切り抜きをSNSに上げてもいい？", a: "雑談や作業配信の切り抜きは大歓迎です！<br>ただし、歌枠（歌唱部分）の切り抜き投稿は、音源の権利関係が複雑なため、トラブル防止のため一律禁止（または要相談）でお願いします。" },
@@ -470,32 +466,21 @@
     const lastCheck = localStorage.getItem('lastNewsCheck') || 0;
     let hasNewNews = false;
 
-    // --- 自動新曲お知らせ生成 ---
+    // --- 歌枠専用ボードに新曲情報を表示 ---
     const songNewsCount = 3; 
     const latestSongs = [...songs].slice(-songNewsCount).reverse();
-    const todayStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')}`;
-    
-    // 全体お知らせ用データ
-    const autoNews = latestSongs.map(s => ({
-        date: todayStr,
-        text: `歌枠新曲情報 「${s.title}」を追加しました！`,
-        isAuto: true
-    }));
-
-    // 歌枠専用ボードに新曲リストを差し込み
     latestSongs.forEach(s => {
         const li = document.createElement('li');
-        li.innerHTML = `<strong>新曲追加：</strong> 「${s.title}」を追加しました！`;
+        li.innerHTML = `<span class="new-badge">NEW</span> <strong>新曲追加：</strong> 「${s.title}」を追加しました！`;
         songInfoAutoList.appendChild(li);
     });
 
-    // 全体お知らせ表示
-    const combinedNews = [...autoNews, ...newsData];
-    combinedNews.forEach(item => {
+    // --- 全体お知らせのみ表示（新曲情報は含めない） ---
+    newsData.forEach(item => {
         const itemDate = new Date(item.date);
         const div = document.createElement('div');
         div.className = 'news-item';
-        const isNew = item.isAuto || itemDate > oneDayAgo;
+        const isNew = itemDate > oneDayAgo;
         const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
         if (itemDate.getTime() > lastCheck) hasNewNews = true;
         div.innerHTML = `<span class="news-date">${item.date}</span><span class="news-text">${item.text}${newLabel}</span>`;
@@ -513,7 +498,7 @@
         setTimeout(() => { toast.style.display = 'none'; }, 10000);
     }
 
-    // 歌リスト生成 & 検索 & コピー
+    // 歌リスト生成
     function displaySongs(filterText = "") {
         const songList = document.getElementById('song-list');
         songList.innerHTML = "";
