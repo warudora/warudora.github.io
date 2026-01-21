@@ -273,7 +273,6 @@
         .song-info { display: flex; flex-direction: column; flex-grow: 1; }
         .song-name { font-weight: bold; color: #333; font-size: 1rem; }
         .artist-name { font-size: 0.8rem; color: #777; }
-        /* 日付表示用スタイル */
         .song-added-date { font-size: 0.7rem; color: #aaa; margin-top: 2px; }
         
         .song-actions { display: flex; gap: 15px; align-items: center; }
@@ -437,17 +436,12 @@
 </footer>
 
 <script>
-    // ==========================================
-    // 設定・データ項目
-    // ==========================================
-
     const newsData = [
         { date: "2026/01/21", text: "歌枠リストに新曲が追加された日にちが表示されるようになりました。" },
         { date: "2026/01/16", text: "歌枠リストに「コピー機能」を追加しました！リクエストに便利です。" },
         { date: "2026/01/15", text: "2月からのバッジ特典内容を更新しました。詳細は表をチェック！" },
     ];
 
-    // 曲データに date (追加日) を追加
     const songs = [
         { title: "君の神様になりたい", artist: "カンザキ イオリ", url: "https://music.youtube.com/watch?v=X5kQR92kYn0", date: "2026/1/14" },
         { title: "命に嫌われている", artist: "カンザキ イオリ", url: "https://music.youtube.com/watch?v=0HYm60Mjm0k", date: "2026/1/14" },
@@ -460,8 +454,8 @@
         { title: "Happy Halloween", artist: "Junky", url: "https://music.youtube.com/watch?v=1DcgczDzQPk", date: "2026/1/16" },
         { title: "残酷な天使のテーゼ", artist: "高橋 洋子", url: "https://music.youtube.com/watch?v=o6wtDPVkKqI", date: "2026/1/16" },
         { title: "フォニイ", artist: "ツミキ", url: "https://music.youtube.com/watch?v=9QLT1Aw_45s", date: "2026/1/16" },
-        { title: "高音厨音域テスト", artist: "木村ワイP", url: "https://music.youtube.com/watch?v=f91sM4I76w", date: "2026/1/17" },        
-        { title: "KING", artist: "Kanaria", url: "https://music.youtube.com/watch?v=cm-l2h6GB8Q", date: "2026/1/17" },  
+        { title: "高音厨音域テスト", artist: "木村ワイP", url: "https://music.youtube.com/watch?v=f91sM4I76w", date: "2026/1/17" },         
+        { title: "KING", artist: "Kanaria", url: "https://music.youtube.com/watch?v=cm-l2h6GB8Q", date: "2026/1/17" },   
         { title: "アスノヨゾラ哨戒班", artist: "Orangestar", url: "https://music.youtube.com/watch?v=XogSflwXgpw&si=AZDXBfqyWEnMVbMY", date: "2026/1/18" },
         { title: "さよならエレジー", artist: "菅田 将暉", url: "https://music.youtube.com/watch?v=XSkpuDseenY&si=kN-y3AWXdnVntIVb", date: "2026/1/18" },
         { title: "エンヴィーベイビー", artist: "Kanaria", url: "https://music.youtube.com/watch?v=dgS6HvEohsw&si=yaSsa7E7RmOROpBS", date: "2026/1/18" },
@@ -476,14 +470,10 @@
         { q: "配信の切り抜きをSNSに上げてもいい？", a: "雑談や作業配信の切り抜きは大歓迎です！<br>ただし、歌枠（歌唱部分）の切り抜き投稿は、音源の権利関係が複雑なため、トラブル防止のため一律禁止（または要相談）でお願いします。" },
     ];
 
-    // ==========================================
-    // 実行スクリプト
-    // ==========================================
-
     const newsList = document.getElementById('news-list');
     const songInfoAutoList = document.getElementById('song-info-auto');
     const now = new Date();
-    // 7日間以内を「新着」とする判定
+    
     const isNewPeriod = (dateStr) => {
         const targetDate = new Date(dateStr);
         const diff = (now - targetDate) / (1000 * 60 * 60 * 24);
@@ -493,21 +483,16 @@
     const lastCheck = localStorage.getItem('lastNewsCheck') || 0;
     let hasNewNews = false;
 
-    // 曲数表示の更新
     document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
 
-    // --- 歌枠専用ボードに新曲情報を自動表示 ---
-    // 直近7日以内に追加された曲をピックアップ
-    const newSongs = songs.filter(s => isNewPeriod(s.date));
-    if (newSongs.length > 0) {
-        newSongs.reverse().forEach(s => {
-            const li = document.createElement('li');
-            li.innerHTML = `<span class="new-badge">NEW</span> <strong>新曲追加(${s.date})：</strong> 「${s.title}」を追加しました！`;
-            songInfoAutoList.appendChild(li);
-        });
-    }
+    // 新曲表示を最大3曲に制限
+    const newSongs = songs.filter(s => isNewPeriod(s.date)).reverse();
+    newSongs.slice(0, 3).forEach(s => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="new-badge">NEW</span> <strong>新曲追加(${s.date})：</strong> 「${s.title}」を追加しました！`;
+        songInfoAutoList.appendChild(li);
+    });
 
-    // --- 全体お知らせのみ表示 ---
     newsData.forEach(item => {
         const itemDate = new Date(item.date);
         const div = document.createElement('div');
@@ -530,14 +515,10 @@
         setTimeout(() => { toast.style.display = 'none'; }, 10000);
     }
 
-    // 歌リスト生成
     function displaySongs(filterText = "") {
         const songList = document.getElementById('song-list');
         songList.innerHTML = "";
-        
-        // 最新追加順に並び替え
         const sortedSongs = [...songs].reverse();
-
         const filteredSongs = sortedSongs.filter(song => 
             song.title.toLowerCase().includes(filterText.toLowerCase()) || 
             song.artist.toLowerCase().includes(filterText.toLowerCase())
@@ -553,7 +534,6 @@
             div.className = 'song-item';
             const isNew = isNewPeriod(song.date);
             const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
-            
             div.innerHTML = `
                 <div class="song-info">
                     <span class="song-name">${song.title}${newLabel}</span>
@@ -564,14 +544,12 @@
                     <button class="copy-btn" title="曲名をコピー"><i class="fas fa-copy"></i></button>
                     <a href="${song.url}" class="yt-link" target="_blank" title="YouTubeで確認"><i class="fab fa-youtube"></i></a>
                 </div>`;
-            
             const copyBtn = div.querySelector('.copy-btn');
             copyBtn.onclick = (e) => copyText(e, song.title);
             songList.appendChild(div);
         });
     }
 
-    // コピー機能（Edge対応版）
     function copyText(event, text) {
         const btn = event.currentTarget;
         const fallbackCopy = (txt) => {
@@ -582,7 +560,6 @@
             document.execCommand('copy');
             document.body.removeChild(el);
         };
-
         const successUI = () => {
             btn.innerHTML = '<i class="fas fa-check"></i>';
             btn.classList.add('success');
@@ -591,7 +568,6 @@
                 btn.classList.remove('success');
             }, 1500);
         };
-
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(text).then(successUI).catch(() => {
                 fallbackCopy(text);
@@ -603,7 +579,6 @@
         }
     }
 
-    // FAQ生成
     const faqList = document.getElementById('faq-list');
     faqData.forEach(item => {
         const div = document.createElement('div');
@@ -612,11 +587,9 @@
         faqList.appendChild(div);
     });
 
-    // 初期化
     displaySongs();
     document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
     document.getElementById('current-year').textContent = new Date().getFullYear();
 </script>
-
 </body>
 </html>
