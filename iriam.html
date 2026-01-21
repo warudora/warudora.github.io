@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta name="description" content="IRIAMライバー warudora（ワルドラ）の特設スペース。雑談・歌・作業・勉強配信のスケジュールや、歌枠의 セットリスト、バッジ特典情報を掲載中！">
+    <meta name="description" content="IRIAMライバー warudora（ワルドラ）の特設スペース。雑談・歌・作業・勉強配信のスケジュールや、歌枠のセットリスト、バッジ特典情報を掲載中！">
     <meta name="keywords" content="warudora, ワルドラ, IRIAM, イリアム, 配信, 歌枠, 作業配信">
     <link rel="canonical" href="https://warudora.github.io/iriam.html">
 
@@ -92,7 +92,6 @@
             font-size: 1.5rem;
         }
 
-        /* 曲数表示用バッジ */
         .song-count-badge {
             background: #e1f5fe;
             color: var(--iriam-blue);
@@ -271,9 +270,11 @@
         .song-item:last-child { border-bottom: none; }
         .song-item:hover { background: #f0f7f9; }
         
-        .song-info { display: flex; flex-direction: column; }
+        .song-info { display: flex; flex-direction: column; flex-grow: 1; }
         .song-name { font-weight: bold; color: #333; font-size: 1rem; }
         .artist-name { font-size: 0.8rem; color: #777; }
+        /* 日付表示用スタイル */
+        .song-added-date { font-size: 0.7rem; color: #aaa; margin-top: 2px; }
         
         .song-actions { display: flex; gap: 15px; align-items: center; }
         .copy-btn { background: #eee; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; color: #555; transition: all 0.2s; }
@@ -302,10 +303,7 @@
             border-radius: 12px;
             text-align: center;
         }
-        .schedule-box h2 i {
-            color: white;
-            border: none;
-        }
+        .schedule-box h2 i { color: white; border: none; }
 
         .btn-live {
             display: block;
@@ -448,27 +446,28 @@
         { date: "2026/01/15", text: "2月からのバッジ特典内容を更新しました。詳細は表をチェック！" },
     ];
 
+    // 曲データに date (追加日) を追加
     const songs = [
-        { title: "君の神様になりたい", artist: "カンザキ イオリ", url: "https://music.youtube.com/watch?v=X5kQR92kYn0" },
-        { title: "命に嫌われている", artist: "カンザキ イオリ", url: "https://music.youtube.com/watch?v=0HYm60Mjm0k" },
-        { title: "忘れじの言の葉", artist: "未来古代楽団feat.安次嶺希和子", url: "https://music.youtube.com/watch?v=uB2GnZ1IVxA" },
-        { title: "回る空うさぎ", artist: "Orangestar", url: "https://music.youtube.com/watch?v=CLywtSOj4NA" },
-        { title: "愛の唄", artist: "Myuk", url: "https://music.youtube.com/watch?v=go6iydhxbW0" },
-        { title: "酔いどれ知らず", artist: "Kanaria", url: "https://music.youtube.com/watch?v=vB8sxY_PJ_w" },
-        { title: "ハッピーシンセサイザ", artist: "ＥＡＳＹ ＰＯＰ", url: "https://music.youtube.com/watch?v=xOKplMgHxxA" },
-        { title: "神のまにまに", artist: "れるりり", url: "https://music.youtube.com/watch?v=b2GJcYBoVyg" },
-        { title: "Happy Halloween", artist: "Junky", url: "https://music.youtube.com/watch?v=1DcgczDzQPk" },
-        { title: "残酷な天使のテーゼ", artist: "高橋 洋子", url: "https://music.youtube.com/watch?v=o6wtDPVkKqI" },
-        { title: "フォニイ", artist: "ツミキ", url: "https://music.youtube.com/watch?v=9QLT1Aw_45s" },
-        { title: "高音厨音域テスト", artist: "木村ワイP", url: "https://music.youtube.com/watch?v=f91sM4I76w" },        
-        { title: "KING", artist: "Kanaria", url: "https://music.youtube.com/watch?v=cm-l2h6GB8Q" },  
-        { title: "アスノヨゾラ哨戒班", artist: "Orangestar", url: "https://music.youtube.com/watch?v=XogSflwXgpw&si=AZDXBfqyWEnMVbMY" },
-        { title: "さよならエレジー", artist: "菅田 将暉", url: "https://music.youtube.com/watch?v=XSkpuDseenY&si=kN-y3AWXdnVntIVb" },
-        { title: "エンヴィーベイビー", artist: "Kanaria", url: "https://music.youtube.com/watch?v=dgS6HvEohsw&si=yaSsa7E7RmOROpBS" },
-        { title: "あの夏が飽和する", artist: "カンザキ　イオリ", url: "https://music.youtube.com/watch?v=2hz0lhAs0Kg" },
-        { title: "手紙 ～拝啓十五の君へ～", artist: "アンジェラ・アキ", url: "https://music.youtube.com/watch?v=erGCAu_hFqM" },
-        { title: "～COSMOS～", artist: "ミマス", url: "https://music.youtube.com/watch?v=XW5rkR0JsGo" },
-        { title: "Arcana", artist: "Myuk", url: "https://music.youtube.com/watch?v=olGM0MFy0f0&si=SgRTPxBBmw5E2iMs" },
+        { title: "君の神様になりたい", artist: "カンザキ イオリ", url: "https://music.youtube.com/watch?v=X5kQR92kYn0", date: "2025/12/01" },
+        { title: "命に嫌われている", artist: "カンザキ イオリ", url: "https://music.youtube.com/watch?v=0HYm60Mjm0k", date: "2025/12/01" },
+        { title: "忘れじの言の葉", artist: "未来古代楽団feat.安次嶺希和子", url: "https://music.youtube.com/watch?v=uB2GnZ1IVxA", date: "2025/12/01" },
+        { title: "回る空うさぎ", artist: "Orangestar", url: "https://music.youtube.com/watch?v=CLywtSOj4NA", date: "2025/12/01" },
+        { title: "愛の唄", artist: "Myuk", url: "https://music.youtube.com/watch?v=go6iydhxbW0", date: "2025/12/01" },
+        { title: "酔いどれ知らず", artist: "Kanaria", url: "https://music.youtube.com/watch?v=vB8sxY_PJ_w", date: "2025/12/01" },
+        { title: "ハッピーシンセサイザ", artist: "ＥＡＳＹ ＰＯＰ", url: "https://music.youtube.com/watch?v=xOKplMgHxxA", date: "2025/12/01" },
+        { title: "神のまにまに", artist: "れるりり", url: "https://music.youtube.com/watch?v=b2GJcYBoVyg", date: "2025/12/01" },
+        { title: "Happy Halloween", artist: "Junky", url: "https://music.youtube.com/watch?v=1DcgczDzQPk", date: "2025/12/01" },
+        { title: "残酷な天使のテーゼ", artist: "高橋 洋子", url: "https://music.youtube.com/watch?v=o6wtDPVkKqI", date: "2025/12/01" },
+        { title: "フォニイ", artist: "ツミキ", url: "https://music.youtube.com/watch?v=9QLT1Aw_45s", date: "2025/12/01" },
+        { title: "高音厨音域テスト", artist: "木村ワイP", url: "https://music.youtube.com/watch?v=f91sM4I76w", date: "2025/12/01" },        
+        { title: "KING", artist: "Kanaria", url: "https://music.youtube.com/watch?v=cm-l2h6GB8Q", date: "2025/12/01" },  
+        { title: "アスノヨゾラ哨戒班", artist: "Orangestar", url: "https://music.youtube.com/watch?v=XogSflwXgpw&si=AZDXBfqyWEnMVbMY", date: "2025/12/15" },
+        { title: "さよならエレジー", artist: "菅田 将暉", url: "https://music.youtube.com/watch?v=XSkpuDseenY&si=kN-y3AWXdnVntIVb", date: "2025/12/15" },
+        { title: "エンヴィーベイビー", artist: "Kanaria", url: "https://music.youtube.com/watch?v=dgS6HvEohsw&si=yaSsa7E7RmOROpBS", date: "2025/12/15" },
+        { title: "あの夏が飽和する", artist: "カンザキ　イオリ", url: "https://music.youtube.com/watch?v=2hz0lhAs0Kg", date: "2025/12/15" },
+        { title: "手紙 ～拝啓十五の君へ～", artist: "アンジェラ・アキ", url: "https://music.youtube.com/watch?v=erGCAu_hFqM", date: "2025/12/15" },
+        { title: "～COSMOS～", artist: "ミマス", url: "https://music.youtube.com/watch?v=XW5rkR0JsGo", date: "2025/12/15" },
+        { title: "Arcana", artist: "Myuk", url: "https://music.youtube.com/watch?v=olGM0MFy0f0&si=SgRTPxBBmw5E2iMs", date: "2026/01/21" },
     ];
 
     const faqData = [
@@ -483,28 +482,36 @@
     const newsList = document.getElementById('news-list');
     const songInfoAutoList = document.getElementById('song-info-auto');
     const now = new Date();
-    const oneDayAgo = new Date(now.getTime() - (1 * 24 * 60 * 60 * 1000));
+    // 7日間以内を「新着」とする判定
+    const isNewPeriod = (dateStr) => {
+        const targetDate = new Date(dateStr);
+        const diff = (now - targetDate) / (1000 * 60 * 60 * 24);
+        return diff >= 0 && diff <= 7;
+    };
+
     const lastCheck = localStorage.getItem('lastNewsCheck') || 0;
     let hasNewNews = false;
 
     // 曲数表示の更新
     document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
 
-    // --- 歌枠専用ボードに新曲情報を表示 ---
-    const songNewsCount = 3; 
-    const latestSongs = [...songs].slice(-songNewsCount).reverse();
-    latestSongs.forEach(s => {
-        const li = document.createElement('li');
-        li.innerHTML = `<span class="new-badge">NEW</span> <strong>新曲追加：</strong> 「${s.title}」を追加しました！`;
-        songInfoAutoList.appendChild(li);
-    });
+    // --- 歌枠専用ボードに新曲情報を自動表示 ---
+    // 直近7日以内に追加された曲をピックアップ
+    const newSongs = songs.filter(s => isNewPeriod(s.date));
+    if (newSongs.length > 0) {
+        newSongs.reverse().forEach(s => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span class="new-badge">NEW</span> <strong>新曲追加(${s.date})：</strong> 「${s.title}」を追加しました！`;
+            songInfoAutoList.appendChild(li);
+        });
+    }
 
     // --- 全体お知らせのみ表示 ---
     newsData.forEach(item => {
         const itemDate = new Date(item.date);
         const div = document.createElement('div');
         div.className = 'news-item';
-        const isNew = itemDate > oneDayAgo;
+        const isNew = isNewPeriod(item.date);
         const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
         if (itemDate.getTime() > lastCheck) hasNewNews = true;
         div.innerHTML = `<span class="news-date">${item.date}</span><span class="news-text">${item.text}${newLabel}</span>`;
@@ -526,44 +533,72 @@
     function displaySongs(filterText = "") {
         const songList = document.getElementById('song-list');
         songList.innerHTML = "";
-        const filteredSongs = songs.filter(song => 
+        
+        // 最新追加順に並び替え
+        const sortedSongs = [...songs].reverse();
+
+        const filteredSongs = sortedSongs.filter(song => 
             song.title.toLowerCase().includes(filterText.toLowerCase()) || 
             song.artist.toLowerCase().includes(filterText.toLowerCase())
         );
+
         if (filteredSongs.length === 0) {
             songList.innerHTML = '<div class="no-result">曲が見つかりませんでした。</div>';
             return;
         }
+
         filteredSongs.forEach(song => {
             const div = document.createElement('div');
             div.className = 'song-item';
+            const isNew = isNewPeriod(song.date);
+            const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
+            
             div.innerHTML = `
                 <div class="song-info">
-                    <span class="song-name">${song.title}</span>
+                    <span class="song-name">${song.title}${newLabel}</span>
                     <span class="artist-name">${song.artist}</span>
+                    <span class="song-added-date">追加日: ${song.date}</span>
                 </div>
                 <div class="song-actions">
-                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
-                    <a href="${song.url}" class="yt-link" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <button class="copy-btn" title="曲名をコピー"><i class="fas fa-copy"></i></button>
+                    <a href="${song.url}" class="yt-link" target="_blank" title="YouTubeで確認"><i class="fab fa-youtube"></i></a>
                 </div>`;
+            
             const copyBtn = div.querySelector('.copy-btn');
             copyBtn.onclick = (e) => copyText(e, song.title);
             songList.appendChild(div);
         });
     }
 
-    async function copyText(event, text) {
-        try {
-            await navigator.clipboard.writeText(text);
-            const btn = event.currentTarget;
+    // コピー機能（Edge対応版）
+    function copyText(event, text) {
+        const btn = event.currentTarget;
+        const fallbackCopy = (txt) => {
+            const el = document.createElement('textarea');
+            el.value = txt;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        };
+
+        const successUI = () => {
             btn.innerHTML = '<i class="fas fa-check"></i>';
             btn.classList.add('success');
             setTimeout(() => {
                 btn.innerHTML = '<i class="fas fa-copy"></i>';
                 btn.classList.remove('success');
             }, 1500);
-        } catch (err) {
-            console.error('Failed to copy: ', err);
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(successUI).catch(() => {
+                fallbackCopy(text);
+                successUI();
+            });
+        } else {
+            fallbackCopy(text);
+            successUI();
         }
     }
 
