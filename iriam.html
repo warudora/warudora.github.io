@@ -471,8 +471,10 @@
 </footer>
 
 <script>
-    // スクロール復元を有効にするため「manual」の設定を削除
-    // ブラウザのデフォルト挙動に任せる
+    // スクロール復元を明示的に「自動(auto)」にする
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'auto';
+    }
 
     const newsData = [
         { date: "2026/01/23", text: "歌枠リストの検索機能を強化しました！！！" },
@@ -605,34 +607,40 @@
         });
     }
 
-    const newsList = document.getElementById('news-list');
-    newsData.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'news-item';
-        const isNew = isNewPeriod(item.date);
-        const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
-        div.innerHTML = `<span class="news-date">${item.date}</span><span class="news-text">${item.text}${newLabel}</span>`;
-        newsList.appendChild(div);
-    });
+    // 初期化をひとまとめに
+    function init() {
+        const newsList = document.getElementById('news-list');
+        newsData.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'news-item';
+            const isNew = isNewPeriod(item.date);
+            const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
+            div.innerHTML = `<span class="news-date">${item.date}</span><span class="news-text">${item.text}${newLabel}</span>`;
+            newsList.appendChild(div);
+        });
 
-    const faqList = document.getElementById('faq-list');
-    faqData.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'faq-item';
-        div.innerHTML = `<div class="faq-q"><span>Q.</span> ${item.q}</div><div class="faq-a">A. ${item.a}</div>`;
-        faqList.appendChild(div);
-    });
+        const faqList = document.getElementById('faq-list');
+        faqData.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'faq-item';
+            div.innerHTML = `<div class="faq-q"><span>Q.</span> ${item.q}</div><div class="faq-a">A. ${item.a}</div>`;
+            faqList.appendChild(div);
+        });
 
-    updateSongInfoBoard();
-    displaySongs();
-    document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
-    document.getElementById('current-year').textContent = new Date().getFullYear();
+        updateSongInfoBoard();
+        displaySongs();
+        document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
+        document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    const backToTopBtn = document.getElementById('back-to-top');
-    window.addEventListener('scroll', () => {
-        backToTopBtn.classList.toggle('show', window.scrollY > 300);
-    });
-    backToTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            backToTopBtn.classList.toggle('show', window.scrollY > 300);
+        });
+        backToTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // DOMの読み込みが完了してから実行
+    document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
