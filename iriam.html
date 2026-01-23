@@ -246,6 +246,7 @@
             color: #666;
         }
         .song-info-list li { margin-bottom: 4px; }
+        .highlight-song { color: #d35400; font-weight: bold; }
 
         .intro-content {
             display: flex;
@@ -430,9 +431,7 @@
         <div class="song-info-board">
             <div class="song-info-title"><i class="fas fa-info-circle"></i> 歌枠インフォメーション</div>
             <ul class="song-info-list" id="song-info-auto">
-                <li>コピーボタンで曲名をコピーしてコメントに貼り付けてね！<br>
-                      曲名・アーティスト検索もできます！</li>
-            </ul>
+                </ul>
         </div>
 
         <div class="search-container">
@@ -513,7 +512,7 @@
     ];
 
     const now = new Date();
-    // NEWバッジの表示期間（7日間に設定）
+    // NEWバッジの表示期間（2日間以内に設定）
     const isNewPeriod = (dateStr) => {
         const targetDate = new Date(dateStr);
         const diff = (now - targetDate) / (1000 * 60 * 60 * 24);
@@ -526,6 +525,24 @@
         return str.replace(/[\u30a1-\u30f6]/g, (match) => {
             return String.fromCharCode(match.charCodeAt(0) - 0x60);
         }).toLowerCase();
+    }
+
+    function updateSongInfoBoard() {
+        const infoList = document.getElementById('song-info-auto');
+        // songsの最後から3つを取得
+        const latestSongs = songs.slice(-3).reverse();
+        
+        let html = `
+            <li>コピーボタンで曲名をコピーしてコメントに貼り付けてね！<br>
+                曲名・アーティスト検索もできます！</li>
+        `;
+        
+        if (latestSongs.length > 0) {
+            const songNames = latestSongs.map(s => `<span class="highlight-song">「${s.title}」</span>`).join('、');
+            html += `<li>✨ 最近追加された曲：${songNames} など！</li>`;
+        }
+        
+        infoList.innerHTML = html;
     }
 
     function displaySongs(filterText = "") {
@@ -558,7 +575,6 @@
             const isNew = isNewPeriod(song.date);
             const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
             
-            // 日付表示を追加
             const dateDisplay = song.date ? `<span class="song-added-date">追加日: ${song.date}</span>` : '';
 
             div.innerHTML = `
@@ -606,6 +622,7 @@
         faqList.appendChild(div);
     });
 
+    updateSongInfoBoard(); // インフォメーション自動更新
     displaySongs();
     document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
     document.getElementById('current-year').textContent = new Date().getFullYear();
