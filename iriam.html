@@ -245,8 +245,23 @@
             font-size: 0.85rem;
             color: #666;
         }
-        .song-info-list li { margin-bottom: 4px; }
-        .highlight-song { color: #d35400; font-weight: bold; }
+        .song-info-list li { margin-bottom: 8px; }
+        
+        /* インフォメーション内のNEWバッジ専用 */
+        .info-new-label {
+            background: var(--news-accent);
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-right: 8px;
+            display: inline-block;
+        }
+        .info-added-text {
+            color: #333;
+            font-weight: bold;
+        }
 
         .intro-content {
             display: flex;
@@ -371,7 +386,7 @@
                 <p>
                     こんにちは、warudoraです！<br>
                     普段はMinecraftのMod制作やコミュニティ運営をしていますが、<br>
-                    IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。
+                    IRIAMではリスナーさんと「楽しく」「またり」交流することを大切にしています。
                 </p>
             </div>
         </div>
@@ -532,15 +547,19 @@
         // songsの最後から3つを取得
         const latestSongs = songs.slice(-3).reverse();
         
+        // 基本の説明
         let html = `
-            <li>コピーボタンで曲名をコピーしてコメントに貼り付けてね！<br>
-                曲名・アーティスト検索もできます！</li>
+            <li>コピーボタンで曲名をコピーしてコメントに貼り付けてね！</li>
         `;
         
-        if (latestSongs.length > 0) {
-            const songNames = latestSongs.map(s => `<span class="highlight-song">「${s.title}」</span>`).join('、');
-            html += `<li>✨ 最近追加された曲：${songNames} など！</li>`;
-        }
+        // 最新曲を1曲ずつリスト表示
+        latestSongs.forEach(s => {
+            html += `
+                <li>
+                    <span class="info-new-label">NEW</span>
+                    <span class="info-added-text">新曲追加： 「${s.title}」 を追加しました！</span>
+                </li>`;
+        });
         
         infoList.innerHTML = html;
     }
