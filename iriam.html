@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta name="description" content="IRIAMライバー warudora（ワルドラ）の特設スペース。雑談・歌・作業・勉強配信のスケジュールや、歌枠のセットリスト、バッジ特典情報を掲載中！">
+    <meta name="description" content="IRIAMライバー warudora（ワルドラ）の特設スペース。雑談・歌・作業・勉強配信のスケジュールや、歌枠のセットリスト, バッジ特典情報を掲載中！">
     <meta name="keywords" content="warudora, ワルドラ, IRIAM, イリアム, 配信, 歌枠, 作業配信">
     <link rel="canonical" href="https://warudora.github.io/iriam.html">
 
@@ -468,7 +468,7 @@
 </footer>
 
 <script>
-    // ブラウザのデフォルトスクロール復元を無効化
+    // ブラウザ標準の復元を無効化
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
@@ -639,49 +639,57 @@
     document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    // --- スクロール・復元ロジックの最強化 ---
+    // --- Chrome特化スクロール復元ロジック ---
     const backToTopBtn = document.getElementById('back-to-top');
 
-    // 1. スクロールするたびに保存 (スロットル処理)
-    let isScrolling;
+    // 1. スクロール保存 (より確実な localStorage を使用)
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             backToTopBtn.classList.add('show');
         } else {
             backToTopBtn.classList.remove('show');
         }
+        localStorage.setItem('warudora_chrome_pos', window.scrollY);
+    }, { passive: true });
 
-        window.clearTimeout(isScrolling);
-        isScrolling = setTimeout(() => {
-            sessionStorage.setItem('warudora_pos', window.scrollY);
-        }, 50);
-    });
-
-    // 2. 一番上に戻る
     backToTopBtn.onclick = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        sessionStorage.setItem('warudora_pos', 0);
+        localStorage.setItem('warudora_chrome_pos', 0);
     };
 
-    // 3. 復元実行関数
-    const restoreScroll = () => {
-        const savedPos = sessionStorage.getItem('warudora_pos');
+    // 2. 復元処理
+    const applyScroll = () => {
+        const savedPos = localStorage.getItem('warudora_chrome_pos');
         if (savedPos && savedPos !== '0') {
-            window.scrollTo(0, parseInt(savedPos));
-            // iOSなどの一部ブラウザ向けに、少し遅れてもう一度実行
-            setTimeout(() => window.scrollTo(0, parseInt(savedPos)), 100);
+            const y = parseInt(savedPos);
+            window.scrollTo(0, y);
+            // Chromeのレンダリング待機用（複数回実行）
+            requestAnimationFrame(() => {
+                window.scrollTo(0, y);
+            });
         }
     };
 
-    // 4. 各種イベントで復元を試みる
-    window.addEventListener('load', restoreScroll);
-    document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') restoreScroll();
+    // ページ読み込み完了時
+    window.addEventListener('load', applyScroll);
+
+    // Chromeのタブ復帰（BFCache）対応
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            applyScroll();
+        }
     });
 
-    // 5. ページを離れる直前にも保存
-    window.addEventListener('pagehide', () => {
-        sessionStorage.setItem('warudora_pos', window.scrollY);
+    // ページ表示状態が変わった時（タブ切り替えなど）
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            applyScroll();
+        }
+    });
+
+    // 画像の読み込み完了待機（高さ変化対策）
+    document.querySelectorAll('img').forEach(img => {
+        img.addEventListener('load', applyScroll);
     });
 
 </script>
