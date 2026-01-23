@@ -378,7 +378,7 @@
                 <p>
                     こんにちは、warudoraです！<br>
                     普段はMinecraftのMod制作やコミュニティ運営をしていますが、<br>
-                    IRIAMではリスナーさんと「楽しく」「またり」交流することを大切にしています。
+                    IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。
                 </p>
             </div>
         </div>
@@ -468,7 +468,11 @@
 </footer>
 
 <script>
-    // 歌データやお知らせデータなどの定義
+    // ブラウザのデフォルトスクロール復元を無効化
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+
     const newsData = [
         { date: "2026/01/23", text: "歌枠リストに１０曲追加しました！！！" },
         { date: "2026/01/21", text: "歌枠リストに新曲が追加された日にちが表示されるようになりました。" },
@@ -515,7 +519,6 @@
         { q: "配信の切り抜きをSNSに上げてもいい？", a: "雑談や作業配信の切り抜きは大歓迎です！<br>ただし、歌枠（歌唱部分）の切り抜き投稿は、音源の権利関係が複雑なため、トラブル防止のため一律禁止（または要相談）でお願いします。" },
     ];
 
-    // お知らせ・歌リストの表示処理
     const newsList = document.getElementById('news-list');
     const songInfoAutoList = document.getElementById('song-info-auto');
     const now = new Date();
@@ -636,47 +639,51 @@
     document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    // --- スクロール復元・戻るボタンの強化 ---
+    // --- スクロール・復元ロジックの最強化 ---
     const backToTopBtn = document.getElementById('back-to-top');
-    let scrollTimeout;
 
+    // 1. スクロールするたびに保存 (スロットル処理)
+    let isScrolling;
     window.addEventListener('scroll', () => {
-        // 戻るボタンの表示
         if (window.scrollY > 300) {
             backToTopBtn.classList.add('show');
         } else {
             backToTopBtn.classList.remove('show');
         }
 
-        // スクロール位置をリアルタイムに近い頻度で保存（100ms待機して保存）
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            localStorage.setItem('warudora_scroll_y', window.scrollY);
-        }, 100);
+        window.clearTimeout(isScrolling);
+        isScrolling = setTimeout(() => {
+            sessionStorage.setItem('warudora_pos', window.scrollY);
+        }, 50);
     });
 
-    backToTopBtn.onclick = function() {
+    // 2. 一番上に戻る
+    backToTopBtn.onclick = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        localStorage.setItem('warudora_scroll_y', 0); // 上に戻ったら保存データもリセット
+        sessionStorage.setItem('warudora_pos', 0);
     };
 
-    // 復元処理：DOMが完全に読み込まれてから実行
-    window.addEventListener('DOMContentLoaded', () => {
-        const savedPos = localStorage.getItem('warudora_scroll_y');
+    // 3. 復元実行関数
+    const restoreScroll = () => {
+        const savedPos = sessionStorage.getItem('warudora_pos');
         if (savedPos && savedPos !== '0') {
-            // ブラウザの自動スクロールを抑制（一部ブラウザ対策）
-            if ('scrollRestoration' in history) {
-                history.scrollRestoration = 'manual';
-            }
-            // 少し遅延させてスクロール（レンダリング完了を待つ）
-            setTimeout(() => {
-                window.scrollTo({
-                    top: parseInt(savedPos),
-                    behavior: 'instant' // 復元時は瞬時に移動
-                });
-            }, 50);
+            window.scrollTo(0, parseInt(savedPos));
+            // iOSなどの一部ブラウザ向けに、少し遅れてもう一度実行
+            setTimeout(() => window.scrollTo(0, parseInt(savedPos)), 100);
         }
+    };
+
+    // 4. 各種イベントで復元を試みる
+    window.addEventListener('load', restoreScroll);
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') restoreScroll();
     });
+
+    // 5. ページを離れる直前にも保存
+    window.addEventListener('pagehide', () => {
+        sessionStorage.setItem('warudora_pos', window.scrollY);
+    });
+
 </script>
 </body>
 </html>
