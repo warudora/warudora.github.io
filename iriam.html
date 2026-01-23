@@ -119,10 +119,11 @@
             100% { opacity: 1; }
         }
 
+        /* お知らせ通知の配置を左側に変更（ボタンと被らないように） */
         #notification-toast {
             position: fixed;
             bottom: 20px;
-            right: 20px;
+            left: 20px;
             background: var(--primary-color);
             color: white;
             padding: 15px 25px;
@@ -131,16 +132,17 @@
             display: none;
             z-index: 1000;
             cursor: pointer;
-            animation: slideIn 0.5s ease-out;
+            animation: slideInLeft 0.5s ease-out;
         }
-        @keyframes slideIn {
-            from { transform: translateX(100%); }
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); }
             to { transform: translateX(0); }
         }
 
+        /* 戻るボタンをさらに下（20px）へ配置 */
         #back-to-top {
             position: fixed;
-            bottom: 80px;
+            bottom: 20px;
             right: 20px;
             width: 50px;
             height: 50px;
@@ -299,12 +301,12 @@
         }
         .song-item:last-child { border-bottom: none; }
         .song-item:hover { background: #f0f7f9; }
-        
+
         .song-info { display: flex; flex-direction: column; flex-grow: 1; }
         .song-name { font-weight: bold; color: #333; font-size: 1rem; }
         .artist-name { font-size: 0.8rem; color: #777; }
         .song-added-date { font-size: 0.7rem; color: #aaa; margin-top: 2px; }
-        
+
         .song-actions { display: flex; gap: 15px; align-items: center; }
         .copy-btn { background: #eee; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; color: #555; transition: all 0.2s; }
         .copy-btn:hover { background: #ddd; }
@@ -642,7 +644,7 @@
     // --- Chrome特化スクロール復元ロジック ---
     const backToTopBtn = document.getElementById('back-to-top');
 
-    // 1. スクロール保存 (より確実な localStorage を使用)
+    // 1. スクロール保存
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             backToTopBtn.classList.add('show');
@@ -663,34 +665,16 @@
         if (savedPos && savedPos !== '0') {
             const y = parseInt(savedPos);
             window.scrollTo(0, y);
-            // Chromeのレンダリング待機用（複数回実行）
             requestAnimationFrame(() => {
                 window.scrollTo(0, y);
             });
         }
     };
 
-    // ページ読み込み完了時
     window.addEventListener('load', applyScroll);
-
-    // Chromeのタブ復帰（BFCache）対応
-    window.addEventListener('pageshow', (event) => {
-        if (event.persisted) {
-            applyScroll();
-        }
-    });
-
-    // ページ表示状態が変わった時（タブ切り替えなど）
-    document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-            applyScroll();
-        }
-    });
-
-    // 画像の読み込み完了待機（高さ変化対策）
-    document.querySelectorAll('img').forEach(img => {
-        img.addEventListener('load', applyScroll);
-    });
+    window.addEventListener('pageshow', (event) => { if (event.persisted) applyScroll(); });
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') applyScroll(); });
+    document.querySelectorAll('img').forEach(img => { img.addEventListener('load', applyScroll); });
 
 </script>
 </body>
