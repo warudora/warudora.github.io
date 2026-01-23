@@ -339,6 +339,25 @@
         }
         .schedule-box h2 i { color: white; border: none; }
 
+        /* 追加した詳細ボタンのスタイル */
+        .btn-detail {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-detail:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
         .btn-live {
             display: block;
             background: var(--iriam-grad);
@@ -412,6 +431,9 @@
         <h2><i class="fas fa-calendar-alt"></i> 配信予定日</h2>
         <p>基本毎週月曜日〜金曜日 21:15〜 22:00<br>
             土曜日と日曜日はできる時に配信中！</p>
+        <a href="guide.html" class="btn-detail">
+            <i class="fas fa-info-circle"></i> 詳細スケジュール・応援ガイド
+        </a>
     </div>
 
     <div class="card">
@@ -497,7 +519,7 @@
         { title: "残酷な天使のテーゼ", artist: "高橋 洋子", yomi: "ざんこくなてんしのてーぜ", date: "2026/01/16", url: "https://music.youtube.com/watch?v=o6wtDPVkKqI" },
         { title: "フォニイ", artist: "ツミキ", yomi: "ふぉにい", date: "2026/01/16", url: "https://music.youtube.com/watch?v=9QLT1Aw_45s" },
         { title: "高音厨音域テスト", artist: "木村ワイP", yomi: "こうおんちゅうおんいきてすと", date: "2026/01/17", url: "https://music.youtube.com/watch?v=f91sM4I76w" },         
-        { title: "KING", artist: "Kanaria", yomi: "きんぐ", date: "2026/01/17", url: "https://music.youtube.com/watch?v=cm-l2h6GB8Q" },   
+        { title: "KING", artist: "Kanaria", yomi: "きんぐ", date: "2026/01/17", url: "https://music.youtube.com/watch?v=cm-l2h6GB8Q" },    
         { title: "アスノヨゾラ哨戒班", artist: "Orangestar", yomi: "あすのよぞらしょうかいはん", date: "2026/01/18", url: "https://music.youtube.com/watch?v=XogSflwXgpw" },
         { title: "さよならエレジー", artist: "菅田 将暉", yomi: "さよならえれじー", date: "2026/01/18", url: "https://music.youtube.com/watch?v=XSkpuDseenY" },
         { title: "エンヴィーベイビー", artist: "Kanaria", yomi: "えんびーべいびー", date: "2026/01/18", url: "https://music.youtube.com/watch?v=dgS6HvEohsw" },
