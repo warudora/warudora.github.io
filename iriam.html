@@ -110,6 +110,7 @@
             border-radius: 4px;
             font-weight: bold;
             margin-left: 5px;
+            display: inline-block;
             vertical-align: middle;
             animation: blink 1.5s infinite;
         }
@@ -233,34 +234,31 @@
         .song-info-title {
             font-weight: bold;
             color: #856404;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 0.95rem;
         }
         .song-info-list {
+            list-style: none; /* ドットを消して画像に近い見た目へ */
             margin: 0;
-            padding-left: 20px;
-            font-size: 0.85rem;
-            color: #666;
-        }
-        .song-info-list li { margin-bottom: 8px; }
-        
-        /* インフォメーション内のNEWバッジ専用 */
-        .info-new-label {
-            background: var(--news-accent);
-            color: white;
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-weight: bold;
-            margin-right: 8px;
-            display: inline-block;
-        }
-        .info-added-text {
+            padding: 0;
+            font-size: 0.9rem;
             color: #333;
-            font-weight: bold;
+        }
+        .song-info-list li { 
+            margin-bottom: 8px; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .song-info-list li:last-child { margin-bottom: 0; }
+        
+        /* 歌枠インフォメーション内のNEWバッジ調整 */
+        .song-info-list .new-badge {
+            margin-left: 0; /* 左側に固定するためリセット */
+            flex-shrink: 0;
         }
 
         .intro-content {
@@ -486,7 +484,6 @@
         { date: "2026/01/16", text: "歌枠リストに「コピー機能」を追加しました！" },
     ];
 
-    // 全曲データ
     const songs = [
         { title: "君の神様になりたい", artist: "カンザキ イオリ", yomi: "きみのかみさまになりたい", date: "2026/01/14", url: "https://music.youtube.com/watch?v=X5kQR92kYn0" },
         { title: "命に嫌われている", artist: "カンザキ イオリ", yomi: "いのちにきらわれている", date: "2026/01/14", url: "https://music.youtube.com/watch?v=0HYm60Mjm0k" },
@@ -527,14 +524,12 @@
     ];
 
     const now = new Date();
-    // NEWバッジの表示期間（2日間以内に設定）
     const isNewPeriod = (dateStr) => {
         const targetDate = new Date(dateStr);
         const diff = (now - targetDate) / (1000 * 60 * 60 * 24);
         return diff >= 0 && diff <= 2;
     };
 
-    // カタカナをひらがなに変換する関数
     function toHiragana(str) {
         if (!str) return "";
         return str.replace(/[\u30a1-\u30f6]/g, (match) => {
@@ -542,22 +537,20 @@
         }).toLowerCase();
     }
 
+    // 歌枠お知らせボードの更新（全箇所共通の点滅NEWバッジを使用）
     function updateSongInfoBoard() {
         const infoList = document.getElementById('song-info-auto');
-        // songsの最後から3つを取得
         const latestSongs = songs.slice(-3).reverse();
         
-        // 基本の説明
-        let html = `
-            <li>コピーボタンで曲名をコピーしてコメントに貼り付けてね！</li>
-        `;
+        // 基本の説明（ここはバッジなし）
+        let html = `<li><i class="fas fa-check-circle" style="color:#856404; font-size:0.8rem;"></i> コピーボタンで曲名をコピーしてコメントに貼り付けてね！</li>`;
         
-        // 最新曲を1曲ずつリスト表示
+        // 最新3曲の追加お知らせ
         latestSongs.forEach(s => {
             html += `
                 <li>
-                    <span class="info-new-label">NEW</span>
-                    <span class="info-added-text">新曲追加： 「${s.title}」 を追加しました！</span>
+                    <span class="new-badge">NEW</span>
+                    <span>新曲追加： 「<strong>${s.title}</strong>」 を追加しました！</span>
                 </li>`;
         });
         
@@ -593,7 +586,6 @@
             div.className = 'song-item';
             const isNew = isNewPeriod(song.date);
             const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
-            
             const dateDisplay = song.date ? `<span class="song-added-date">追加日: ${song.date}</span>` : '';
 
             div.innerHTML = `
@@ -622,7 +614,7 @@
         });
     }
 
-    // 初期表示処理
+    // 初期化処理
     const newsList = document.getElementById('news-list');
     newsData.forEach(item => {
         const div = document.createElement('div');
@@ -641,18 +633,16 @@
         faqList.appendChild(div);
     });
 
-    updateSongInfoBoard(); // インフォメーション自動更新
+    updateSongInfoBoard();
     displaySongs();
     document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    // スクロールボタン
     const backToTopBtn = document.getElementById('back-to-top');
     window.addEventListener('scroll', () => {
         backToTopBtn.classList.toggle('show', window.scrollY > 300);
     });
     backToTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
 </script>
 </body>
 </html>
