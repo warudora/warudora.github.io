@@ -138,6 +138,37 @@
             to { transform: translateX(0); }
         }
 
+        /* 一番上に戻るボタンのスタイル */
+        #back-to-top {
+            position: fixed;
+            bottom: 80px; /* お知らせトーストと被らないように少し上に配置 */
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--iriam-grad);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        #back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
         .playlist-btn {
             display: inline-flex;
             align-items: center;
@@ -427,6 +458,8 @@
     <a href="https://web.iriam.app/s/user/NwCrmCkvi6" class="btn-live" target="_blank">IRIAMで配信を聴く</a>
 </div>
 
+<button id="back-to-top" title="一番上に戻る"><i class="fas fa-chevron-up"></i></button>
+
 <div id="notification-toast">
     <i class="fas fa-info-circle"></i> 新しいお知らせがあります
 </div>
@@ -602,6 +635,42 @@
     displaySongs();
     document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
     document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // --- スクロール関連の機能 ---
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    window.onscroll = function() {
+        // ボタンの表示制御
+        if (window.scrollY > 300) {
+            backToTopBtn.classList.add('show');
+        } else {
+            backToTopBtn.classList.remove('show');
+        }
+    };
+
+    // 一番上に戻るクリックイベント
+    backToTopBtn.onclick = function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
+    // スクロール位置の保存（ページを離れる時）
+    window.onbeforeunload = function() {
+        localStorage.setItem('scrollPosition', window.scrollY);
+    };
+
+    // スクロール位置の復元（読み込み時）
+    window.onload = function() {
+        const scrollPos = localStorage.getItem('scrollPosition');
+        if (scrollPos) {
+            window.scrollTo({
+                top: parseInt(scrollPos),
+                behavior: 'smooth'
+            });
+        }
+    };
 </script>
 </body>
 </html>
