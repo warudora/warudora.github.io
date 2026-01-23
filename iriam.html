@@ -241,7 +241,7 @@
             font-size: 0.95rem;
         }
         .song-info-list {
-            list-style: none; /* ドットを消して画像に近い見た目へ */
+            list-style: none;
             margin: 0;
             padding: 0;
             font-size: 0.9rem;
@@ -255,9 +255,8 @@
         }
         .song-info-list li:last-child { margin-bottom: 0; }
         
-        /* 歌枠インフォメーション内のNEWバッジ調整 */
         .song-info-list .new-badge {
-            margin-left: 0; /* 左側に固定するためリセット */
+            margin-left: 0;
             flex-shrink: 0;
         }
 
@@ -443,8 +442,7 @@
 
         <div class="song-info-board">
             <div class="song-info-title"><i class="fas fa-info-circle"></i> 歌枠インフォメーション</div>
-            <ul class="song-info-list" id="song-info-auto">
-                </ul>
+            <ul class="song-info-list" id="song-info-auto"></ul>
         </div>
 
         <div class="search-container">
@@ -473,9 +471,8 @@
 </footer>
 
 <script>
-    if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-    }
+    // スクロール復元を有効にするため「manual」の設定を削除
+    // ブラウザのデフォルト挙動に任せる
 
     const newsData = [
         { date: "2026/01/23", text: "歌枠リストの検索機能を強化しました！！！" },
@@ -537,15 +534,11 @@
         }).toLowerCase();
     }
 
-    // 歌枠お知らせボードの更新（全箇所共通の点滅NEWバッジを使用）
     function updateSongInfoBoard() {
         const infoList = document.getElementById('song-info-auto');
         const latestSongs = songs.slice(-3).reverse();
-        
-        // 基本の説明（ここはバッジなし）
         let html = `<li><i class="fas fa-check-circle" style="color:#856404; font-size:0.8rem;"></i> コピーボタンで曲名をコピーしてコメントに貼り付けてね！</li>`;
         
-        // 最新3曲の追加お知らせ
         latestSongs.forEach(s => {
             html += `
                 <li>
@@ -553,7 +546,6 @@
                     <span>新曲追加： 「<strong>${s.title}</strong>」 を追加しました！</span>
                 </li>`;
         });
-        
         infoList.innerHTML = html;
     }
 
@@ -566,7 +558,6 @@
             const hiraTitle = toHiragana(song.title);
             const hiraArtist = toHiragana(song.artist);
             const hiraYomi = toHiragana(song.yomi || "");
-
             return song.title.includes(filterText) || 
                    song.artist.includes(filterText) ||
                    hiraTitle.includes(hiraFilter) || 
@@ -614,7 +605,6 @@
         });
     }
 
-    // 初期化処理
     const newsList = document.getElementById('news-list');
     newsData.forEach(item => {
         const div = document.createElement('div');
