@@ -119,7 +119,6 @@
             100% { opacity: 1; }
         }
 
-        /* お知らせ通知の配置を左側に変更（ボタンと被らないように） */
         #notification-toast {
             position: fixed;
             bottom: 20px;
@@ -134,12 +133,7 @@
             cursor: pointer;
             animation: slideInLeft 0.5s ease-out;
         }
-        @keyframes slideInLeft {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(0); }
-        }
 
-        /* 戻るボタンをさらに下（20px）へ配置 */
         #back-to-top {
             position: fixed;
             bottom: 20px;
@@ -161,14 +155,7 @@
             transition: all 0.3s ease;
             z-index: 999;
         }
-        #back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        #back-to-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-        }
+        #back-to-top.show { opacity: 1; visibility: visible; }
 
         .playlist-btn {
             display: inline-flex;
@@ -183,8 +170,7 @@
             font-weight: bold;
             transition: all 0.2s;
         }
-        .playlist-btn:hover { background: #333; transform: scale(1.05); }
-        .playlist-btn i { color: var(--yt-music-color); font-size: 1.1rem; }
+        .playlist-btn i { color: var(--yt-music-color); }
 
         .search-container {
             margin-bottom: 1rem;
@@ -196,13 +182,10 @@
             border: 2px solid #eee;
             border-radius: 10px;
             font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
             box-sizing: border-box;
+            outline: none;
         }
-        .search-input:focus {
-            border-color: var(--iriam-blue);
-        }
+        .search-input:focus { border-color: var(--iriam-blue); }
         .search-icon {
             position: absolute;
             left: 15px;
@@ -211,28 +194,6 @@
             color: #aaa;
         }
 
-        .news-container {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .news-item {
-            display: flex;
-            gap: 15px;
-            padding: 12px 0;
-            border-bottom: 1px dotted #ddd;
-            align-items: flex-start;
-        }
-        .news-item:last-child { border-bottom: none; }
-        .news-date {
-            font-weight: bold;
-            color: var(--news-accent);
-            white-space: nowrap;
-            font-size: 0.9rem;
-            padding-top: 2px;
-        }
-        .news-text { font-size: 0.95rem; flex-grow: 1; }
-
         .song-info-board {
             background: var(--song-info-bg);
             border: 1px solid #ffeeba;
@@ -240,48 +201,6 @@
             padding: 1rem;
             margin-bottom: 1.5rem;
         }
-        .song-info-title {
-            font-weight: bold;
-            color: #856404;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
-        }
-        .song-info-list {
-            margin: 0;
-            padding-left: 20px;
-            font-size: 0.85rem;
-            color: #666;
-        }
-        .song-info-list li { margin-bottom: 4px; }
-
-        .intro-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-        .profile-img {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid var(--white);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        .info-item { background: #f8fbff; padding: 1.5rem; border-radius: 10px; }
-
-        .badge-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        .badge-table th, .badge-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
-        .badge-table th { color: var(--iriam-blue); }
 
         .song-list-container {
             max-height: 450px;
@@ -297,44 +216,15 @@
             align-items: center;
             padding: 12px 15px;
             border-bottom: 1px solid #eee;
-            transition: background 0.2s;
         }
-        .song-item:last-child { border-bottom: none; }
-        .song-item:hover { background: #f0f7f9; }
-
         .song-info { display: flex; flex-direction: column; flex-grow: 1; }
-        .song-name { font-weight: bold; color: #333; font-size: 1rem; }
+        .song-name { font-weight: bold; color: #333; }
         .artist-name { font-size: 0.8rem; color: #777; }
         .song-added-date { font-size: 0.7rem; color: #aaa; margin-top: 2px; }
 
-        .song-actions { display: flex; gap: 15px; align-items: center; }
-        .copy-btn { background: #eee; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; color: #555; transition: all 0.2s; }
-        .copy-btn:hover { background: #ddd; }
+        .copy-btn { background: #eee; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; }
         .copy-btn.success { background: var(--copy-success); color: white; }
-
-        .yt-link { color: #ff0000; text-decoration: none; font-size: 1.4rem; transition: transform 0.2s; }
-        .yt-link:hover { transform: scale(1.2); }
-
-        .faq-container { display: flex; flex-direction: column; gap: 1.5rem; }
-        .faq-item { border-bottom: 1px solid #eee; padding-bottom: 1rem; }
-        .faq-item:last-child { border-bottom: none; }
-        .faq-q { font-weight: bold; color: var(--iriam-blue); display: flex; gap: 8px; }
-        .faq-a { margin-top: 5px; padding-left: 24px; font-size: 0.95rem; color: #555; }
-
-        .no-result {
-            padding: 20px;
-            text-align: center;
-            color: #999;
-        }
-
-        .schedule-box {
-            background: #2c3e50;
-            color: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-        }
-        .schedule-box h2 i { color: white; border: none; }
+        .yt-link { color: #ff0000; text-decoration: none; font-size: 1.4rem; margin-left: 10px; }
 
         .btn-live {
             display: block;
@@ -346,19 +236,19 @@
             border-radius: 50px;
             font-weight: bold;
             margin-top: 2rem;
-            box-shadow: 0 4px 15px rgba(33, 147, 176, 0.3);
         }
 
         footer { text-align: center; padding: 2rem; color: #999; }
+        .news-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px dotted #ddd; }
+        .news-date { font-weight: bold; color: var(--news-accent); font-size: 0.9rem; }
+        .badge-table { width: 100%; border-collapse: collapse; }
+        .badge-table th, .badge-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
     </style>
 </head>
 <body>
 
 <nav class="top-nav">
     <a href="index.html" class="back-link"><i class="fas fa-chevron-left"></i> Portfolio Home</a>
-    <div class="logo-area">
-        <img src="logo.png" alt="warudora logo" onerror="this.style.display='none';">
-    </div>
 </nav>
 
 <div class="hero">
@@ -369,312 +259,153 @@
 <div class="container">
     <div class="card" id="news-section">
         <h2><i class="fas fa-bullhorn"></i> お知らせ</h2>
-        <div id="news-list" class="news-container"></div>
-    </div>
-
-    <div class="card">
-        <h2><i class="fas fa-user"></i> 自己紹介</h2>
-        <div class="intro-content">
-            <img src="profile_iriam.jpg" alt="warudora" class="profile-img" onerror="this.src='https://via.placeholder.com/180'">
-            <div style="text-align: center;">
-                <p>
-                    こんにちは、warudoraです！<br>
-                    普段はMinecraftのMod制作やコミュニティ運営をしていますが、<br>
-                    IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="info-grid">
-        <div class="card info-item">
-            <h2><i class="fas fa-microphone"></i> 配信スタイル</h2>
-            <p><strong>雑談：</strong>まったり日常トーク</p>
-            <p><strong>歌：</strong>ボカロとかアニソンとか</p>
-            <p><strong>作業・勉強：</strong>作業・勉強仲間が欲しい方</p>
-        </div>
-        <div class="card info-item">
-            <h2><i class="fas fa-star"></i> 挨拶・ルール</h2>
-            <p><strong>挨拶：</strong>入室「こんどら！」退室「おつどら！」</p>
-            <p><strong>ルール：</strong>
-                リスナーさん同士の挨拶・会話大歓迎！<br>
-                参加退出時は挨拶をお願いします。<br>
-                歌枠の曲の追加に関しては枠内でお申し付けください。
-            </p>
-        </div>
-    </div>
-
-    <div class="card schedule-box">
-        <h2><i class="fas fa-calendar-alt"></i> 配信予定日</h2>
-        <p>毎週月曜日〜金曜日 21:00〜 22:00<br>
-            土曜日と日曜日はできる時に配信中！</p>
-    </div>
-
-    <div class="card">
-        <h2><i class="fas fa-medal"></i> バッジ特典(2月から)</h2>
-        <table class="badge-table">
-            <thead>
-                <tr><th>星</th><th>特典内容</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>★1</td><td>曲のリクエスト優先権 ＋ 枠内でお礼</td></tr>
-                <tr><td>★2</td><td>公式Discord招待 ＋ 曲のリクエスト最優先権</td></tr>
-                <tr><td>★3</td><td>Discordでの「作業画面共有」視聴権 ＋ サイトへの名前掲載</td></tr>
-                <tr><td>★4</td><td>何か依頼されたものを作ります。</td></tr>
-                <tr><td>★5</td><td>シークレット特典（お楽しみに！）</td></tr>
-            </tbody>
-        </table>
+        <div id="news-list"></div>
     </div>
 
     <div class="card">
         <div class="section-header">
-            <h2 style="display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-music"></i> 歌枠の歌一覧
-                <span id="total-song-count" class="song-count-badge">Loading...</span>
-            </h2>
+            <h2><i class="fas fa-music"></i> 歌枠の歌一覧 <span id="total-song-count" class="song-count-badge"></span></h2>
             <a href="https://music.youtube.com/playlist?list=PLJ7JuhVqBNnRkj50rW2LtsXuQW1HXEUWp" class="playlist-btn" target="_blank">
-                <i class="fab fa-youtube"></i> YouTube Musicで聴く
+                <i class="fab fa-youtube"></i> YouTube Music
             </a>
         </div>
 
         <div class="song-info-board">
-            <div class="song-info-title"><i class="fas fa-info-circle"></i> 歌枠インフォメーション</div>
-            <ul class="song-info-list" id="song-info-auto">
-                <li>コピーボタンで曲名をコピーしてコメントに貼り付けてね！</li>
+            <ul style="margin:0; padding-left:20px; font-size:0.85rem;">
+                <li>ひらがな・カタカナ・漢字（一部）で検索OK！</li>
+                <li>「神っぽいな」を「かみ」で検索しても出ますどら！</li>
             </ul>
         </div>
 
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
-            <input type="text" id="song-search" class="search-input" placeholder="曲名やアーティスト名で検索...">
+            <input type="text" id="song-search" class="search-input" placeholder="曲名、歌手、よみがなで検索...">
         </div>
         <div id="song-list" class="song-list-container"></div>
     </div>
 
     <div class="card">
-        <h2><i class="fas fa-question-circle"></i> よくある質問 (FAQ)</h2>
-        <div id="faq-list" class="faq-container"></div>
+        <h2><i class="fas fa-medal"></i> バッジ特典</h2>
+        <table class="badge-table">
+            <thead><tr><th>星</th><th>特典内容</th></tr></thead>
+            <tbody>
+                <tr><td>★1</td><td>曲のリクエスト優先権</td></tr>
+                <tr><td>★2</td><td>公式Discord招待</td></tr>
+            </tbody>
+        </table>
     </div>
 
     <a href="https://web.iriam.app/s/user/NwCrmCkvi6" class="btn-live" target="_blank">IRIAMで配信を聴く</a>
 </div>
 
-<button id="back-to-top" title="一番上に戻る"><i class="fas fa-chevron-up"></i></button>
-
-<div id="notification-toast">
-    <i class="fas fa-info-circle"></i> 新しいお知らせがあります
-</div>
+<button id="back-to-top"><i class="fas fa-chevron-up"></i></button>
 
 <footer>
-    <p>&copy; <span id="current-year"></span> warudora. All Rights Reserved.</p>
+    <p>&copy; <span id="current-year"></span> warudora.</p>
 </footer>
 
 <script>
     // ブラウザ標準の復元を無効化
-    if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-    }
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
     const newsData = [
         { date: "2026/01/23", text: "歌枠リストに１０曲追加しました！！！" },
-        { date: "2026/01/21", text: "歌枠リストに新曲が追加された日にちが表示されるようになりました。" },
-        { date: "2026/01/16", text: "歌枠リストに「コピー機能」を追加しました！リクエストに便利です。" },
-        { date: "2026/01/15", text: "2月からのバッジ特典内容を更新しました。詳細は表をチェック！" },
+        { date: "2026/01/21", text: "検索機能をさらに強化しました（漢字読み対応）" }
     ];
 
+    // --- 歌データ (yomi フィールドを追加) ---
+    // ここに「よみがな」をひらがなで入れておくと、ひらがな検索でヒットするようになるよ！
     const songs = [
-        { title: "君の神様になりたい", artist: "カンザキ イオリ", url: "https://music.youtube.com/watch?v=X5kQR92kYn0", date: "2026/1/14" },
-        { title: "命に嫌われている", artist: "カンザキ イオリ", url: "https://music.youtube.com/watch?v=0HYm60Mjm0k", date: "2026/1/14" },
-        { title: "忘れじの言の葉", artist: "未来古代楽団feat.安次嶺希和子", url: "https://music.youtube.com/watch?v=uB2GnZ1IVxA", date: "2026/1/14" },
-        { title: "回る空うさぎ", artist: "Orangestar", url: "https://music.youtube.com/watch?v=CLywtSOj4NA", date: "2026/1/14" },
-        { title: "愛の唄", artist: "Myuk", url: "https://music.youtube.com/watch?v=go6iydhxbW0", date: "2026/1/15" },
-        { title: "酔いどれ知らず", artist: "Kanaria", url: "https://music.youtube.com/watch?v=vB8sxY_PJ_w", date: "2026/1/15" },
-        { title: "ハッピーシンセサイザ", artist: "ＥＡＳＹ ＰＯＰ", url: "https://music.youtube.com/watch?v=xOKplMgHxxA", date: "2026/1/16" },
-        { title: "神のまにまに", artist: "れるりり", url: "https://music.youtube.com/watch?v=b2GJcYBoVyg", date: "2026/1/16" },
-        { title: "Happy Halloween", artist: "Junky", url: "https://music.youtube.com/watch?v=1DcgczDzQPk", date: "2026/1/16" },
-        { title: "残酷な天使のテーゼ", artist: "高橋 洋子", url: "https://music.youtube.com/watch?v=o6wtDPVkKqI", date: "2026/1/16" },
-        { title: "フォニイ", artist: "ツミキ", url: "https://music.youtube.com/watch?v=9QLT1Aw_45s", date: "2026/1/16" },
-        { title: "高音厨音域テスト", artist: "木村ワイP", url: "https://music.youtube.com/watch?v=f91sM4I76w", date: "2026/1/17" },         
-        { title: "KING", artist: "Kanaria", url: "https://music.youtube.com/watch?v=cm-l2h6GB8Q", date: "2026/1/17" },   
-        { title: "アスノヨゾラ哨戒班", artist: "Orangestar", url: "https://music.youtube.com/watch?v=XogSflwXgpw&si=AZDXBfqyWEnMVbMY", date: "2026/1/18" },
-        { title: "さよならエレジー", artist: "菅田 将暉", url: "https://music.youtube.com/watch?v=XSkpuDseenY&si=kN-y3AWXdnVntIVb", date: "2026/1/18" },
-        { title: "エンヴィーベイビー", artist: "Kanaria", url: "https://music.youtube.com/watch?v=dgS6HvEohsw&si=yaSsa7E7RmOROpBS", date: "2026/1/18" },
-        { title: "あの夏が飽和する", artist: "カンザキ　イオリ", url: "https://music.youtube.com/watch?v=2hz0lhAs0Kg", date: "2026/1/18" },
-        { title: "手紙 ～拝啓十五の君へ～", artist: "アンジェラ・アキ", url: "https://music.youtube.com/watch?v=erGCAu_hFqM", date: "2026/1/18" },
-        { title: "～COSMOS～", artist: "ミマス", url: "https://music.youtube.com/watch?v=XW5rkR0JsGo", date: "2026/1/18" },
-        { title: "Arcana", artist: "Myuk", url: "https://music.youtube.com/watch?v=olGM0MFy0f0&si=SgRTPxBBmw5E2iMs", date: "2026/01/21" },
-        { title: "Queen of the Night", artist: "カノエラナ", url: "https://music.youtube.com/watch?v=uI93Pxd0W2E&si=7LFd5dtc4UphQkIt", date: "2026/01/21" },
-        { title: "神っぽいな", artist: "ピノキオピー", url: "https://music.youtube.com/watch?v=EHBFKhLUVig", date: "2026/01/23" },
-        { title: "シャルル", artist: "バルーン", url: "https://music.youtube.com/watch?v=TA5OFS_xX0c", date: "2026/01/23" },
-        { title: "ヴァンパイア", artist: "DECO*27", url: "https://music.youtube.com/watch?v=e1xCOsgWG0M", date: "2026/01/23" },
-        { title: "モザイクロール", artist: "DECO*27", url: "https://music.youtube.com/watch?v=WysuxO4yR04", date: "2026/01/23" },
-        { title: "弱虫モンブラン", artist: "DECO*27", url: "https://music.youtube.com/watch?v=euRzG6zmEb8", date: "2026/01/23" },
-        { title: "アニマル", artist: "DECO*27", url: "https://music.youtube.com/watch?v=HtBqK6xsQ9k", date: "2026/01/23" },
-        { title: "妄想感傷代償連盟", artist: "DECO*27", url: "https://music.youtube.com/watch?v=8pGRdRhjX3o", date: "2026/01/23" },
-        { title: "ヒバナ", artist: "DECO*27", url: "https://music.youtube.com/watch?v=hxSg2Ioz3LM", date: "2026/01/23" },
-        { title: "打ち上げ花火", artist: "ＤＡＯＫＯ×米津 玄師", url: "https://music.youtube.com/watch?v=-tKVN2mAKRI", date: "2026/01/23" },
-        { title: "好きになってはいけない理由", artist: "藤川 千愛", url: "https://music.youtube.com/watch?v=RcPU6yzR29k", date: "2026/01/23" },
+        { title: "君の神様になりたい", artist: "カンザキ イオリ", yomi: "きみのかみさまになりたい", date: "2026/1/14", url: "https://music.youtube.com/watch?v=X5kQR92kYn0" },
+        { title: "命に嫌われている", artist: "カンザキ イオリ", yomi: "いのちにきらわれている", date: "2026/1/14", url: "https://music.youtube.com/watch?v=0HYm60Mjm0k" },
+        { title: "忘れじの言の葉", artist: "未来古代楽団", yomi: "わすれじのことのは", date: "2026/1/14", url: "https://music.youtube.com/watch?v=uB2GnZ1IVxA" },
+        { title: "回る空うさぎ", artist: "Orangestar", yomi: "まわるそらうさぎ", date: "2026/1/14", url: "https://music.youtube.com/watch?v=CLywtSOj4NA" },
+        { title: "愛の唄", artist: "Myuk", yomi: "あいのうた", date: "2026/1/15", url: "https://music.youtube.com/watch?v=go6iydhxbW0" },
+        { title: "酔いどれ知らず", artist: "Kanaria", yomi: "よいどれしらず", date: "2026/1/15", url: "https://music.youtube.com/watch?v=vB8sxY_PJ_w" },
+        { title: "ハッピーシンセサイザ", artist: "EASY POP", yomi: "はっぴーしんせさいざ", date: "2026/1/16", url: "https://music.youtube.com/watch?v=xOKplMgHxxA" },
+        { title: "神のまにまに", artist: "れるりり", yomi: "かみのまにまに", date: "2026/1/16", url: "https://music.youtube.com/watch?v=b2GJcYBoVyg" },
+        { title: "残酷な天使のテーゼ", artist: "高橋 洋子", yomi: "ざんこくなてんしのてーぜ", date: "2026/1/16", url: "https://music.youtube.com/watch?v=o6wtDPVkKqI" },
+        { title: "高音厨音域テスト", artist: "木村ワイP", yomi: "こうおんちゅうおんいきてすと", date: "2026/1/17", url: "https://music.youtube.com/watch?v=f91sM4I76w" },
+        { title: "アスノヨゾラ哨戒班", artist: "Orangestar", yomi: "あすのよぞらしょうかいはん", date: "2026/1/18", url: "https://music.youtube.com/watch?v=XogSflwXgpw" },
+        { title: "さよならエレジー", artist: "菅田 将暉", yomi: "さよならえれじー", date: "2026/1/18", url: "https://music.youtube.com/watch?v=XSkpuDseenY" },
+        { title: "あの夏が飽和する", artist: "カンザキ イオリ", yomi: "あのなつがほうわする", date: "2026/1/18", url: "https://music.youtube.com/watch?v=2hz0lhAs0Kg" },
+        { title: "手紙 ～拝啓十五の君へ～", artist: "アンジェラ・アキ", yomi: "てがみはいけいじゅうごのきみへ", date: "2026/1/18", url: "https://music.youtube.com/watch?v=erGCAu_hFqM" },
+        { title: "神っぽいな", artist: "ピノキオピー", yomi: "かみっぽいな", date: "2026/01/23", url: "https://music.youtube.com/watch?v=EHBFKhLUVig" },
+        { title: "シャルル", artist: "バルーン", yomi: "しゃるる", date: "2026/01/23", url: "https://music.youtube.com/watch?v=TA5OFS_xX0c" },
+        { title: "妄想感傷代償連盟", artist: "DECO*27", yomi: "もうそうかんしょうだいしょうれんめい", date: "2026/01/23", url: "https://music.youtube.com/watch?v=8pGRdRhjX3o" },
+        { title: "打上花火", artist: "DAOKO×米津 玄師", yomi: "うちあげはなび", date: "2026/01/23", url: "https://music.youtube.com/watch?v=-tKVN2mAKRI" },
     ];
 
-    const faqData = [
-        { q: "歌のリクエストはどうすればいい？", a: "バッジ特典(★1〜)をお持ちの方を優先していますが、初見さんもお気軽にどうぞ！" },
-        { q: "配信の切り抜きをSNSに上げてもいい？", a: "雑談や作業配信の切り抜きは大歓迎です！<br>ただし、歌枠（歌唱部分）の切り抜き投稿は、音源の権利関係が複雑なため、トラブル防止のため一律禁止（または要相談）でお願いします。" },
-    ];
-
-    const newsList = document.getElementById('news-list');
-    const songInfoAutoList = document.getElementById('song-info-auto');
-    const now = new Date();
-    
-    const isNewPeriod = (dateStr) => {
-        const targetDate = new Date(dateStr);
-        const diff = (now - targetDate) / (1000 * 60 * 60 * 24);
-        return diff >= 0 && diff <= 2;
-    };
-
-    const lastCheck = localStorage.getItem('lastNewsCheck') || 0;
-    let hasNewNews = false;
-
-    document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
-
-    const newSongs = songs.filter(s => isNewPeriod(s.date)).reverse();
-    newSongs.slice(0, 3).forEach(s => {
-        const li = document.createElement('li');
-        li.innerHTML = `<span class="new-badge">NEW</span> <strong>新曲追加(${s.date})：</strong> 「${s.title}」を追加しました！`;
-        songInfoAutoList.appendChild(li);
-    });
-
-    newsData.forEach(item => {
-        const itemDate = new Date(item.date);
-        const div = document.createElement('div');
-        div.className = 'news-item';
-        const isNew = isNewPeriod(item.date);
-        const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
-        if (itemDate.getTime() > lastCheck) hasNewNews = true;
-        div.innerHTML = `<span class="news-date">${item.date}</span><span class="news-text">${item.text}${newLabel}</span>`;
-        newsList.appendChild(div);
-    });
-
-    if (hasNewNews) {
-        const toast = document.getElementById('notification-toast');
-        toast.style.display = 'block';
-        toast.onclick = () => {
-            document.getElementById('news-section').scrollIntoView({ behavior: 'smooth' });
-            toast.style.display = 'none';
-            localStorage.setItem('lastNewsCheck', Date.now());
-        };
-        setTimeout(() => { toast.style.display = 'none'; }, 10000);
+    // --- ユーティリティ ---
+    function toHiragana(str) {
+        if (!str) return "";
+        return str.replace(/[\u30a1-\u30f6]/g, m => String.fromCharCode(m.charCodeAt(0) - 0x60)).toLowerCase();
     }
 
     function displaySongs(filterText = "") {
-        const songList = document.getElementById('song-list');
-        songList.innerHTML = "";
-        const sortedSongs = [...songs].reverse();
-        const filteredSongs = sortedSongs.filter(song => 
-            song.title.toLowerCase().includes(filterText.toLowerCase()) || 
-            song.artist.toLowerCase().includes(filterText.toLowerCase())
-        );
+        const listEl = document.getElementById('song-list');
+        listEl.innerHTML = "";
+        const hiraFilter = toHiragana(filterText);
 
-        if (filteredSongs.length === 0) {
-            songList.innerHTML = '<div class="no-result">曲が見つかりませんでした。</div>';
+        const filtered = [...songs].reverse().filter(s => {
+            const hiraTitle = toHiragana(s.title);
+            const hiraArtist = toHiragana(s.artist);
+            const hiraYomi = toHiragana(s.yomi || "");
+            // 元の文字、変換後のひらがな、設定した「よみがな」のどれかにヒットすればOK
+            return s.title.includes(filterText) || 
+                   s.artist.includes(filterText) ||
+                   hiraTitle.includes(hiraFilter) || 
+                   hiraArtist.includes(hiraFilter) || 
+                   hiraYomi.includes(hiraFilter);
+        });
+
+        document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
+
+        if (filtered.length === 0) {
+            listEl.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">見つかりませんでした。</div>';
             return;
         }
 
-        filteredSongs.forEach(song => {
+        filtered.forEach(song => {
             const div = document.createElement('div');
             div.className = 'song-item';
-            const isNew = isNewPeriod(song.date);
-            const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
             div.innerHTML = `
                 <div class="song-info">
-                    <span class="song-name">${song.title}${newLabel}</span>
+                    <span class="song-name">${song.title}</span>
                     <span class="artist-name">${song.artist}</span>
-                    <span class="song-added-date">追加日: ${song.date}</span>
                 </div>
-                <div class="song-actions">
-                    <button class="copy-btn" title="曲名をコピー"><i class="fas fa-copy"></i></button>
-                    <a href="${song.url}" class="yt-link" target="_blank" title="YouTubeで確認"><i class="fab fa-youtube"></i></a>
+                <div style="display:flex; align-items:center;">
+                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                    <a href="${song.url}" class="yt-link" target="_blank"><i class="fab fa-youtube"></i></a>
                 </div>`;
-            const copyBtn = div.querySelector('.copy-btn');
-            copyBtn.onclick = (e) => copyText(e, song.title);
-            songList.appendChild(div);
+            div.querySelector('.copy-btn').onclick = (e) => {
+                navigator.clipboard.writeText(song.title);
+                e.currentTarget.classList.add('success');
+                setTimeout(() => e.currentTarget.classList.remove('success'), 1000);
+            };
+            listEl.appendChild(div);
         });
     }
 
-    function copyText(event, text) {
-        const btn = event.currentTarget;
-        const fallbackCopy = (txt) => {
-            const el = document.createElement('textarea');
-            el.value = txt;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-        };
-        const successUI = () => {
-            btn.innerHTML = '<i class="fas fa-check"></i>';
-            btn.classList.add('success');
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-copy"></i>';
-                btn.classList.remove('success');
-            }, 1500);
-        };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(successUI).catch(() => {
-                fallbackCopy(text);
-                successUI();
-            });
-        } else {
-            fallbackCopy(text);
-            successUI();
-        }
-    }
-
-    const faqList = document.getElementById('faq-list');
-    faqData.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'faq-item';
-        div.innerHTML = `<div class="faq-q"><span>Q.</span> ${item.q}</div><div class="faq-a">A. ${item.a}</div>`;
-        faqList.appendChild(div);
+    // 初期化
+    const newsList = document.getElementById('news-list');
+    newsData.forEach(n => {
+        const d = document.createElement('div');
+        d.className = 'news-item';
+        d.innerHTML = `<span class="news-date">${n.date}</span><span>${n.text}</span>`;
+        newsList.appendChild(d);
     });
 
     displaySongs();
-    document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
+    document.getElementById('song-search').addEventListener('input', e => displaySongs(e.target.value));
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    // --- Chrome特化スクロール復元ロジック ---
-    const backToTopBtn = document.getElementById('back-to-top');
-
-    // 1. スクロール保存
+    // スクロールボタン
+    const btt = document.getElementById('back-to-top');
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTopBtn.classList.add('show');
-        } else {
-            backToTopBtn.classList.remove('show');
-        }
-        localStorage.setItem('warudora_chrome_pos', window.scrollY);
-    }, { passive: true });
-
-    backToTopBtn.onclick = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        localStorage.setItem('warudora_chrome_pos', 0);
-    };
-
-    // 2. 復元処理
-    const applyScroll = () => {
-        const savedPos = localStorage.getItem('warudora_chrome_pos');
-        if (savedPos && savedPos !== '0') {
-            const y = parseInt(savedPos);
-            window.scrollTo(0, y);
-            requestAnimationFrame(() => {
-                window.scrollTo(0, y);
-            });
-        }
-    };
-
-    window.addEventListener('load', applyScroll);
-    window.addEventListener('pageshow', (event) => { if (event.persisted) applyScroll(); });
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') applyScroll(); });
-    document.querySelectorAll('img').forEach(img => { img.addEventListener('load', applyScroll); });
+        btt.classList.toggle('show', window.scrollY > 300);
+    });
+    btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
 </script>
 </body>
