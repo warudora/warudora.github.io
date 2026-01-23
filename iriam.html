@@ -138,10 +138,9 @@
             to { transform: translateX(0); }
         }
 
-        /* 一番上に戻るボタンのスタイル */
         #back-to-top {
             position: fixed;
-            bottom: 80px; /* お知らせトーストと被らないように少し上に配置 */
+            bottom: 80px;
             right: 20px;
             width: 50px;
             height: 50px;
@@ -379,7 +378,7 @@
                 <p>
                     こんにちは、warudoraです！<br>
                     普段はMinecraftのMod制作やコミュニティ運営をしていますが、<br>
-                    IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。
+                    IRIAMではリスナーさんと「楽しく」「またり」交流することを大切にしています。
                 </p>
             </div>
         </div>
@@ -469,6 +468,7 @@
 </footer>
 
 <script>
+    // 歌データやお知らせデータなどの定義
     const newsData = [
         { date: "2026/01/23", text: "歌枠リストに１０曲追加しました！！！" },
         { date: "2026/01/21", text: "歌枠リストに新曲が追加された日にちが表示されるようになりました。" },
@@ -500,14 +500,14 @@
         { title: "Queen of the Night", artist: "カノエラナ", url: "https://music.youtube.com/watch?v=uI93Pxd0W2E&si=7LFd5dtc4UphQkIt", date: "2026/01/21" },
         { title: "神っぽいな", artist: "ピノキオピー", url: "https://music.youtube.com/watch?v=EHBFKhLUVig", date: "2026/01/23" },
         { title: "シャルル", artist: "バルーン", url: "https://music.youtube.com/watch?v=TA5OFS_xX0c", date: "2026/01/23" },
-       { title: "ヴァンパイア", artist: "DECO*27", url: "https://music.youtube.com/watch?v=e1xCOsgWG0M", date: "2026/01/23" },
-       { title: "モザイクロール", artist: "DECO*27", url: "https://music.youtube.com/watch?v=WysuxO4yR04", date: "2026/01/23" },
-       { title: "弱虫モンブラン", artist: "DECO*27", url: "https://music.youtube.com/watch?v=euRzG6zmEb8", date: "2026/01/23" },
-       { title: "アニマル", artist: "DECO*27", url: "https://music.youtube.com/watch?v=HtBqK6xsQ9k", date: "2026/01/23" },
-       { title: "妄想感傷代償連盟", artist: "DECO*27", url: "https://music.youtube.com/watch?v=8pGRdRhjX3o", date: "2026/01/23" },
-       { title: "ヒバナ", artist: "DECO*27", url: "https://music.youtube.com/watch?v=hxSg2Ioz3LM", date: "2026/01/23" },
-       { title: "打ち上げ花火", artist: "ＤＡＯＫＯ×米津 玄師", url: "https://music.youtube.com/watch?v=-tKVN2mAKRI", date: "2026/01/23" },
-       { title: "好きになってはいけない理由", artist: "藤川 千愛", url: "https://music.youtube.com/watch?v=RcPU6yzR29k", date: "2026/01/23" },
+        { title: "ヴァンパイア", artist: "DECO*27", url: "https://music.youtube.com/watch?v=e1xCOsgWG0M", date: "2026/01/23" },
+        { title: "モザイクロール", artist: "DECO*27", url: "https://music.youtube.com/watch?v=WysuxO4yR04", date: "2026/01/23" },
+        { title: "弱虫モンブラン", artist: "DECO*27", url: "https://music.youtube.com/watch?v=euRzG6zmEb8", date: "2026/01/23" },
+        { title: "アニマル", artist: "DECO*27", url: "https://music.youtube.com/watch?v=HtBqK6xsQ9k", date: "2026/01/23" },
+        { title: "妄想感傷代償連盟", artist: "DECO*27", url: "https://music.youtube.com/watch?v=8pGRdRhjX3o", date: "2026/01/23" },
+        { title: "ヒバナ", artist: "DECO*27", url: "https://music.youtube.com/watch?v=hxSg2Ioz3LM", date: "2026/01/23" },
+        { title: "打ち上げ花火", artist: "ＤＡＯＫＯ×米津 玄師", url: "https://music.youtube.com/watch?v=-tKVN2mAKRI", date: "2026/01/23" },
+        { title: "好きになってはいけない理由", artist: "藤川 千愛", url: "https://music.youtube.com/watch?v=RcPU6yzR29k", date: "2026/01/23" },
     ];
 
     const faqData = [
@@ -515,6 +515,7 @@
         { q: "配信の切り抜きをSNSに上げてもいい？", a: "雑談や作業配信の切り抜きは大歓迎です！<br>ただし、歌枠（歌唱部分）の切り抜き投稿は、音源の権利関係が複雑なため、トラブル防止のため一律禁止（または要相談）でお願いします。" },
     ];
 
+    // お知らせ・歌リストの表示処理
     const newsList = document.getElementById('news-list');
     const songInfoAutoList = document.getElementById('song-info-auto');
     const now = new Date();
@@ -530,7 +531,6 @@
 
     document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
 
-    // 新曲表示を最大3曲に制限
     const newSongs = songs.filter(s => isNewPeriod(s.date)).reverse();
     newSongs.slice(0, 3).forEach(s => {
         const li = document.createElement('li');
@@ -636,41 +636,47 @@
     document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    // --- スクロール関連の機能 ---
+    // --- スクロール復元・戻るボタンの強化 ---
     const backToTopBtn = document.getElementById('back-to-top');
+    let scrollTimeout;
 
-    window.onscroll = function() {
-        // ボタンの表示制御
+    window.addEventListener('scroll', () => {
+        // 戻るボタンの表示
         if (window.scrollY > 300) {
             backToTopBtn.classList.add('show');
         } else {
             backToTopBtn.classList.remove('show');
         }
-    };
 
-    // 一番上に戻るクリックイベント
+        // スクロール位置をリアルタイムに近い頻度で保存（100ms待機して保存）
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            localStorage.setItem('warudora_scroll_y', window.scrollY);
+        }, 100);
+    });
+
     backToTopBtn.onclick = function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        localStorage.setItem('warudora_scroll_y', 0); // 上に戻ったら保存データもリセット
     };
 
-    // スクロール位置の保存（ページを離れる時）
-    window.onbeforeunload = function() {
-        localStorage.setItem('scrollPosition', window.scrollY);
-    };
-
-    // スクロール位置の復元（読み込み時）
-    window.onload = function() {
-        const scrollPos = localStorage.getItem('scrollPosition');
-        if (scrollPos) {
-            window.scrollTo({
-                top: parseInt(scrollPos),
-                behavior: 'smooth'
-            });
+    // 復元処理：DOMが完全に読み込まれてから実行
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedPos = localStorage.getItem('warudora_scroll_y');
+        if (savedPos && savedPos !== '0') {
+            // ブラウザの自動スクロールを抑制（一部ブラウザ対策）
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+            // 少し遅延させてスクロール（レンダリング完了を待つ）
+            setTimeout(() => {
+                window.scrollTo({
+                    top: parseInt(savedPos),
+                    behavior: 'instant' // 復元時は瞬時に移動
+                });
+            }, 50);
         }
-    };
+    });
 </script>
 </body>
 </html>
