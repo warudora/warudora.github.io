@@ -21,6 +21,7 @@
             margin: 0;
             color: var(--text-color);
             line-height: 1.6;
+            scroll-behavior: smooth;
         }
 
         nav.top-nav {
@@ -111,6 +112,37 @@
         .progress-bar-bg { background: #eee; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 5px; }
         .progress-bar-fill { background: var(--iriam-grad); height: 100%; transition: width 1s; }
 
+        /* --- 一番上に戻るボタン --- */
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--iriam-grad);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border: none;
+        }
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        #back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
         footer { text-align: center; padding: 2rem; color: #999; }
     </style>
 </head>
@@ -175,6 +207,10 @@
 
 </div>
 
+<button id="back-to-top" onclick="scrollToTop()">
+    <i class="fas fa-chevron-up"></i>
+</button>
+
 <footer>
     <p>&copy; 2026 warudora. All Rights Reserved.</p>
 </footer>
@@ -234,6 +270,22 @@
                     <div class="dict-desc">${d.desc}</div>
                 </div>`;
         });
+
+        // スクロール監視
+        window.addEventListener('scroll', toggleBackToTopBtn);
+    }
+
+    function toggleBackToTopBtn() {
+        const btn = document.getElementById('back-to-top');
+        if (window.scrollY > 300) {
+            btn.classList.add('show');
+        } else {
+            btn.classList.remove('show');
+        }
+    }
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function copyText(event, text) {
