@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>応援ガイド & スケジュール - warudora IRIAM Space</title>
+    <title>応援ガイド - warudora IRIAM Space</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -66,42 +66,19 @@
             font-size: 1.4rem;
         }
 
-        /* --- カレンダー --- */
-        .calendar-grid {
+        /* --- 配信スタイル --- */
+        .style-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            border: 1px solid #eee;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .style-item {
+            padding: 15px;
             border-radius: 10px;
-            overflow: hidden;
-            background: var(--white);
-        }
-        .calendar-header {
             background: #f8fbff;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 0.8rem;
-            border-bottom: 1px solid #eee;
+            border: 1px solid #e1f5fe;
         }
-        .calendar-day {
-            min-height: 90px;
-            padding: 5px;
-            border: 0.5px solid #eee;
-            position: relative;
-            background: #fff;
-        }
-        .date-num { font-weight: bold; font-size: 0.8rem; color: #666; }
-        .is-today { background: #fff9db; }
-        .event-badge {
-            margin-top: 3px;
-            font-size: 0.65rem;
-            padding: 3px;
-            border-radius: 4px;
-            line-height: 1.2;
-        }
-        .type-normal { background: #e7f5ff; color: #1971c2; border-left: 2px solid #1971c2; }
-        .type-special { background: #fff0f6; color: #c2255c; border-left: 2px solid #c2255c; }
-        .type-off { background: #f1f3f5; color: #868e96; border-left: 2px solid #adb5bd; }
+        .style-item i { color: var(--iriam-blue); margin-right: 8px; }
 
         /* --- SNSガイド --- */
         .tag-box {
@@ -130,56 +107,42 @@
         .dict-word { font-weight: bold; color: var(--iriam-blue); }
         .dict-desc { font-size: 0.85rem; color: #555; }
 
-        /* --- 応援ガイド・楽しみ方 --- */
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        .status-item {
-            background: #f8fbff;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #e1f5fe;
-        }
-        .status-label { font-size: 0.75rem; color: #7f8c8d; font-weight: bold; }
-        .status-value { font-size: 0.9rem; color: var(--primary-color); margin-top: 5px; }
-
         /* --- 進捗バー --- */
         .progress-bar-bg { background: #eee; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 5px; }
         .progress-bar-fill { background: var(--iriam-grad); height: 100%; transition: width 1s; }
 
         footer { text-align: center; padding: 2rem; color: #999; }
-
-        @media (max-width: 600px) {
-            .calendar-day { min-height: 70px; }
-            .event-badge { font-size: 0.6rem; }
-            .status-grid { grid-template-columns: 1fr; }
-        }
     </style>
 </head>
 <body>
 
 <nav class="top-nav">
     <a href="iriam.html" class="back-link"><i class="fas fa-chevron-left"></i> IRIAM Top</a>
-    <div style="font-weight: bold; color: var(--iriam-blue);">Guide & Schedule</div>
+    <div style="font-weight: bold; color: var(--iriam-blue);">Support Guide</div>
 </nav>
 
 <div class="hero">
-    <h1>Support Guide & Schedule</h1>
-    <p>warudoraを100倍楽しむための活動ガイド</p>
+    <h1>Support Guide</h1>
+    <p>warudoraの配信を楽しむための手引き</p>
 </div>
 
 <div class="container">
 
     <div class="card">
-        <h2 id="calendar-title"><i class="fas fa-calendar-alt"></i> Delivery Schedule</h2>
-        <div class="calendar-grid" id="calendar-grid"></div>
-        <div style="margin-top: 10px; text-align: right; font-size: 0.75rem; color: #888;">
-            <span><i class="fas fa-square" style="color:#e7f5ff"></i> 通常</span>
-            <span style="margin-left: 10px;"><i class="fas fa-square" style="color:#fff0f6"></i> イベント</span>
-            <span style="margin-left: 10px;"><i class="fas fa-square" style="color:#f1f3f5"></i> 休み</span>
+        <h2><i class="fas fa-clock"></i> Delivery Style</h2>
+        <div class="style-grid">
+            <div class="style-item">
+                <p><strong><i class="fas fa-calendar-day"></i> 配信頻度</strong><br>
+                週3〜5回、不定期で配信中！<br>
+                （ゲリラ配信も多めです）</p>
+            </div>
+            <div class="style-item">
+                <p><strong><i class="fas fa-moon"></i> 主な時間帯</strong><br>
+                21:00 〜 24:00 頃がメイン。<br>
+                休日はお昼にやることも！</p>
+            </div>
         </div>
+        <p style="font-size: 0.8rem; color: #888; margin-top: 15px;">※正確なスケジュールはX(Twitter)やIRIAMのファンバッジ限定投稿でお知らせします。</p>
     </div>
 
     <div class="card">
@@ -195,18 +158,12 @@
 
     <div class="card">
         <h2><i class="fas fa-heart"></i> 応援のポイント</h2>
-        <div class="status-grid">
-            <div class="status-item">
-                <div class="status-label">コメントは大歓迎！</div>
-                <div class="status-value">初見さんも常連さんも、気軽に声をかけてね。挨拶だけでもすごく嬉しいです！</div>
+        <div class="style-grid">
+            <div class="style-item" style="background:#fff;">
+                <p style="font-size:0.9rem;"><strong>コメントは大歓迎！</strong><br>初見さんも常連さんも気軽に声をかけてね。挨拶だけでも嬉しいです！</p>
             </div>
-            <div class="status-item">
-                <div class="status-label">スターやギフト</div>
-                <div class="status-value">無理のない範囲で！頂いた応援は、配信機材やMod制作の活動費として大切に使わせてもらいます。</div>
-            </div>
-            <div class="status-item">
-                <div class="status-label">シェア・拡散</div>
-                <div class="status-value">配信中に「シェア」ボタンからX(旧Twitter)へ投稿して頂けると、新しい出会いに繋がります！</div>
+            <div class="style-item" style="background:#fff;">
+                <p style="font-size:0.9rem;"><strong>スターやギフト</strong><br>無理のない範囲で！活動費（機材やMod制作）として大切に使わせてもらいます。</p>
             </div>
         </div>
     </div>
@@ -224,20 +181,11 @@
 
 <script>
     /* --- 【データ編集エリア】 --- */
-    // 配信予定
-    const scheduleData = [
-        { date: '2026-01-23', time: '21:15', title: '歌枠：ボカロ', type: 'special' },
-        { date: '2026-01-26', time: '21:15', title: '通常配信', type: 'normal' },
-        { date: '2026-01-28', time: '-', title: 'オフ', type: 'off' }
-    ];
-
-    // 目標進捗
     const goals = [
         { label: 'フォロワー 500人', percent: 80 },
         { label: 'バッジ獲得数 30人', percent: 45 }
     ];
 
-    // SNSタグ
     const snsTags = [
         { label: '推しマーク', value: '🐉🛠️' },
         { label: '総合タグ', value: '#warudora' },
@@ -245,7 +193,6 @@
         { label: 'ファンアート', value: '#わるとらあーと' }
     ];
 
-    // 用語辞典
     const dictionary = [
         { word: 'こんどら！', desc: '入室時の挨拶。元気よく言ってみよう！' },
         { word: 'おつどら！', desc: '退室・配信終了時の挨拶。' },
@@ -255,39 +202,6 @@
 
     /* --- ロジック --- */
     function init() {
-        const grid = document.getElementById('calendar-grid');
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth();
-        document.getElementById('calendar-title').innerHTML += ` (${month + 1}月)`;
-
-        ['日','月','火','水','木','金','土'].forEach(d => {
-            const h = document.createElement('div');
-            h.className = 'calendar-header';
-            h.innerText = d;
-            grid.appendChild(h);
-        });
-
-        const firstDay = new Date(year, month, 1).getDay();
-        const lastDate = new Date(year, month + 1, 0).getDate();
-
-        for (let i = 0; i < firstDay; i++) {
-            grid.appendChild(document.createElement('div')).className = 'calendar-day';
-        }
-
-        for (let d = 1; d <= lastDate; d++) {
-            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-            const event = scheduleData.find(e => e.date === dateStr);
-            const isToday = d === now.getDate() && month === now.getMonth();
-            const cell = document.createElement('div');
-            cell.className = `calendar-day ${isToday ? 'is-today' : ''}`;
-            cell.innerHTML = `<div class="date-num">${d}${isToday?' (Today)':''}</div>`;
-            if (event) {
-                cell.innerHTML += `<div class="event-badge type-${event.type}"><strong>${event.time}</strong><br>${event.title}</div>`;
-            }
-            grid.appendChild(cell);
-        }
-
         // 目標
         const goalsDiv = document.getElementById('goals-list');
         goals.forEach(g => {
@@ -304,7 +218,7 @@
             snsDiv.innerHTML += `
                 <div class="tag-box">
                     <span>${s.label}: <strong>${s.value}</strong></span>
-                    <button class="copy-btn" onclick="copyText('${s.value}')">コピー</button>
+                    <button class="copy-btn" onclick="copyText(event, '${s.value}')">コピー</button>
                 </div>`;
         });
 
@@ -319,9 +233,8 @@
         });
     }
 
-    function copyText(text) {
+    function copyText(event, text) {
         navigator.clipboard.writeText(text).then(() => {
-            // シンプルな通知
             const btn = event.target;
             const originalText = btn.innerText;
             btn.innerText = 'OK!';
