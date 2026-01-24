@@ -29,6 +29,11 @@
             --yt-music-color: #ff0000;
             --copy-success: #27ae60;
             --song-info-bg: #fff9e6;
+            /* バッジ用カラー追加 */
+            --badge-gold: #fff9e6;
+            --badge-gold-border: #ffeeba;
+            --badge-gold-text: #856404;
+            --legend-color: #f39c12;
         }
 
         body {
@@ -90,6 +95,14 @@
             color: var(--iriam-blue);
             margin: 0;
             font-size: 1.5rem;
+        }
+
+        h3 {
+            color: var(--iriam-blue);
+            font-size: 1.1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            margin-top: 2rem;
         }
 
         .song-count-badge {
@@ -224,6 +237,45 @@
         }
         .news-text { font-size: 0.95rem; flex-grow: 1; }
 
+        /* バッジ表示スタイル */
+        .badge-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        
+        .fan-badge {
+            background: var(--badge-gold);
+            border: 1px solid var(--badge-gold-border);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--badge-gold-text);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-badge {
+            background: #fff;
+            border: 2px solid var(--legend-color);
+            color: var(--legend-color);
+        }
+
+        .empty-slot {
+            color: #ccc;
+            border: 1px dashed #ccc;
+            background: transparent;
+        }
+
+        .history-box {
+            background: #f8fbff;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .history-list { list-style: none; padding: 0; margin: 10px 0 0 0; color: #666; }
+        .history-list li { margin-bottom: 5px; border-bottom: 1px dotted #e0e0e0; padding-bottom: 5px; }
+
         .song-info-board {
             background: var(--song-info-bg);
             border: 1px solid #ffeeba;
@@ -339,7 +391,6 @@
         }
         .schedule-box h2 i { color: white; border: none; }
 
-        /* 追加した詳細ボタンのスタイル */
         .btn-detail {
             display: inline-block;
             margin-top: 15px;
@@ -450,6 +501,18 @@
                 <tr><td>★5</td><td>シークレット特典（お楽しみに！）</td></tr>
             </tbody>
         </table>
+
+        <h3><i class="fas fa-crown" style="color: #f39c12;"></i> 最初のバッジ獲得者（★3以上）</h3>
+        <p style="font-size: 0.8rem; color: #666; margin-bottom: 5px;">配信開始初期を支えてくれた伝説の3名様です！</p>
+        <div id="first-three-members" class="badge-list"></div>
+
+        <h3><i class="fas fa-award"></i> 今月のバッジ獲得者（★3以上）</h3>
+        <div id="current-month-members" class="badge-list"></div>
+
+        <h3><i class="fas fa-history"></i> 歴代のバッジ獲得者</h3>
+        <div class="history-box">
+            <ul id="history-members-list" class="history-list"></ul>
+        </div>
     </div>
 
     <div class="card">
@@ -494,7 +557,6 @@
 </footer>
 
 <script>
-    // スクロール復元を明示的に「自動(auto)」にする
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'auto';
     }
@@ -504,6 +566,22 @@
         { date: "2026/01/23", text: "検索機能を強化！漢字の読み(ひらがな)でも検索できるようになりました。" },
         { date: "2026/01/22", text: "歌枠リストに１０曲追加しました！！！" },
     ];
+
+    // --- バッジ獲得者管理データ (JSON形式) ---
+    const memberData = {
+        // 最初の3人（まだいない場合は null を入れる）
+        firstThree: [
+            "寒咲伊織", // ここに1人目の名前を入れる
+            null,          // 2人目
+            null           // 3人目
+        ],
+        // 今月の獲得者
+        currentMonth: ["寒咲伊織", "null"],
+        // 歴代ログ
+        history: [
+            { period: "2026年1月", names: ["null", "null"] }
+        ]
+    };
 
     const songs = [
         { title: "君の神様になりたい", artist: "カンザキ イオリ", yomi: "きみのかみさまになりたい", date: "2026/01/14", url: "https://music.youtube.com/watch?v=X5kQR92kYn0" },
@@ -517,7 +595,7 @@
         { title: "Happy Halloween", artist: "Junky", yomi: "はっぴーはろうぃん", date: "2026/01/16", url: "https://music.youtube.com/watch?v=1DcgczDzQPk" },
         { title: "残酷な天使のテーゼ", artist: "高橋 洋子", yomi: "ざんこくなてんしのてーぜ", date: "2026/01/16", url: "https://music.youtube.com/watch?v=o6wtDPVkKqI" },
         { title: "フォニイ", artist: "ツミキ", yomi: "ふぉにい", date: "2026/01/16", url: "https://music.youtube.com/watch?v=9QLT1Aw_45s" },
-        { title: "高音厨音域テスト", artist: "木村ワイP", yomi: "こうおんちゅうおんいきてすと", date: "2026/01/17", url: "https://music.youtube.com/watch?v=f91sM4I76w" },         
+        { title: "高音厨音域テスト", artist: "木村ワイP", yomi: "こうおんちゅうおんいきてすと", date: "2026/01/17", url: "https://music.youtube.com/watch?v=f91sM4I76w" },          
         { title: "KING", artist: "Kanaria", yomi: "きんぐ", date: "2026/01/17", url: "https://music.youtube.com/watch?v=cm-l2h6GB8Q" },    
         { title: "アスノヨゾラ哨戒班", artist: "Orangestar", yomi: "あすのよぞらしょうかいはん", date: "2026/01/18", url: "https://music.youtube.com/watch?v=XogSflwXgpw" },
         { title: "さよならエレジー", artist: "菅田 将暉", yomi: "さよならえれじー", date: "2026/01/18", url: "https://music.youtube.com/watch?v=XSkpuDseenY" },
@@ -556,6 +634,29 @@
         return str.replace(/[\u30a1-\u30f6]/g, (match) => {
             return String.fromCharCode(match.charCodeAt(0) - 0x60);
         }).toLowerCase();
+    }
+
+    // --- バッジメンバー表示更新関数 ---
+    function updateBadgeMembers() {
+        // 最初の3人
+        const firstArea = document.getElementById('first-three-members');
+        firstArea.innerHTML = memberData.firstThree.map((name, index) => {
+            if (name) {
+                return `<span class="fan-badge legend-badge"><i class="fas fa-crown"></i> ${name} さん</span>`;
+            } else {
+                return `<span class="fan-badge empty-slot"><i class="fas fa-user-plus"></i> No.${index + 1} 募集中</span>`;
+            }
+        }).join('');
+
+        // 今月
+        const currentArea = document.getElementById('current-month-members');
+        currentArea.innerHTML = memberData.currentMonth.length > 0 
+            ? memberData.currentMonth.map(name => `<span class="fan-badge"><i class="fas fa-star"></i> ${name} さん</span>`).join('')
+            : '<p style="color:#999; font-size:0.9rem;">今月のバッジ獲得者はまだいません。応援お待ちしています！</p>';
+
+        // 履歴
+        const historyList = document.getElementById('history-members-list');
+        historyList.innerHTML = memberData.history.map(item => `<li><strong>${item.period}</strong>：${item.names.join('、')}</li>`).join('');
     }
 
     function updateSongInfoBoard() {
@@ -629,7 +730,6 @@
         });
     }
 
-    // 初期化をひとまとめに
     function init() {
         const newsList = document.getElementById('news-list');
         newsData.forEach(item => {
@@ -649,6 +749,7 @@
             faqList.appendChild(div);
         });
 
+        updateBadgeMembers(); // バッジ表示初期化
         updateSongInfoBoard();
         displaySongs();
         document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
@@ -661,7 +762,6 @@
         backToTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // DOMの読み込みが完了してから実行
     document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
