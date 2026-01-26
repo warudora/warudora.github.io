@@ -12,7 +12,7 @@
     <meta property="og:title" content="応援ガイド - warudora IRIAM Space">
     <meta property="og:description" content="warudoraのIRIAM活動情報まとめ。応援方法やwarudora辞典はこちら！">
     <meta property="og:url" content="https://warudora.github.io/guide.html">
-    <meta property="og:image" content="https://warudora.github.io/profile_iriam.jpg">>
+    <meta property="og:image" content="https://warudora.github.io/profile_iriam.jpg">
     <meta property="og:type" content="article">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@warudora36">
@@ -230,9 +230,10 @@
 
 <script>
     /* --- 【データ編集エリア】 --- */
+    // current: 現在の値, total: 目標の値 を入れるだけでOK
     const goals = [
-        { label: 'フォロワー 50人', percent: 50 },
-        { label: 'バッジ獲得数 5人', percent: 20 }
+        { label: 'フォロワー 50人', current: 25, total: 50 },
+        { label: 'バッジ獲得数 5人', current: 1,  total: 5 }
     ];
 
     const snsTags = [
@@ -257,10 +258,20 @@
         // 目標
         const goalsDiv = document.getElementById('goals-list');
         goals.forEach(g => {
+            // パーセント計算 (現在値 / 目標値 * 100)
+            const calcPercent = Math.floor((g.current / g.total) * 100);
+            // バーの表示幅（100%を超えないように制御）
+            const barWidth = Math.min(calcPercent, 100);
+
             goalsDiv.innerHTML += `
                 <div style="margin-bottom:15px">
-                    <div style="display:flex; justify-content:space-between; font-size:0.85rem"><span>${g.label}</span><span>${g.percent}%</span></div>
-                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${g.percent}%"></div></div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.85rem">
+                        <span>${g.label} (${g.current}/${g.total})</span>
+                        <span>${calcPercent}%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width:${barWidth}%"></div>
+                    </div>
                 </div>`;
         });
 
@@ -270,7 +281,7 @@
             snsDiv.innerHTML += `
                 <div class="tag-box">
                     <span>${s.label}: <strong>${s.value}</strong></span>
-                    <button class="copy-btn" onclick="copyText(event, '${s.value}')">コピー</button>
+                    <button class="copy-btn" onclick="copyText(event, '${reEscape(s.value)}')">コピー</button>
                 </div>`;
         });
 
@@ -286,6 +297,11 @@
 
         // スクロール監視
         window.addEventListener('scroll', toggleBackToTopBtn);
+    }
+
+    // 文字列のエスケープ処理（安全策）
+    function reEscape(str) {
+        return str.replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
     }
 
     function toggleBackToTopBtn() {
