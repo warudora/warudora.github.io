@@ -34,6 +34,7 @@
             --badge-gold-border: #ffeeba;
             --badge-gold-text: #856404;
             --legend-color: #f39c12;
+            --request-btn-bg: #34495e;
         }
 
         body {
@@ -189,6 +190,11 @@
         }
         .playlist-btn:hover { background: #333; transform: scale(1.05); }
         .playlist-btn i { color: var(--yt-music-color); font-size: 1.1rem; }
+
+        .request-btn {
+            background: var(--request-btn-bg);
+        }
+        .request-btn i { color: #fff !important; }
 
         .search-container {
             margin-bottom: 1rem;
@@ -521,9 +527,14 @@
                 <i class="fas fa-music"></i> 歌枠の歌一覧
                 <span id="total-song-count" class="song-count-badge">Loading...</span>
             </h2>
-            <a href="https://music.youtube.com/playlist?list=PLJ7JuhVqBNnRkj50rW2LtsXuQW1HXEUWp" class="playlist-btn" target="_blank">
-                <i class="fab fa-youtube"></i> YouTube Musicで聴く
-            </a>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <a href="ここにGoogleフォームのURL" class="playlist-btn request-btn" target="_blank">
+                    <i class="fas fa-pen-nib"></i> 曲のリクエスト
+                </a>
+                <a href="https://music.youtube.com/playlist?list=PLJ7JuhVqBNnRkj50rW2LtsXuQW1HXEUWp" class="playlist-btn" target="_blank">
+                    <i class="fab fa-youtube"></i> YouTube Music
+                </a>
+            </div>
         </div>
 
         <div class="song-info-board">
@@ -567,17 +578,13 @@
         { date: "2026/01/22", text: "歌枠リストに１０曲追加しました！！！" },
     ];
 
-    // --- バッジ獲得者管理データ (JSON形式) ---
     const memberData = {
-        // 最初の3人（まだいない場合は null を入れる）
         firstThree: [
-            "寒咲伊織", // ここに1人目の名前を入れる
-            null,          // 2人目
-            null           // 3人目
+            "寒咲伊織", 
+            null,          
+            null           
         ],
-        // 今月の獲得者
         currentMonth: ["寒咲伊織"],
-        // 歴代ログ
         history: [
             { period: "2026年1月", names: ["寒咲伊織"] }
         ]
@@ -640,9 +647,7 @@
         }).toLowerCase();
     }
 
-    // --- バッジメンバー表示更新関数 ---
     function updateBadgeMembers() {
-        // 最初の3人
         const firstArea = document.getElementById('first-three-members');
         firstArea.innerHTML = memberData.firstThree.map((name, index) => {
             if (name) {
@@ -652,13 +657,11 @@
             }
         }).join('');
 
-        // 今月
         const currentArea = document.getElementById('current-month-members');
         currentArea.innerHTML = memberData.currentMonth.length > 0 
             ? memberData.currentMonth.map(name => `<span class="fan-badge"><i class="fas fa-star"></i> ${name} さん</span>`).join('')
             : '<p style="color:#999; font-size:0.9rem;">今月のバッジ獲得者はまだいません。応援お待ちしています！</p>';
 
-        // 履歴
         const historyList = document.getElementById('history-members-list');
         historyList.innerHTML = memberData.history.map(item => `<li><strong>${item.period}</strong>：${item.names.join('、')}</li>`).join('');
     }
@@ -753,7 +756,7 @@
             faqList.appendChild(div);
         });
 
-        updateBadgeMembers(); // バッジ表示初期化
+        updateBadgeMembers(); 
         updateSongInfoBoard();
         displaySongs();
         document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
