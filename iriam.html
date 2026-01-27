@@ -138,14 +138,21 @@
         .request-btn { background: var(--request-btn-bg); }
         .request-btn i { color: #fff !important; }
 
+        /* 検索欄と❌ボタンのスタイル */
         .search-container { margin-bottom: 1rem; position: relative; }
         .search-input {
-            width: 100%; padding: 12px 15px 12px 40px; border: 2px solid #eee;
+            width: 100%; padding: 12px 40px 12px 40px; border: 2px solid #eee;
             border-radius: 10px; font-size: 1rem; outline: none; transition: border-color 0.2s;
             box-sizing: border-box;
         }
         .search-input:focus { border-color: var(--iriam-blue); }
         .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; }
+        .search-clear {
+            position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+            color: #ccc; cursor: pointer; font-size: 1.2rem; display: none; padding: 5px;
+            transition: color 0.2s;
+        }
+        .search-clear:hover { color: #999; }
 
         .news-container { list-style: none; padding: 0; margin: 0; }
         .news-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px dotted #ddd; align-items: flex-start; }
@@ -202,7 +209,6 @@
         .no-result { padding: 40px 20px; text-align: center; color: #666; background: #fff; border-radius: 10px; }
         .no-result p { margin: 5px 0; }
 
-        /* FAQ見やすく修正 */
         .faq-item { margin-bottom: 20px; }
         .faq-q { font-weight: bold; color: var(--iriam-blue); background: #eef9ff; padding: 12px 15px; border-radius: 8px; border-left: 4px solid var(--iriam-blue); display: flex; align-items: flex-start; gap: 10px; }
         .faq-q::before { content: "Q."; color: var(--iriam-blue); }
@@ -242,7 +248,7 @@
             <img src="profile_iriam.jpg" alt="warudora" class="profile-img" onerror="this.src='https://via.placeholder.com/180'">
             <div style="text-align: center;">
                 <p>こんにちは、高校生ライバーのwarudoraです！<br>
-                普段はMinecraftのMod制作やコミュニティ運営をしていますが、IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。<br>
+                普段はMinecraftのMod制作やコミュニティ運営をしていますが、IRIAMではリスナーさんと「楽しく」「またり」交流することを大切にしています。<br>
                 歌うことが好きなので歌枠の時は、曲のリクエストお待ちしています！</p>
             </div>
         </div>
@@ -304,6 +310,7 @@
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
             <input type="text" id="song-search" class="search-input" placeholder="曲名、アーティスト、よみがなで検索...">
+            <i class="fas fa-times-circle search-clear" id="search-clear"></i>
         </div>
         <div id="song-list" class="song-list-container"></div>
     </div>
@@ -370,7 +377,11 @@
 
     function displaySongs(filterText = "") {
         const songList = document.getElementById('song-list');
+        const clearBtn = document.getElementById('search-clear');
         const hiraFilter = toHiragana(filterText);
+
+        // ❌ボタンの表示切り替え
+        clearBtn.style.display = filterText.length > 0 ? "block" : "none";
 
         const filteredSongs = [...songs].reverse().filter(song => {
             const hiraTitle = toHiragana(song.title);
@@ -386,7 +397,6 @@
         document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
 
         if (filteredSongs.length === 0) {
-            // アルファベット単体や短い文字数のときは前回の結果を維持（暴発防止）
             if (filterText.length < 3 || /^[a-zA-Z]+$/.test(filterText.slice(-1))) {
                 return;
             } else {
@@ -472,9 +482,18 @@
             document.getElementById('song-list').innerHTML = '<div class="no-result">曲データの読み込みに失敗しました。</div>';
         }
 
-        // 待機時間(timeout)を削除してリアルタイム性を向上
-        document.getElementById('song-search').addEventListener('input', (e) => {
+        const searchInput = document.getElementById('song-search');
+        const clearBtn = document.getElementById('search-clear');
+
+        searchInput.addEventListener('input', (e) => {
             displaySongs(e.target.value);
+        });
+
+        // ❌ボタンをクリックした時の処理
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = "";
+            displaySongs("");
+            searchInput.focus();
         });
 
         document.getElementById('current-year').textContent = new Date().getFullYear();
