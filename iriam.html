@@ -29,7 +29,6 @@
             --yt-music-color: #ff0000;
             --copy-success: #27ae60;
             --song-info-bg: #fff9e6;
-            /* バッジ用カラー */
             --badge-gold: #fff9e6;
             --badge-gold-border: #ffeeba;
             --badge-gold-text: #856404;
@@ -228,7 +227,6 @@
         }
         .news-text { font-size: 0.95rem; flex-grow: 1; }
 
-        /* バッジ表示スタイル */
         .badge-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
         .fan-badge {
             background: var(--badge-gold);
@@ -354,11 +352,6 @@
             border-radius: 10px;
         }
         .no-result p { margin: 5px 0; }
-
-        .faq-container { display: flex; flex-direction: column; gap: 1.5rem; }
-        .faq-item { border-bottom: 1px solid #eee; padding-bottom: 1rem; }
-        .faq-q { font-weight: bold; color: var(--iriam-blue); display: flex; gap: 8px; }
-        .faq-a { margin-top: 5px; padding-left: 24px; font-size: 0.95rem; color: #555; }
 
         .schedule-box {
             background: #2c3e50;
@@ -546,6 +539,7 @@
     };
 
     let songs = [];
+    let searchTimeout = null; // デバウンス用
 
     const now = new Date();
     const isNewPeriod = (dateStr) => {
@@ -589,7 +583,6 @@
 
     function displaySongs(filterText = "") {
         const songList = document.getElementById('song-list');
-        songList.innerHTML = "";
         const hiraFilter = toHiragana(filterText);
 
         const filteredSongs = [...songs].reverse().filter(song => {
@@ -605,19 +598,26 @@
 
         document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
 
-        // 検索結果が0件の場合の処理
+        // 検索結果が0件の場合
         if (filteredSongs.length === 0) {
-            songList.innerHTML = `
-                <div class="no-result">
-                    <p>「${filterText}」は見つかりませんでした。</p>
-                    <p style="font-size: 0.85rem; margin-bottom: 15px;">リストにない曲は、こちらから申請できます！</p>
-                    <a href="https://forms.gle/FqTqvBqH9RYQhM4k8" class="playlist-btn request-btn" target="_blank" style="display: inline-flex; justify-content: center; width: auto;">
-                        <i class="fas fa-pen-nib"></i> 曲をリクエストする
-                    </a>
-                </div>`;
+            // ローマ字打ち込み中の暴発を防ぐため、3文字以上入力されている場合のみリクエストボタンを表示
+            if (filterText.length >= 3) {
+                songList.innerHTML = `
+                    <div class="no-result">
+                        <p>「${filterText}」は見つかりませんでした。</p>
+                        <p style="font-size: 0.85rem; margin-bottom: 15px;">リストにない曲は、こちらから申請できます！</p>
+                        <a href="https://forms.gle/FqTqvBqH9RYQhM4k8" class="playlist-btn request-btn" target="_blank" style="display: inline-flex; justify-content: center; width: auto;">
+                            <i class="fas fa-pen-nib"></i> 曲をリクエストする
+                        </a>
+                    </div>`;
+            } else {
+                // 入力文字数が少ない時は単に空にする
+                songList.innerHTML = '<div class="no-result">検索中...</div>';
+            }
             return;
         }
 
+        songList.innerHTML = "";
         filteredSongs.forEach(song => {
             const div = document.createElement('div');
             div.className = 'song-item';
@@ -652,7 +652,6 @@
     }
 
     async function init() {
-        // お知らせの表示
         const newsList = document.getElementById('news-list');
         newsData.forEach(item => {
             const div = document.createElement('div');
@@ -663,7 +662,6 @@
             newsList.appendChild(div);
         });
 
-        // FAQの表示
         const faqData = [
             { q: "歌のリクエストはどうすればいい？", a: "バッジ特典(★1〜)をお持ちの方を優先していますが、初見さんもお気軽にどうぞ！" },
             { q: "配信の切り抜きをSNSに上げてもいい？", a: "雑談や作業配信の切り抜きは大歓迎です！ただし歌唱部分の切り抜き投稿はご遠慮ください。" },
@@ -678,7 +676,6 @@
 
         updateBadgeMembers();
 
-        // 外部JSON読み込み
         try {
             const response = await fetch('songs.json');
             if (!response.ok) throw new Error();
@@ -689,9 +686,16 @@
             document.getElementById('song-list').innerHTML = '<div class="no-result">曲データの読み込みに失敗しました。</div>';
         }
 
-        document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        // 入力のたびに実行するのではなく、300ミリ秒止まったら実行する（デバウンス）
+        document.getElementById('song-search').addEventListener('input', (e) => {
+            const val = e.target.value;
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                displaySongs(val);
+            }, 300);
+        });
 
+        document.getElementById('current-year').textContent = new Date().getFullYear();
         const backToTopBtn = document.getElementById('back-to-top');
         window.addEventListener('scroll', () => {
             backToTopBtn.classList.toggle('show', window.scrollY > 300);
