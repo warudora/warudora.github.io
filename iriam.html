@@ -29,7 +29,7 @@
             --yt-music-color: #ff0000;
             --copy-success: #27ae60;
             --song-info-bg: #fff9e6;
-            /* バッジ用カラー追加 */
+            /* バッジ用カラー */
             --badge-gold: #fff9e6;
             --badge-gold-border: #ffeeba;
             --badge-gold-text: #856404;
@@ -134,21 +134,6 @@
             100% { opacity: 1; }
         }
 
-        #notification-toast {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: var(--primary-color);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            display: none;
-            z-index: 1000;
-            cursor: pointer;
-            animation: slideInLeft 0.5s ease-out;
-        }
-
         #back-to-top {
             position: fixed;
             bottom: 20px;
@@ -245,7 +230,6 @@
 
         /* バッジ表示スタイル */
         .badge-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-        
         .fan-badge {
             background: var(--badge-gold);
             border: 1px solid var(--badge-gold-border);
@@ -258,13 +242,11 @@
             align-items: center;
             gap: 6px;
         }
-
         .legend-badge {
             background: #fff;
             border: 2px solid var(--legend-color);
             color: var(--legend-color);
         }
-
         .empty-slot {
             color: #ccc;
             border: 1px dashed #ccc;
@@ -278,7 +260,6 @@
             font-size: 0.9rem;
             margin-top: 10px;
         }
-
         .history-list { list-style: none; padding: 0; margin: 10px 0 0 0; color: #666; }
         .history-list li { margin-bottom: 5px; border-bottom: 1px dotted #e0e0e0; padding-bottom: 5px; }
 
@@ -305,18 +286,7 @@
             font-size: 0.9rem;
             color: #333;
         }
-        .song-info-list li { 
-            margin-bottom: 8px; 
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .song-info-list li:last-child { margin-bottom: 0; }
-        
-        .song-info-list .new-badge {
-            margin-left: 0;
-            flex-shrink: 0;
-        }
+        .song-info-list li { margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
 
         .intro-content {
             display: flex;
@@ -376,17 +346,19 @@
         .yt-link { color: #ff0000; text-decoration: none; font-size: 1.4rem; transition: transform 0.2s; }
         .yt-link:hover { transform: scale(1.2); }
 
+        .no-result {
+            padding: 40px 20px;
+            text-align: center;
+            color: #666;
+            background: #fff;
+            border-radius: 10px;
+        }
+        .no-result p { margin: 5px 0; }
+
         .faq-container { display: flex; flex-direction: column; gap: 1.5rem; }
         .faq-item { border-bottom: 1px solid #eee; padding-bottom: 1rem; }
-        .faq-item:last-child { border-bottom: none; }
         .faq-q { font-weight: bold; color: var(--iriam-blue); display: flex; gap: 8px; }
         .faq-a { margin-top: 5px; padding-left: 24px; font-size: 0.95rem; color: #555; }
-
-        .no-result {
-            padding: 20px;
-            text-align: center;
-            color: #999;
-        }
 
         .schedule-box {
             background: #2c3e50;
@@ -395,8 +367,6 @@
             border-radius: 12px;
             text-align: center;
         }
-        .schedule-box h2 i { color: white; border: none; }
-
         .btn-detail {
             display: inline-block;
             margin-top: 15px;
@@ -410,10 +380,7 @@
             font-weight: bold;
             transition: all 0.3s;
         }
-        .btn-detail:hover {
-            background: rgba(255,255,255,0.25);
-            transform: translateY(-2px);
-        }
+        .btn-detail:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
 
         .btn-live {
             display: block;
@@ -446,7 +413,7 @@
 </div>
 
 <div class="container">
-    <div class="card" id="news-section">
+    <div class="card">
         <h2><i class="fas fa-bullhorn"></i> お知らせ</h2>
         <div id="news-list" class="news-container"></div>
     </div>
@@ -478,8 +445,7 @@
             <p><strong>挨拶：</strong>入室「こんどら！」退室「おつどら！」</p>
             <p><strong>ルール：</strong>
                 リスナーさん同士の挨拶・会話大歓迎！<br>
-                参加退出時は挨拶をお願いします。<br>
-                歌枠の曲の追加リクエストに関しては枠内、もしくは当ホームページの曲一覧のところにある曲のリクエストからご申請ください。
+                歌枠の曲のリクエストに関しては枠内、もしくは当ホームページの曲一覧にあるリクエストからご申請ください。
             </p>
         </div>
     </div>
@@ -509,7 +475,6 @@
         </table>
 
         <h3><i class="fas fa-crown" style="color: #f39c12;"></i> 最初のバッジ獲得者（★1以上）</h3>
-        <p style="font-size: 0.8rem; color: #666; margin-bottom: 5px;">配信開始初期を支えてくれた伝説の3名様です！</p>
         <div id="first-three-members" class="badge-list"></div>
 
         <h3><i class="fas fa-award"></i> 今月のバッジ獲得者（★1以上）</h3>
@@ -559,10 +524,6 @@
 
 <button id="back-to-top" title="一番上に戻る"><i class="fas fa-chevron-up"></i></button>
 
-<div id="notification-toast">
-    <i class="fas fa-info-circle"></i> 新しいお知らせがあります
-</div>
-
 <footer>
     <p>&copy; <span id="current-year"></span> warudora. All Rights Reserved.</p>
 </footer>
@@ -579,24 +540,12 @@
     ];
 
     const memberData = {
-        firstThree: [
-            "寒咲伊織", 
-            null,          
-            null           
-        ],
+        firstThree: ["寒咲伊織", null, null],
         currentMonth: ["寒咲伊織"],
-        history: [
-            { period: "2026年1月", names: ["寒咲伊織"] }
-        ]
+        history: [{ period: "2026年1月", names: ["寒咲伊織"] }]
     };
 
-    // 歌データは外部ファイル（songs.json）から読み込むため空にする
     let songs = [];
-
-    const faqData = [
-        { q: "歌のリクエストはどうすればいい？", a: "バッジ特典(★1〜)をお持ちの方を優先していますが、初見さんもお気軽にどうぞ！" },
-        { q: "配信の切り抜きをSNSに上げてもいい？", a: "雑談や作業配信の切り抜きは大歓迎です！ただし歌唱部分の切り抜き投稿はご遠慮ください。" },
-    ];
 
     const now = new Date();
     const isNewPeriod = (dateStr) => {
@@ -615,11 +564,8 @@
     function updateBadgeMembers() {
         const firstArea = document.getElementById('first-three-members');
         firstArea.innerHTML = memberData.firstThree.map((name, index) => {
-            if (name) {
-                return `<span class="fan-badge legend-badge"><i class="fas fa-crown"></i> ${name} さん</span>`;
-            } else {
-                return `<span class="fan-badge empty-slot"><i class="fas fa-user-plus"></i> No.${index + 1} 募集中</span>`;
-            }
+            if (name) return `<span class="fan-badge legend-badge"><i class="fas fa-crown"></i> ${name} さん</span>`;
+            return `<span class="fan-badge empty-slot"><i class="fas fa-user-plus"></i> No.${index + 1} 募集中</span>`;
         }).join('');
 
         const currentArea = document.getElementById('current-month-members');
@@ -635,13 +581,8 @@
         const infoList = document.getElementById('song-info-auto');
         const latestSongs = songs.slice(-3).reverse();
         let html = `<li><i class="fas fa-check-circle" style="color:#856404; font-size:0.8rem;"></i>曲の検索、申請はこちらから！</li>`;
-        
         latestSongs.forEach(s => {
-            html += `
-                <li>
-                    <span class="new-badge">NEW</span>
-                    <span>新曲追加： 「<strong>${s.title}</strong>」 を追加しました！</span>
-                </li>`;
+            html += `<li><span class="new-badge">NEW</span><span>新曲追加： 「<strong>${s.title}</strong>」 を追加しました！</span></li>`;
         });
         infoList.innerHTML = html;
     }
@@ -664,8 +605,16 @@
 
         document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
 
+        // 検索結果が0件の場合の処理
         if (filteredSongs.length === 0) {
-            songList.innerHTML = '<div class="no-result">曲が見つかりませんでした。</div>';
+            songList.innerHTML = `
+                <div class="no-result">
+                    <p>「${filterText}」は見つかりませんでした。</p>
+                    <p style="font-size: 0.85rem; margin-bottom: 15px;">リストにない曲は、こちらから申請できます！</p>
+                    <a href="https://forms.gle/FqTqvBqH9RYQhM4k8" class="playlist-btn request-btn" target="_blank" style="display: inline-flex; justify-content: center; width: auto;">
+                        <i class="fas fa-pen-nib"></i> 曲をリクエストする
+                    </a>
+                </div>`;
             return;
         }
 
@@ -684,7 +633,7 @@
                 </div>
                 <div class="song-actions">
                     <button class="copy-btn" title="曲名をコピー"><i class="fas fa-copy"></i></button>
-                    <a href="${song.url}" class="yt-link" target="_blank" title="YouTube Musicで開く"><i class="fab fa-youtube"></i></a>
+                    <a href="${song.url}" class="yt-link" target="_blank"><i class="fab fa-youtube"></i></a>
                 </div>`;
             
             div.querySelector('.copy-btn').onclick = (e) => {
@@ -703,6 +652,7 @@
     }
 
     async function init() {
+        // お知らせの表示
         const newsList = document.getElementById('news-list');
         newsData.forEach(item => {
             const div = document.createElement('div');
@@ -713,8 +663,12 @@
             newsList.appendChild(div);
         });
 
+        // FAQの表示
+        const faqData = [
+            { q: "歌のリクエストはどうすればいい？", a: "バッジ特典(★1〜)をお持ちの方を優先していますが、初見さんもお気軽にどうぞ！" },
+            { q: "配信の切り抜きをSNSに上げてもいい？", a: "雑談や作業配信の切り抜きは大歓迎です！ただし歌唱部分の切り抜き投稿はご遠慮ください。" },
+        ];
         const faqList = document.getElementById('faq-list');
-        faqList.innerHTML = "";
         faqData.forEach(item => {
             const div = document.createElement('div');
             div.className = 'faq-item';
@@ -722,18 +676,16 @@
             faqList.appendChild(div);
         });
 
-        updateBadgeMembers(); 
+        updateBadgeMembers();
 
-        // 外部JSONファイルの読み込み
+        // 外部JSON読み込み
         try {
             const response = await fetch('songs.json');
-            if (!response.ok) throw new Error('Songs file not found');
+            if (!response.ok) throw new Error();
             songs = await response.json();
-            
             updateSongInfoBoard();
             displaySongs();
-        } catch (error) {
-            console.error('Error fetching songs:', error);
+        } catch (e) {
             document.getElementById('song-list').innerHTML = '<div class="no-result">曲データの読み込みに失敗しました。</div>';
         }
 
