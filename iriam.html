@@ -202,6 +202,12 @@
         .no-result { padding: 40px 20px; text-align: center; color: #666; background: #fff; border-radius: 10px; }
         .no-result p { margin: 5px 0; }
 
+        .faq-item { margin-bottom: 20px; }
+        .faq-q { font-weight: bold; color: var(--iriam-blue); background: #eef9ff; padding: 12px 15px; border-radius: 8px; border-left: 4px solid var(--iriam-blue); display: flex; align-items: flex-start; gap: 10px; }
+        .faq-q::before { content: "Q."; color: var(--iriam-blue); }
+        .faq-a { padding: 12px 15px 12px 42px; color: #555; line-height: 1.7; position: relative; }
+        .faq-a::before { content: "A."; font-weight: bold; color: #aaa; position: absolute; left: 15px; }
+
         .schedule-box { background: #2c3e50; color: white; padding: 1.5rem; border-radius: 12px; text-align: center; }
         .btn-detail { display: inline-block; margin-top: 15px; padding: 10px 25px; background: rgba(255,255,255,0.15); color: white; text-decoration: none; border: 1px solid rgba(255,255,255,0.4); border-radius: 25px; font-size: 0.9rem; font-weight: bold; transition: all 0.3s; }
         .btn-detail:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
@@ -379,14 +385,10 @@
 
         document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
 
-        // 検索結果が0件の場合の挙動を改善
         if (filteredSongs.length === 0) {
-            // 文字数が3文字未満、または不完全な入力（末尾が子音など）の可能性がある場合は、表示をクリアせず維持する
             if (filterText.length < 3 || /^[a-zA-Z]+$/.test(filterText.slice(-1))) {
-                // 何もしない（前の表示を維持）
                 return;
             } else {
-                // 3文字以上かつ、入力がひと段落してそれでも0件なら「申請ボタン」を出す
                 songList.innerHTML = `
                     <div class="no-result">
                         <p>「${filterText}」は見つかりませんでした。</p>
@@ -399,7 +401,6 @@
             return;
         }
 
-        // ヒットした場合は通常通り描画
         renderList(filteredSongs, songList);
     }
 
@@ -454,7 +455,7 @@
         faqData.forEach(item => {
             const div = document.createElement('div');
             div.className = 'faq-item';
-            div.innerHTML = `<div class="faq-q"><span>Q.</span> ${item.q}</div><div class="faq-a">A. ${item.a}</div>`;
+            div.innerHTML = `<div class="faq-q">${item.q}</div><div class="faq-a">${item.a}</div>`;
             faqList.appendChild(div);
         });
 
@@ -473,7 +474,6 @@
         document.getElementById('song-search').addEventListener('input', (e) => {
             const val = e.target.value;
             clearTimeout(searchTimeout);
-            // 500ms（少し長め）待機してから判定を確定させる
             searchTimeout = setTimeout(() => {
                 displaySongs(val);
             }, 500);
