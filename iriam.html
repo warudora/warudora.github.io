@@ -91,19 +91,8 @@
             padding-left: 15px;
         }
 
-        h2 {
-            color: var(--iriam-blue);
-            margin: 0;
-            font-size: 1.5rem;
-        }
-
-        h3 {
-            color: var(--iriam-blue);
-            font-size: 1.1rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 8px;
-            margin-top: 2rem;
-        }
+        h2 { color: var(--iriam-blue); margin: 0; font-size: 1.5rem; }
+        h3 { color: var(--iriam-blue); font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-top: 2rem; }
 
         .song-count-badge {
             background: #e1f5fe;
@@ -127,207 +116,73 @@
             vertical-align: middle;
             animation: blink 1.5s infinite;
         }
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
         #back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: var(--iriam-grad);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 999;
+            position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px;
+            background: var(--iriam-grad); color: white; border: none; border-radius: 50%;
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 999;
         }
-        #back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
+        #back-to-top.show { opacity: 1; visibility: visible; }
 
         .playlist-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #000;
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: bold;
-            transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 8px; background: #000; color: #fff;
+            padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 0.85rem;
+            font-weight: bold; transition: all 0.2s;
         }
         .playlist-btn:hover { background: #333; transform: scale(1.05); }
         .playlist-btn i { color: var(--yt-music-color); font-size: 1.1rem; }
 
-        .request-btn {
-            background: var(--request-btn-bg);
-        }
+        .request-btn { background: var(--request-btn-bg); }
         .request-btn i { color: #fff !important; }
 
-        .search-container {
-            margin-bottom: 1rem;
-            position: relative;
-        }
+        .search-container { margin-bottom: 1rem; position: relative; }
         .search-input {
-            width: 100%;
-            padding: 12px 15px 12px 40px;
-            border: 2px solid #eee;
-            border-radius: 10px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
+            width: 100%; padding: 12px 15px 12px 40px; border: 2px solid #eee;
+            border-radius: 10px; font-size: 1rem; outline: none; transition: border-color 0.2s;
             box-sizing: border-box;
         }
-        .search-input:focus {
-            border-color: var(--iriam-blue);
-        }
-        .search-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #aaa;
-        }
+        .search-input:focus { border-color: var(--iriam-blue); }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; }
 
-        .news-container {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .news-item {
-            display: flex;
-            gap: 15px;
-            padding: 12px 0;
-            border-bottom: 1px dotted #ddd;
-            align-items: flex-start;
-        }
+        .news-container { list-style: none; padding: 0; margin: 0; }
+        .news-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px dotted #ddd; align-items: flex-start; }
         .news-item:last-child { border-bottom: none; }
-        .news-date {
-            font-weight: bold;
-            color: var(--news-accent);
-            white-space: nowrap;
-            font-size: 0.9rem;
-            padding-top: 2px;
-        }
+        .news-date { font-weight: bold; color: var(--news-accent); white-space: nowrap; font-size: 0.9rem; padding-top: 2px; }
         .news-text { font-size: 0.95rem; flex-grow: 1; }
 
         .badge-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
         .fan-badge {
-            background: var(--badge-gold);
-            border: 1px solid var(--badge-gold-border);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: var(--badge-gold-text);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            background: var(--badge-gold); border: 1px solid var(--badge-gold-border);
+            padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: bold;
+            color: var(--badge-gold-text); display: inline-flex; align-items: center; gap: 6px;
         }
-        .legend-badge {
-            background: #fff;
-            border: 2px solid var(--legend-color);
-            color: var(--legend-color);
-        }
-        .empty-slot {
-            color: #ccc;
-            border: 1px dashed #ccc;
-            background: transparent;
-        }
+        .legend-badge { background: #fff; border: 2px solid var(--legend-color); color: var(--legend-color); }
+        .empty-slot { color: #ccc; border: 1px dashed #ccc; background: transparent; }
 
-        .history-box {
-            background: #f8fbff;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
+        .history-box { background: #f8fbff; padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-top: 10px; }
         .history-list { list-style: none; padding: 0; margin: 10px 0 0 0; color: #666; }
         .history-list li { margin-bottom: 5px; border-bottom: 1px dotted #e0e0e0; padding-bottom: 5px; }
 
-        .song-info-board {
-            background: var(--song-info-bg);
-            border: 1px solid #ffeeba;
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .song-info-title {
-            font-weight: bold;
-            color: #856404;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
-        }
-        .song-info-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            font-size: 0.9rem;
-            color: #333;
-        }
+        .song-info-board { background: var(--song-info-bg); border: 1px solid #ffeeba; border-radius: 10px; padding: 1rem; margin-bottom: 1.5rem; }
+        .song-info-title { font-weight: bold; color: #856404; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; }
+        .song-info-list { list-style: none; margin: 0; padding: 0; font-size: 0.9rem; color: #333; }
         .song-info-list li { margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
 
-        .intro-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-        .profile-img {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid var(--white);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        .intro-content { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .profile-img { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 5px solid var(--white); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
         .info-item { background: #f8fbff; padding: 1.5rem; border-radius: 10px; }
 
         .badge-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         .badge-table th, .badge-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
         .badge-table th { color: var(--iriam-blue); }
 
-        .song-list-container {
-            max-height: 450px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 5px;
-            background: #fafafa;
-        }
-        .song-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
-            transition: background 0.2s;
-        }
+        .song-list-container { max-height: 450px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; padding: 5px; background: #fafafa; }
+        .song-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-bottom: 1px solid #eee; transition: background 0.2s; }
         .song-item:last-child { border-bottom: none; }
         .song-item:hover { background: #f0f7f9; }
 
@@ -344,49 +199,14 @@
         .yt-link { color: #ff0000; text-decoration: none; font-size: 1.4rem; transition: transform 0.2s; }
         .yt-link:hover { transform: scale(1.2); }
 
-        .no-result {
-            padding: 40px 20px;
-            text-align: center;
-            color: #666;
-            background: #fff;
-            border-radius: 10px;
-        }
+        .no-result { padding: 40px 20px; text-align: center; color: #666; background: #fff; border-radius: 10px; }
         .no-result p { margin: 5px 0; }
 
-        .schedule-box {
-            background: #2c3e50;
-            color: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-        }
-        .btn-detail {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 25px;
-            background: rgba(255,255,255,0.15);
-            color: white;
-            text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.4);
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
+        .schedule-box { background: #2c3e50; color: white; padding: 1.5rem; border-radius: 12px; text-align: center; }
+        .btn-detail { display: inline-block; margin-top: 15px; padding: 10px 25px; background: rgba(255,255,255,0.15); color: white; text-decoration: none; border: 1px solid rgba(255,255,255,0.4); border-radius: 25px; font-size: 0.9rem; font-weight: bold; transition: all 0.3s; }
         .btn-detail:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
 
-        .btn-live {
-            display: block;
-            background: var(--iriam-grad);
-            color: white;
-            text-align: center;
-            padding: 1.2rem;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            margin-top: 2rem;
-            box-shadow: 0 4px 15px rgba(33, 147, 176, 0.3);
-        }
+        .btn-live { display: block; background: var(--iriam-grad); color: white; text-align: center; padding: 1.2rem; text-decoration: none; border-radius: 50px; font-weight: bold; margin-top: 2rem; box-shadow: 0 4px 15px rgba(33, 147, 176, 0.3); }
 
         footer { text-align: center; padding: 2rem; color: #999; }
     </style>
@@ -395,9 +215,7 @@
 
 <nav class="top-nav">
     <a href="index.html" class="back-link"><i class="fas fa-chevron-left"></i> Portfolio Home</a>
-    <div class="logo-area">
-        <img src="logo.png" alt="warudora logo" onerror="this.style.display='none';">
-    </div>
+    <div class="logo-area"><img src="logo.png" alt="warudora logo" onerror="this.style.display='none';"></div>
 </nav>
 
 <div class="hero">
@@ -416,12 +234,9 @@
         <div class="intro-content">
             <img src="profile_iriam.jpg" alt="warudora" class="profile-img" onerror="this.src='https://via.placeholder.com/180'">
             <div style="text-align: center;">
-                <p>
-                    こんにちは、高校生ライバーのwarudoraです！<br>
-                    普段はMinecraftのMod制作やコミュニティ運営をしていますが、<br>
-                    IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。<br>
-                    歌うことが好きなので歌枠の時は、曲のリクエストお待ちしています！
-                </p>
+                <p>こんにちは、高校生ライバーのwarudoraです！<br>
+                普段はMinecraftのMod制作やコミュニティ運営をしていますが、IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。<br>
+                歌うことが好きなので歌枠の時は、曲のリクエストお待ちしています！</p>
             </div>
         </div>
     </div>
@@ -436,28 +251,21 @@
         <div class="card info-item">
             <h2><i class="fas fa-star"></i> 挨拶・ルール</h2>
             <p><strong>挨拶：</strong>入室「こんどら！」退室「おつどら！」</p>
-            <p><strong>ルール：</strong>
-                リスナーさん同士の挨拶・会話大歓迎！<br>
-                歌枠の曲のリクエストに関しては枠内、もしくは当ホームページの曲一覧にあるリクエストからご申請ください。
-            </p>
+            <p><strong>ルール：</strong>リスナーさん同士の挨拶・会話大歓迎！<br>
+            歌枠の曲のリクエストに関しては枠内、もしくは当ホームページの曲一覧にあるリクエストからご申請ください。</p>
         </div>
     </div>
 
     <div class="card schedule-box">
         <h2><i class="fas fa-calendar-alt"></i> 配信予定日</h2>
-        <p>基本毎週月曜日〜金曜日 21:15〜 22:00<br>
-            土曜日と日曜日はできる時に配信中！</p>
-        <a href="guide.html" class="btn-detail">
-            <i class="fas fa-info-circle"></i> 詳細スケジュール・応援ガイド
-        </a>
+        <p>基本毎週月曜日〜金曜日 21:15〜 22:00<br>土曜日と日曜日はできる時に配信中！</p>
+        <a href="guide.html" class="btn-detail"><i class="fas fa-info-circle"></i> 詳細スケジュール・応援ガイド</a>
     </div>
 
     <div class="card">
         <h2><i class="fas fa-medal"></i> バッジ特典(2月から)</h2>
         <table class="badge-table">
-            <thead>
-                <tr><th>星</th><th>特典内容</th></tr>
-            </thead>
+            <thead><tr><th>星</th><th>特典内容</th></tr></thead>
             <tbody>
                 <tr><td>★1</td><td>曲のリクエスト優先権 ＋ 枠内でお礼</td></tr>
                 <tr><td>★2</td><td>公式Discord招待 ＋ 曲のリクエスト最優先権</td></tr>
@@ -466,40 +274,26 @@
                 <tr><td>★5</td><td>シークレット特典（お楽しみに！）</td></tr>
             </tbody>
         </table>
-
         <h3><i class="fas fa-crown" style="color: #f39c12;"></i> 最初のバッジ獲得者（★1以上）</h3>
         <div id="first-three-members" class="badge-list"></div>
-
         <h3><i class="fas fa-award"></i> 今月のバッジ獲得者（★1以上）</h3>
         <div id="current-month-members" class="badge-list"></div>
-
         <h3><i class="fas fa-history"></i> 歴代のバッジ獲得者</h3>
-        <div class="history-box">
-            <ul id="history-members-list" class="history-list"></ul>
-        </div>
+        <div class="history-box"><ul id="history-members-list" class="history-list"></ul></div>
     </div>
 
     <div class="card">
         <div class="section-header">
-            <h2 style="display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-music"></i> 歌枠の歌一覧
-                <span id="total-song-count" class="song-count-badge">Loading...</span>
-            </h2>
+            <h2 style="display: flex; align-items: center; gap: 10px;"><i class="fas fa-music"></i> 歌枠の歌一覧<span id="total-song-count" class="song-count-badge">Loading...</span></h2>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="https://forms.gle/FqTqvBqH9RYQhM4k8" class="playlist-btn request-btn" target="_blank">
-                    <i class="fas fa-pen-nib"></i> 曲のリクエスト
-                </a>
-                <a href="https://music.youtube.com/playlist?list=PLJ7JuhVqBNnRkj50rW2LtsXuQW1HXEUWp" class="playlist-btn" target="_blank">
-                    <i class="fab fa-youtube"></i> YouTube Music
-                </a>
+                <a href="https://forms.gle/FqTqvBqH9RYQhM4k8" class="playlist-btn request-btn" target="_blank"><i class="fas fa-pen-nib"></i> 曲のリクエスト</a>
+                <a href="https://music.youtube.com/playlist?list=PLJ7JuhVqBNnRkj50rW2LtsXuQW1HXEUWp" class="playlist-btn" target="_blank"><i class="fab fa-youtube"></i> YouTube Music</a>
             </div>
         </div>
-
         <div class="song-info-board">
             <div class="song-info-title"><i class="fas fa-info-circle"></i> 歌枠インフォメーション</div>
             <ul class="song-info-list" id="song-info-auto"></ul>
         </div>
-
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
             <input type="text" id="song-search" class="search-input" placeholder="曲名、アーティスト、よみがなで検索...">
@@ -517,14 +311,10 @@
 
 <button id="back-to-top" title="一番上に戻る"><i class="fas fa-chevron-up"></i></button>
 
-<footer>
-    <p>&copy; <span id="current-year"></span> warudora. All Rights Reserved.</p>
-</footer>
+<footer><p>&copy; <span id="current-year"></span> warudora. All Rights Reserved.</p></footer>
 
 <script>
-    if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'auto';
-    }
+    if ('scrollRestoration' in history) { history.scrollRestoration = 'auto'; }
 
     const newsData = [
         { date: "2026/01/27", text: "歌枠リストに11曲追加しました！！！" },
@@ -539,7 +329,7 @@
     };
 
     let songs = [];
-    let searchTimeout = null; // デバウンス用
+    let searchTimeout = null;
 
     const now = new Date();
     const isNewPeriod = (dateStr) => {
@@ -550,35 +340,26 @@
 
     function toHiragana(str) {
         if (!str) return "";
-        return str.replace(/[\u30a1-\u30f6]/g, (match) => {
-            return String.fromCharCode(match.charCodeAt(0) - 0x60);
-        }).toLowerCase();
+        return str.replace(/[\u30a1-\u30f6]/g, (match) => String.fromCharCode(match.charCodeAt(0) - 0x60)).toLowerCase();
     }
 
     function updateBadgeMembers() {
-        const firstArea = document.getElementById('first-three-members');
-        firstArea.innerHTML = memberData.firstThree.map((name, index) => {
-            if (name) return `<span class="fan-badge legend-badge"><i class="fas fa-crown"></i> ${name} さん</span>`;
-            return `<span class="fan-badge empty-slot"><i class="fas fa-user-plus"></i> No.${index + 1} 募集中</span>`;
-        }).join('');
+        document.getElementById('first-three-members').innerHTML = memberData.firstThree.map((name, index) => 
+            name ? `<span class="fan-badge legend-badge"><i class="fas fa-crown"></i> ${name} さん</span>` 
+                 : `<span class="fan-badge empty-slot"><i class="fas fa-user-plus"></i> No.${index + 1} 募集中</span>`).join('');
 
-        const currentArea = document.getElementById('current-month-members');
-        currentArea.innerHTML = memberData.currentMonth.length > 0 
+        document.getElementById('current-month-members').innerHTML = memberData.currentMonth.length > 0 
             ? memberData.currentMonth.map(name => `<span class="fan-badge"><i class="fas fa-star"></i> ${name} さん</span>`).join('')
             : '<p style="color:#999; font-size:0.9rem;">今月のバッジ獲得者はまだいません。応援お待ちしています！</p>';
 
-        const historyList = document.getElementById('history-members-list');
-        historyList.innerHTML = memberData.history.map(item => `<li><strong>${item.period}</strong>：${item.names.join('、')}</li>`).join('');
+        document.getElementById('history-members-list').innerHTML = memberData.history.map(item => `<li><strong>${item.period}</strong>：${item.names.join('、')}</li>`).join('');
     }
 
     function updateSongInfoBoard() {
-        const infoList = document.getElementById('song-info-auto');
         const latestSongs = songs.slice(-3).reverse();
         let html = `<li><i class="fas fa-check-circle" style="color:#856404; font-size:0.8rem;"></i>曲の検索、申請はこちらから！</li>`;
-        latestSongs.forEach(s => {
-            html += `<li><span class="new-badge">NEW</span><span>新曲追加： 「<strong>${s.title}</strong>」 を追加しました！</span></li>`;
-        });
-        infoList.innerHTML = html;
+        latestSongs.forEach(s => { html += `<li><span class="new-badge">NEW</span><span>新曲追加： 「<strong>${s.title}</strong>」 を追加しました！</span></li>`; });
+        document.getElementById('song-info-auto').innerHTML = html;
     }
 
     function displaySongs(filterText = "") {
@@ -600,7 +381,7 @@
 
         // 検索結果が0件の場合
         if (filteredSongs.length === 0) {
-            // ローマ字打ち込み中の暴発を防ぐため、3文字以上入力されている場合のみリクエストボタンを表示
+            // 文字数が少ない（3文字未満）ときは、ガチャガチャさせないためにメッセージを出さない
             if (filterText.length >= 3) {
                 songList.innerHTML = `
                     <div class="no-result">
@@ -610,15 +391,22 @@
                             <i class="fas fa-pen-nib"></i> 曲をリクエストする
                         </a>
                     </div>`;
+            } else if (filterText.length === 0) {
+                // 何も打っていない時は全件出す（初期状態用）
+                renderList(songs.slice().reverse(), songList);
             } else {
-                // 入力文字数が少ない時は単に空にする
-                songList.innerHTML = '<div class="no-result">検索中...</div>';
+                // sh などの途中。何もしない（前の結果を消すだけに留める）
+                songList.innerHTML = "";
             }
             return;
         }
 
-        songList.innerHTML = "";
-        filteredSongs.forEach(song => {
+        renderList(filteredSongs, songList);
+    }
+
+    function renderList(targetSongs, container) {
+        container.innerHTML = "";
+        targetSongs.forEach(song => {
             const div = document.createElement('div');
             div.className = 'song-item';
             const isNew = isNewPeriod(song.date);
@@ -641,13 +429,10 @@
                 navigator.clipboard.writeText(song.title).then(() => {
                     btn.innerHTML = '<i class="fas fa-check"></i>';
                     btn.classList.add('success');
-                    setTimeout(() => {
-                        btn.innerHTML = '<i class="fas fa-copy"></i>';
-                        btn.classList.remove('success');
-                    }, 1500);
+                    setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy"></i>'; btn.classList.remove('success'); }, 1500);
                 });
             };
-            songList.appendChild(div);
+            container.appendChild(div);
         });
     }
 
@@ -686,10 +471,10 @@
             document.getElementById('song-list').innerHTML = '<div class="no-result">曲データの読み込みに失敗しました。</div>';
         }
 
-        // 入力のたびに実行するのではなく、300ミリ秒止まったら実行する（デバウンス）
         document.getElementById('song-search').addEventListener('input', (e) => {
             const val = e.target.value;
             clearTimeout(searchTimeout);
+            // 入力中もフィルタはかけるが、結果0件のボタン判定は300ms待ってから
             searchTimeout = setTimeout(() => {
                 displaySongs(val);
             }, 300);
@@ -697,9 +482,7 @@
 
         document.getElementById('current-year').textContent = new Date().getFullYear();
         const backToTopBtn = document.getElementById('back-to-top');
-        window.addEventListener('scroll', () => {
-            backToTopBtn.classList.toggle('show', window.scrollY > 300);
-        });
+        window.addEventListener('scroll', () => { backToTopBtn.classList.toggle('show', window.scrollY > 300); });
         backToTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
