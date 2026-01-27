@@ -379,10 +379,14 @@
 
         document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
 
-        // 検索結果が0件の場合
+        // 検索結果が0件の場合の挙動を改善
         if (filteredSongs.length === 0) {
-            // 文字数が少ない（3文字未満）ときは、ガチャガチャさせないためにメッセージを出さない
-            if (filterText.length >= 3) {
+            // 文字数が3文字未満、または不完全な入力（末尾が子音など）の可能性がある場合は、表示をクリアせず維持する
+            if (filterText.length < 3 || /^[a-zA-Z]+$/.test(filterText.slice(-1))) {
+                // 何もしない（前の表示を維持）
+                return;
+            } else {
+                // 3文字以上かつ、入力がひと段落してそれでも0件なら「申請ボタン」を出す
                 songList.innerHTML = `
                     <div class="no-result">
                         <p>「${filterText}」は見つかりませんでした。</p>
@@ -391,16 +395,11 @@
                             <i class="fas fa-pen-nib"></i> 曲をリクエストする
                         </a>
                     </div>`;
-            } else if (filterText.length === 0) {
-                // 何も打っていない時は全件出す（初期状態用）
-                renderList(songs.slice().reverse(), songList);
-            } else {
-                // sh などの途中。何もしない（前の結果を消すだけに留める）
-                songList.innerHTML = "";
             }
             return;
         }
 
+        // ヒットした場合は通常通り描画
         renderList(filteredSongs, songList);
     }
 
@@ -474,10 +473,10 @@
         document.getElementById('song-search').addEventListener('input', (e) => {
             const val = e.target.value;
             clearTimeout(searchTimeout);
-            // 入力中もフィルタはかけるが、結果0件のボタン判定は300ms待ってから
+            // 500ms（少し長め）待機してから判定を確定させる
             searchTimeout = setTimeout(() => {
                 displaySongs(val);
-            }, 300);
+            }, 500);
         });
 
         document.getElementById('current-year').textContent = new Date().getFullYear();
