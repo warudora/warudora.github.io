@@ -34,6 +34,8 @@
             --badge-gold-text: #856404;
             --legend-color: #f39c12;
             --request-btn-bg: #34495e;
+            --x-color: #000000;
+            --yt-color: #ff0000;
         }
 
         body {
@@ -138,7 +140,35 @@
         .request-btn { background: var(--request-btn-bg); }
         .request-btn i { color: #fff !important; }
 
-        /* 検索欄と❌ボタンのスタイル */
+        /* SNSリンクボタン用スタイル */
+        .sns-links-container {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .sns-btn {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .sns-btn.x-link { background-color: var(--x-color); }
+        .sns-btn.yt-link-btn { background-color: var(--yt-color); }
+        .sns-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            opacity: 0.9;
+        }
+
         .search-container { margin-bottom: 1rem; position: relative; }
         .search-input {
             width: 100%; padding: 12px 40px 12px 40px; border: 2px solid #eee;
@@ -250,6 +280,15 @@
                 <p>こんにちは、高校生ライバーのwarudoraです！<br>
                 普段はMinecraftのMod制作やコミュニティ運営をしていますが、IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。<br>
                 歌うことが好きなので歌枠の時は、曲のリクエストお待ちしています！</p>
+                
+                <div class="sns-links-container">
+                    <a href="https://x.com/warudora36" target="_blank" class="sns-btn x-link">
+                        <i class="fab fa-x-twitter"></i> X (Twitter)
+                    </a>
+                    <a href="https://www.youtube.com/@warudora" target="_blank" class="sns-btn yt-link-btn">
+                        <i class="fab fa-youtube"></i> YouTube
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -381,7 +420,6 @@
         const clearBtn = document.getElementById('search-clear');
         const hiraFilter = toHiragana(filterText);
 
-        // ❌ボタンの表示切り替え
         clearBtn.style.display = filterText.length > 0 ? "block" : "none";
 
         const filteredSongs = [...songs].reverse().filter(song => {
@@ -490,7 +528,6 @@
             displaySongs(e.target.value);
         });
 
-        // ❌ボタンをクリックした時の処理
         clearBtn.addEventListener('click', () => {
             searchInput.value = "";
             displaySongs("");
