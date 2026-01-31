@@ -125,6 +125,27 @@
         .progress-bar-bg { background: #eee; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 5px; }
         .progress-bar-fill { background: var(--iriam-grad); height: 100%; transition: width 1s; }
 
+        /* --- 戻るボタンの追加スタイル --- */
+        .bottom-nav-area {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .btn-return {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--white);
+            color: var(--iriam-blue);
+            border: 2px solid var(--iriam-blue);
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-return:hover {
+            background: var(--iriam-blue);
+            color: var(--white);
+        }
+
         /* --- 一番上に戻るボタン --- */
         #back-to-top {
             position: fixed;
@@ -218,6 +239,12 @@
         <div id="dictionary-list"></div>
     </div>
 
+    <div class="bottom-nav-area">
+        <a href="iriam.html" class="btn-return">
+            <i class="fas fa-home"></i> IRIAM Topに戻る
+        </a>
+    </div>
+
 </div>
 
 <button id="back-to-top" onclick="scrollToTop()">
@@ -230,7 +257,6 @@
 
 <script>
     /* --- 【データ編集エリア】 --- */
-    // current: 現在の値, total: 目標の値 を入れるだけでOK
     const goals = [
         { label: 'フォロワー 50人', current: 27, total: 50 },
         { label: 'バッジ獲得数 5人', current: 1,  total: 5 }
@@ -258,9 +284,7 @@
         // 目標
         const goalsDiv = document.getElementById('goals-list');
         goals.forEach(g => {
-            // パーセント計算 (現在値 / 目標値 * 100)
             const calcPercent = Math.floor((g.current / g.total) * 100);
-            // バーの表示幅（100%を超えないように制御）
             const barWidth = Math.min(calcPercent, 100);
 
             goalsDiv.innerHTML += `
@@ -295,11 +319,9 @@
                 </div>`;
         });
 
-        // スクロール監視
         window.addEventListener('scroll', toggleBackToTopBtn);
     }
 
-    // 文字列のエスケープ処理（安全策）
     function reEscape(str) {
         return str.replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
     }
