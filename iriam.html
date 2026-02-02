@@ -18,7 +18,6 @@
     <title>IRIAM - warudora Space</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* --- 基本設定 & 変数 --- */
         :root {
             --primary-color: #2c3e50;
             --iriam-blue: #2193b0;
@@ -47,7 +46,6 @@
             background-color: var(--bg-color);
         }
 
-        /* --- ナビゲーションバー (ここが白い部分) --- */
         nav.top-nav {
             background: var(--white);
             padding: 10px 5%;
@@ -60,33 +58,27 @@
             z-index: 100;
         }
 
-        .nav-left { display: flex; align-items: center; gap: 12px; }
         .back-link { text-decoration: none; color: var(--iriam-blue); font-weight: bold; font-size: 0.9rem; }
+        .logo-area img { height: 35px; width: auto; }
         
-        /* 応援ガイドリンクのデザイン */
-        .nav-guide-link {
+        /* 応援ガイドボタンの追加スタイル */
+        .guide-nav-btn {
             text-decoration: none;
             color: #555;
             font-size: 0.8rem;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            background: #f8f9fa;
+            padding: 5px 12px;
             border: 1px solid #ddd;
             border-radius: 20px;
             transition: all 0.2s;
+            background: #fff;
         }
-        .nav-guide-link:hover {
-            background: #eef9ff;
-            color: var(--iriam-blue);
+        .guide-nav-btn:hover {
             border-color: var(--iriam-blue);
+            color: var(--iriam-blue);
+            background: #f0f7f9;
         }
 
-        .logo-area img { height: 35px; width: auto; }
-
-        /* --- ヒーローエリア --- */
         .hero {
             background: var(--iriam-grad);
             color: var(--white);
@@ -94,7 +86,6 @@
             text-align: center;
         }
 
-        /* --- コンテンツレイアウト --- */
         .container {
             max-width: 900px;
             width: 95%;
@@ -109,7 +100,6 @@
             margin-bottom: 2rem;
         }
 
-        /* --- セクションタイトル --- */
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -124,47 +114,16 @@
         h2 { color: var(--iriam-blue); margin: 0; font-size: 1.5rem; }
         h3 { color: var(--iriam-blue); font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-top: 2rem; }
 
-        /* --- バッジ特典テーブル (復活!) --- */
-        .badge-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-            font-size: 0.95rem;
-        }
-        .badge-table th, .badge-table td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-            text-align: left;
-        }
-        .badge-table th {
+        .song-count-badge {
+            background: #e1f5fe;
             color: var(--iriam-blue);
-            background: #f8fbff;
-        }
-        .badge-table tr:hover {
-            background-color: #fafafa;
+            font-size: 0.9rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            border: 1px solid var(--iriam-blue);
         }
 
-        /* --- 歌一覧・検索 --- */
-        .song-list-container {
-            max-height: 450px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 5px;
-            background: #fafafa;
-        }
-        .song-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
-            transition: background 0.2s;
-        }
-        .song-item:hover { background: #f0f7f9; }
-
-        .song-name { font-weight: bold; color: #333; font-size: 1rem; }
-        .artist-name { font-size: 0.8rem; color: #777; }
         .new-badge {
             background: var(--news-accent);
             color: white;
@@ -173,11 +132,39 @@
             border-radius: 4px;
             font-weight: bold;
             margin-left: 5px;
+            display: inline-block;
+            vertical-align: middle;
             animation: blink 1.5s infinite;
         }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        /* --- 共通ボタン・装飾 --- */
+        #back-to-top {
+            position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px;
+            background: var(--iriam-grad); color: white; border: none; border-radius: 50%;
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 999;
+        }
+        #back-to-top.show { opacity: 1; visibility: visible; }
+
+        .playlist-btn {
+            display: inline-flex; align-items: center; gap: 8px; background: #000; color: #fff;
+            padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 0.85rem;
+            font-weight: bold; transition: all 0.2s;
+        }
+        .playlist-btn:hover { background: #333; transform: scale(1.05); }
+        .playlist-btn i { color: var(--yt-music-color); font-size: 1.1rem; }
+
+        .request-btn { background: var(--request-btn-bg); }
+        .request-btn i { color: #fff !important; }
+
+        .sns-links-container {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
         .sns-btn {
             text-decoration: none;
             color: white;
@@ -189,34 +176,97 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         .sns-btn.x-link { background-color: var(--x-color); }
         .sns-btn.yt-link-btn { background-color: var(--yt-color); }
-
-        .playlist-btn {
-            display: inline-flex; align-items: center; gap: 8px; background: #000; color: #fff;
-            padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 0.85rem;
-            font-weight: bold;
+        .sns-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            opacity: 0.9;
         }
-
-        #back-to-top {
-            position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px;
-            background: var(--iriam-grad); color: white; border: none; border-radius: 50%;
-            cursor: pointer; display: flex; justify-content: center; align-items: center;
-            font-size: 1.5rem; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 999;
-        }
-        #back-to-top.show { opacity: 1; visibility: visible; }
-
-        /* --- その他パーツ --- */
-        .profile-img { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 5px solid var(--white); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .fan-badge { background: var(--badge-gold); border: 1px solid var(--badge-gold-border); padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: bold; color: var(--badge-gold-text); display: inline-flex; align-items: center; gap: 6px; }
-        .history-box { background: #f8fbff; padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-top: 10px; }
-        .news-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px dotted #ddd; }
-        .news-date { font-weight: bold; color: var(--news-accent); font-size: 0.9rem; }
 
         .search-container { margin-bottom: 1rem; position: relative; }
-        .search-input { width: 100%; padding: 12px 40px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; }
+        .search-input {
+            width: 100%; padding: 12px 40px 12px 40px; border: 2px solid #eee;
+            border-radius: 10px; font-size: 1rem; outline: none; transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+        .search-input:focus { border-color: var(--iriam-blue); }
         .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; }
+        .search-clear {
+            position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+            color: #ccc; cursor: pointer; font-size: 1.2rem; display: none; padding: 5px;
+            transition: color 0.2s;
+        }
+        .search-clear:hover { color: #999; }
+
+        .news-container { list-style: none; padding: 0; margin: 0; }
+        .news-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px dotted #ddd; align-items: flex-start; }
+        .news-item:last-child { border-bottom: none; }
+        .news-date { font-weight: bold; color: var(--news-accent); white-space: nowrap; font-size: 0.9rem; padding-top: 2px; }
+        .news-text { font-size: 0.95rem; flex-grow: 1; }
+
+        .badge-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .fan-badge {
+            background: var(--badge-gold); border: 1px solid var(--badge-gold-border);
+            padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: bold;
+            color: var(--badge-gold-text); display: inline-flex; align-items: center; gap: 6px;
+        }
+        .legend-badge { background: #fff; border: 2px solid var(--legend-color); color: var(--legend-color); }
+        .empty-slot { color: #ccc; border: 1px dashed #ccc; background: transparent; }
+
+        .history-box { background: #f8fbff; padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-top: 10px; }
+        .history-list { list-style: none; padding: 0; margin: 10px 0 0 0; color: #666; }
+        .history-list li { margin-bottom: 5px; border-bottom: 1px dotted #e0e0e0; padding-bottom: 5px; }
+
+        .song-info-board { background: var(--song-info-bg); border: 1px solid #ffeeba; border-radius: 10px; padding: 1rem; margin-bottom: 1.5rem; }
+        .song-info-title { font-weight: bold; color: #856404; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; }
+        .song-info-list { list-style: none; margin: 0; padding: 0; font-size: 0.9rem; color: #333; }
+        .song-info-list li { margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+
+        .intro-content { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .profile-img { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 5px solid var(--white); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .info-item { background: #f8fbff; padding: 1.5rem; border-radius: 10px; }
+
+        .badge-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .badge-table th, .badge-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+        .badge-table th { color: var(--iriam-blue); }
+
+        .song-list-container { max-height: 450px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; padding: 5px; background: #fafafa; }
+        .song-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-bottom: 1px solid #eee; transition: background 0.2s; }
+        .song-item:last-child { border-bottom: none; }
+        .song-item:hover { background: #f0f7f9; }
+
+        .song-info { display: flex; flex-direction: column; flex-grow: 1; }
+        .song-name { font-weight: bold; color: #333; font-size: 1rem; }
+        .artist-name { font-size: 0.8rem; color: #777; }
+        .song-added-date { font-size: 0.7rem; color: #aaa; margin-top: 2px; }
+
+        .song-actions { display: flex; gap: 15px; align-items: center; }
+        .copy-btn { background: #eee; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; color: #555; transition: all 0.2s; }
+        .copy-btn:hover { background: #ddd; }
+        .copy-btn.success { background: var(--copy-success); color: white; }
+
+        .yt-link { color: #ff0000; text-decoration: none; font-size: 1.4rem; transition: transform 0.2s; }
+        .yt-link:hover { transform: scale(1.2); }
+
+        .no-result { padding: 40px 20px; text-align: center; color: #666; background: #fff; border-radius: 10px; }
+        .no-result p { margin: 5px 0; }
+
+        .faq-item { margin-bottom: 20px; }
+        .faq-q { font-weight: bold; color: var(--iriam-blue); background: #eef9ff; padding: 12px 15px; border-radius: 8px; border-left: 4px solid var(--iriam-blue); display: flex; align-items: flex-start; gap: 10px; }
+        .faq-q::before { content: "Q."; color: var(--iriam-blue); }
+        .faq-a { padding: 12px 15px 12px 42px; color: #555; line-height: 1.7; position: relative; }
+        .faq-a::before { content: "A."; font-weight: bold; color: #aaa; position: absolute; left: 15px; }
+
+        .schedule-box { background: #2c3e50; color: white; padding: 1.5rem; border-radius: 12px; text-align: center; }
+        .btn-detail { display: inline-block; margin-top: 15px; padding: 10px 25px; background: rgba(255,255,255,0.15); color: white; text-decoration: none; border: 1px solid rgba(255,255,255,0.4); border-radius: 25px; font-size: 0.9rem; font-weight: bold; transition: all 0.3s; }
+        .btn-detail:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+        .btn-live { display: block; background: var(--iriam-grad); color: white; text-align: center; padding: 1.2rem; text-decoration: none; border-radius: 50px; font-weight: bold; margin-top: 2rem; box-shadow: 0 4px 15px rgba(33, 147, 176, 0.3); }
 
         footer { text-align: center; padding: 2rem; color: #999; }
     </style>
@@ -224,11 +274,9 @@
 <body>
 
 <nav class="top-nav">
-    <div class="nav-left">
-        <a href="index.html" class="back-link"><i class="fas fa-chevron-left"></i> Home</a>
-        <a href="guide.html" class="nav-guide-link"><i class="fas fa-book-open"></i> 応援ガイド</a>
-    </div>
+    <a href="index.html" class="back-link"><i class="fas fa-chevron-left"></i> Home</a>
     <div class="logo-area"><img src="logo.png" alt="warudora logo" onerror="this.style.display='none';"></div>
+    <a href="guide.html" class="guide-nav-btn"><i class="fas fa-book-open"></i> 応援ガイド</a>
 </nav>
 
 <div class="hero">
@@ -244,17 +292,44 @@
 
     <div class="card">
         <h2><i class="fas fa-user"></i> 自己紹介</h2>
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+        <div class="intro-content">
             <img src="profile_iriam.jpg" alt="warudora" class="profile-img" onerror="this.src='https://via.placeholder.com/180'">
             <div style="text-align: center;">
                 <p>こんにちは、高校生ライバーのwarudoraです！<br>
-                普段はMinecraftのMod制作やコミュニティ運営をしていますが、IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。</p>
-                <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
-                    <a href="https://x.com/warudora36" target="_blank" class="sns-btn x-link"><i class="fab fa-x-twitter"></i> X (Twitter)</a>
-                    <a href="https://www.youtube.com/@ワルドラ" target="_blank" class="sns-btn yt-link-btn"><i class="fab fa-youtube"></i> YouTube</a>
+                普段はMinecraftのMod制作やコミュニティ運営をしていますが、IRIAMではリスナーさんと「楽しく」「またり」交流することを大切にしています。<br>
+                歌うことが好きなので歌枠の時は、曲のリクエストお待ちしています！</p>
+                
+                <div class="sns-links-container">
+                    <a href="https://x.com/warudora36" target="_blank" class="sns-btn x-link">
+                        <i class="fab fa-x-twitter"></i> X (Twitter)
+                    </a>
+                    <a href="https://www.youtube.com/@ワルドラ" target="_blank" class="sns-btn yt-link-btn">
+                        <i class="fab fa-youtube"></i> YouTube
+                    </a>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="info-grid">
+        <div class="card info-item">
+            <h2><i class="fas fa-microphone"></i> 配信スタイル</h2>
+            <p><strong>雑談：</strong>まったり日常トーク</p>
+            <p><strong>歌：</strong>ボカロとかアニソンとか</p>
+            <p><strong>作業・勉強：</strong>作業・勉強仲間が欲しい方</p>
+        </div>
+        <div class="card info-item">
+            <h2><i class="fas fa-star"></i> 挨拶・ルール</h2>
+            <p><strong>挨拶：</strong>入室「こんどら！」退室「おつどら！」</p>
+            <p><strong>ルール：</strong>リスナーさん同士の挨拶・会話大歓迎！<br>
+            歌枠の曲のリクエストに関しては枠内、もしくは当ホームページの曲一覧にあるリクエストからご申請ください。</p>
+        </div>
+    </div>
+
+    <div class="card schedule-box">
+        <h2><i class="fas fa-calendar-alt"></i> 配信予定日</h2>
+        <p>基本毎週月曜日〜金曜日 21:15〜 22:00<br>土曜日と日曜日はできる時に配信中！</p>
+        <a href="guide.html" class="btn-detail"><i class="fas fa-info-circle"></i> 詳細スケジュール・応援ガイド</a>
     </div>
 
     <div class="card">
@@ -269,87 +344,219 @@
                 <tr><td>★5</td><td>シークレット特典（お楽しみに！）</td></tr>
             </tbody>
         </table>
+        <h3><i class="fas fa-crown" style="color: #f39c12;"></i> 最初のバッジ獲得者（★1以上）</h3>
+        <div id="first-three-members" class="badge-list"></div>
         <h3><i class="fas fa-award"></i> 今月のバッジ獲得者（★1以上）</h3>
-        <div id="current-month-members" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+        <div id="current-month-members" class="badge-list"></div>
+        <h3><i class="fas fa-history"></i> 歴代のバッジ獲得者</h3>
+        <div class="history-box"><ul id="history-members-list" class="history-list"></ul></div>
     </div>
 
     <div class="card">
         <div class="section-header">
-            <h2><i class="fas fa-music"></i> 歌枠の歌一覧 <span id="total-song-count" style="font-size: 0.9rem; background: #e1f5fe; color: #2193b0; padding: 2px 10px; border-radius: 20px;">Loading...</span></h2>
-            <div style="display: flex; gap: 10px;">
-                <a href="https://forms.gle/FqTqvBqH9RYQhM4k8" class="playlist-btn" style="background: #34495e;" target="_blank"><i class="fas fa-pen-nib"></i> 曲のリクエスト</a>
+            <h2 style="display: flex; align-items: center; gap: 10px;"><i class="fas fa-music"></i> 歌枠の歌一覧<span id="total-song-count" class="song-count-badge">Loading...</span></h2>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <a href="https://forms.gle/FqTqvBqH9RYQhM4k8" class="playlist-btn request-btn" target="_blank"><i class="fas fa-pen-nib"></i> 曲のリクエスト</a>
+                <a href="https://music.youtube.com/playlist?list=PLJ7JuhVqBNnRkj50rW2LtsXuQW1HXEUWp" class="playlist-btn" target="_blank"><i class="fab fa-youtube"></i> YouTube Music</a>
             </div>
+        </div>
+        <div class="song-info-board">
+            <div class="song-info-title"><i class="fas fa-info-circle"></i> 歌枠インフォメーション</div>
+            <ul class="song-info-list" id="song-info-auto"></ul>
         </div>
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
             <input type="text" id="song-search" class="search-input" placeholder="曲名、アーティスト、よみがなで検索...">
+            <i class="fas fa-times-circle search-clear" id="search-clear"></i>
         </div>
         <div id="song-list" class="song-list-container"></div>
     </div>
+
+    <div class="card">
+        <h2><i class="fas fa-question-circle"></i> よくある質問 (FAQ)</h2>
+        <div id="faq-list" class="faq-container"></div>
+    </div>
+
+    <a href="https://web.iriam.app/s/user/NwCrmCkvi6" class="btn-live" target="_blank">IRIAMで配信を聴く</a>
 </div>
 
-<button id="back-to-top"><i class="fas fa-chevron-up"></i></button>
+<button id="back-to-top" title="一番上に戻る"><i class="fas fa-chevron-up"></i></button>
 
 <footer><p>&copy; <span id="current-year"></span> warudora. All Rights Reserved.</p></footer>
 
 <script>
-    // データ定義
+    if ('scrollRestoration' in history) { history.scrollRestoration = 'auto'; }
+
     const newsData = [
         { date: "2026/01/28", text: "機材イベントに参加中です！ご支援よろしくお願いします。" },
-        { date: "2026/01/27", text: "歌枠リストに11曲追加しました！！！" }
+        { date: "2026/01/27", text: "歌枠リストに11曲追加しました！！！" },
+        { date: "2026/01/26", text: "楽曲の追加申請が当ホームページからできるようになりました！" },
+        { date: "2026/01/23", text: "新たに配信応援ガイドが登場しました！ぜひご使用ください。" },
     ];
+
+    const memberData = {
+        firstThree: ["寒咲伊織", null, null],
+        currentMonth: [],
+        history: [{ period: "2026年1月", names: ["寒咲伊織"] }]
+    };
 
     let songs = [];
 
-    // 初期化処理
+    const now = new Date();
+    const isNewPeriod = (dateStr) => {
+        const targetDate = new Date(dateStr);
+        const diff = (now - targetDate) / (1000 * 60 * 60 * 24);
+        return diff >= 0 && diff <= 2;
+    };
+
+    function toHiragana(str) {
+        if (!str) return "";
+        return str.replace(/[\u30a1-\u30f6]/g, (match) => String.fromCharCode(match.charCodeAt(0) - 0x60)).toLowerCase();
+    }
+
+    function updateBadgeMembers() {
+        document.getElementById('first-three-members').innerHTML = memberData.firstThree.map((name, index) => 
+            name ? `<span class="fan-badge legend-badge"><i class="fas fa-crown"></i> ${name} さん</span>` 
+                 : `<span class="fan-badge empty-slot"><i class="fas fa-user-plus"></i> No.${index + 1} 募集中</span>`).join('');
+
+        document.getElementById('current-month-members').innerHTML = memberData.currentMonth.length > 0 
+            ? memberData.currentMonth.map(name => `<span class="fan-badge"><i class="fas fa-star"></i> ${name} さん</span>`).join('')
+            : '<p style="color:#999; font-size:0.9rem;">今月のバッジ獲得者はまだいません。応援お待ちしています！</p>';
+
+        document.getElementById('history-members-list').innerHTML = memberData.history.map(item => `<li><strong>${item.period}</strong>：${item.names.join('、')}</li>`).join('');
+    }
+
+    function updateSongInfoBoard() {
+        const latestSongs = songs.slice(-3).reverse();
+        let html = `<li><i class="fas fa-check-circle" style="color:#856404; font-size:0.8rem;"></i>曲の検索、申請はこちらから！</li>`;
+        latestSongs.forEach(s => { html += `<li><span class="new-badge">NEW</span><span>新曲追加： 「<strong>${s.title}</strong>」 を追加しました！</span></li>`; });
+        document.getElementById('song-info-auto').innerHTML = html;
+    }
+
+    function displaySongs(filterText = "") {
+        const songList = document.getElementById('song-list');
+        const clearBtn = document.getElementById('search-clear');
+        const hiraFilter = toHiragana(filterText);
+
+        clearBtn.style.display = filterText.length > 0 ? "block" : "none";
+
+        const filteredSongs = [...songs].reverse().filter(song => {
+            const hiraTitle = toHiragana(song.title);
+            const hiraArtist = toHiragana(song.artist);
+            const hiraYomi = toHiragana(song.yomi || "");
+            return (song.title && song.title.includes(filterText)) || 
+                   (song.artist && song.artist.includes(filterText)) ||
+                   hiraTitle.includes(hiraFilter) || 
+                   hiraArtist.includes(hiraFilter) || 
+                   hiraYomi.includes(hiraFilter);
+        });
+
+        document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
+
+        if (filteredSongs.length === 0) {
+            if (filterText.length < 3 || /^[a-zA-Z]+$/.test(filterText.slice(-1))) {
+                return;
+            } else {
+                songList.innerHTML = `
+                    <div class="no-result">
+                        <p>「${filterText}」は見つかりませんでした。</p>
+                        <p style="font-size: 0.85rem; margin-bottom: 15px;">リストにない曲は、こちらから申請できます！</p>
+                        <a href="https://forms.gle/FqTqvBqH9RYQhM4k8" class="playlist-btn request-btn" target="_blank" style="display: inline-flex; justify-content: center; width: auto;">
+                            <i class="fas fa-pen-nib"></i> 曲をリクエストする
+                        </a>
+                    </div>`;
+            }
+            return;
+        }
+
+        renderList(filteredSongs, songList);
+    }
+
+    function renderList(targetSongs, container) {
+        container.innerHTML = "";
+        targetSongs.forEach(song => {
+            const div = document.createElement('div');
+            div.className = 'song-item';
+            const isNew = isNewPeriod(song.date);
+            const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
+            const dateDisplay = song.date ? `<span class="song-added-date">追加日: ${song.date}</span>` : '';
+
+            div.innerHTML = `
+                <div class="song-info">
+                    <span class="song-name">${song.title}${newLabel}</span>
+                    <span class="artist-name">${song.artist}</span>
+                    ${dateDisplay}
+                </div>
+                <div class="song-actions">
+                    <button class="copy-btn" title="曲名をコピー"><i class="fas fa-copy"></i></button>
+                    <a href="${song.url}" class="yt-link" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>`;
+            
+            div.querySelector('.copy-btn').onclick = (e) => {
+                const btn = e.currentTarget;
+                navigator.clipboard.writeText(song.title).then(() => {
+                    btn.innerHTML = '<i class="fas fa-check"></i>';
+                    btn.classList.add('success');
+                    setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy"></i>'; btn.classList.remove('success'); }, 1500);
+                });
+            };
+            container.appendChild(div);
+        });
+    }
+
     async function init() {
-        // お知らせ表示
         const newsList = document.getElementById('news-list');
         newsData.forEach(item => {
             const div = document.createElement('div');
             div.className = 'news-item';
-            div.innerHTML = `<span class="news-date">${item.date}</span><span>${item.text}</span>`;
+            const isNew = isNewPeriod(item.date);
+            const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
+            div.innerHTML = `<span class="news-date">${item.date}</span><span class="news-text">${item.text}${newLabel}</span>`;
             newsList.appendChild(div);
         });
 
-        // 曲データ読み込み
+        const faqData = [
+            { q: "歌のリクエストはどうすればいい？", a: "バッジ特典(★1〜)をお持ちの方を優先していますが、初見さんもお気軽にどうぞ！" },
+            { q: "配信の切り抜きをSNSに上げてもいい？", a: "雑談や作業配信の切り抜きは大歓迎です！ただし歌唱部分の切り抜き投稿はご遠慮ください。" },
+        ];
+        const faqList = document.getElementById('faq-list');
+        faqData.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'faq-item';
+            div.innerHTML = `<div class="faq-q">${item.q}</div><div class="faq-a">${item.a}</div>`;
+            faqList.appendChild(div);
+        });
+
+        updateBadgeMembers();
+
         try {
-            const res = await fetch('songs.json');
-            songs = await res.json();
+            const response = await fetch('songs.json');
+            if (!response.ok) throw new Error();
+            songs = await response.json();
+            updateSongInfoBoard();
             displaySongs();
         } catch (e) {
-            document.getElementById('song-list').innerHTML = '<p style="padding:20px; text-align:center;">読み込み失敗</p>';
+            document.getElementById('song-list').innerHTML = '<div class="no-result">曲データの読み込みに失敗しました。</div>';
         }
 
+        const searchInput = document.getElementById('song-search');
+        const clearBtn = document.getElementById('search-clear');
+
+        searchInput.addEventListener('input', (e) => {
+            displaySongs(e.target.value);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = "";
+            displaySongs("");
+            searchInput.focus();
+        });
+
         document.getElementById('current-year').textContent = new Date().getFullYear();
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => { backToTopBtn.classList.toggle('show', window.scrollY > 300); });
+        backToTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
-    // 曲表示関数
-    function displaySongs(filter = "") {
-        const container = document.getElementById('song-list');
-        const filtered = songs.filter(s => 
-            s.title.includes(filter) || s.artist.includes(filter) || (s.yomi && s.yomi.includes(filter))
-        );
-        
-        document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
-        container.innerHTML = filtered.map(s => `
-            <div class="song-item">
-                <div>
-                    <div class="song-name">${s.title}</div>
-                    <div class="artist-name">${s.artist}</div>
-                </div>
-                <a href="${s.url}" style="color:#ff0000; font-size:1.2rem;" target="_blank"><i class="fab fa-youtube"></i></a>
-            </div>
-        `).join('');
-    }
-
-    // 検索イベント
-    document.getElementById('song-search').addEventListener('input', (e) => displaySongs(e.target.value));
-
-    // スクロールボタン
-    const btt = document.getElementById('back-to-top');
-    window.addEventListener('scroll', () => { btt.classList.toggle('show', window.scrollY > 300); });
-    btt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
     document.addEventListener('DOMContentLoaded', init);
 </script>
