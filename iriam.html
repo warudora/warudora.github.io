@@ -67,6 +67,34 @@
             padding: 4rem 1rem;
             text-align: center;
         }
+        
+        /* ヒーローセクションのボタン用 */
+        .hero-btns {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-hero {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        .btn-hero:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
 
         .container {
             max-width: 900px;
@@ -140,7 +168,6 @@
         .request-btn { background: var(--request-btn-bg); }
         .request-btn i { color: #fff !important; }
 
-        /* SNSリンクボタン用スタイル */
         .sns-links-container {
             margin-top: 25px;
             display: flex;
@@ -264,6 +291,9 @@
 <div class="hero">
     <h1>warudora IRIAM Space</h1>
     <p>雑談・歌・作業・勉強配信</p>
+    <div class="hero-btns">
+        <a href="guide.html" class="btn-hero"><i class="fas fa-book-open"></i> 応援ガイドを見る</a>
+    </div>
 </div>
 
 <div class="container">
@@ -278,7 +308,7 @@
             <img src="profile_iriam.jpg" alt="warudora" class="profile-img" onerror="this.src='https://via.placeholder.com/180'">
             <div style="text-align: center;">
                 <p>こんにちは、高校生ライバーのwarudoraです！<br>
-                普段はMinecraftのMod制作やコミュニティ運営をしていますが、IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。<br>
+                普段はMinecraftのMod制作やコミュニティ運営をしていますが、IRIAMではリスナーさんと「楽しく」「またり」交流することを大切にしています。<br>
                 歌うことが好きなので歌枠の時は、曲のリクエストお待ちしています！</p>
                 
                 <div class="sns-links-container">
