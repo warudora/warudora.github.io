@@ -58,20 +58,29 @@
             z-index: 100;
         }
 
+        /* ナビゲーション内の右側グループ */
+        .nav-right-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .back-link { text-decoration: none; color: var(--iriam-blue); font-weight: bold; font-size: 0.9rem; }
         .logo-area img { height: 35px; width: auto; }
-        
-        /* 応援ガイドボタンの追加スタイル */
+
         .guide-nav-btn {
             text-decoration: none;
             color: #555;
             font-size: 0.8rem;
             font-weight: bold;
-            padding: 5px 12px;
+            padding: 6px 12px;
             border: 1px solid #ddd;
             border-radius: 20px;
             transition: all 0.2s;
             background: #fff;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         .guide-nav-btn:hover {
             border-color: var(--iriam-blue);
@@ -275,8 +284,10 @@
 
 <nav class="top-nav">
     <a href="index.html" class="back-link"><i class="fas fa-chevron-left"></i> Home</a>
-    <div class="logo-area"><img src="logo.png" alt="warudora logo" onerror="this.style.display='none';"></div>
-    <a href="guide.html" class="guide-nav-btn"><i class="fas fa-book-open"></i> 応援ガイド</a>
+    <div class="nav-right-group">
+        <a href="guide.html" class="guide-nav-btn"><i class="fas fa-book-open"></i> 応援ガイド</a>
+        <div class="logo-area"><img src="logo.png" alt="warudora logo" onerror="this.style.display='none';"></div>
+    </div>
 </nav>
 
 <div class="hero">
@@ -296,7 +307,7 @@
             <img src="profile_iriam.jpg" alt="warudora" class="profile-img" onerror="this.src='https://via.placeholder.com/180'">
             <div style="text-align: center;">
                 <p>こんにちは、高校生ライバーのwarudoraです！<br>
-                普段はMinecraftのMod制作やコミュニティ運営をしていますが、IRIAMではリスナーさんと「楽しく」「またり」交流することを大切にしています。<br>
+                普段はMinecraftのMod制作やコミュニティ運営をしていますが、IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。<br>
                 歌うことが好きなので歌枠の時は、曲のリクエストお待ちしています！</p>
                 
                 <div class="sns-links-container">
