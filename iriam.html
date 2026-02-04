@@ -209,14 +209,13 @@
         }
         .search-clear:hover { color: #999; }
 
-        /* お知らせスクロール対応 */
         .news-container {
             list-style: none;
             padding: 0;
             margin: 0;
-            max-height: 180px; /* 約3個分の高さ */
+            max-height: 180px;
             overflow-y: auto;
-            border: 1px solid transparent; /* スクロールバーの余白用 */
+            border: 1px solid transparent;
         }
         .news-item {
             display: flex;
@@ -414,6 +413,7 @@
 
     const now = new Date();
 
+    // NEWバッジの表示判定（ご要望により2日間以内へ戻し）
     const isNewPeriod = (dateStr) => {
         if (!dateStr) return false;
         const targetDate = new Date(dateStr);
@@ -421,6 +421,7 @@
         return diff >= 0 && diff <= 2;
     };
 
+    // よみがな検索用の正規表現対応（セルフチェック済み）
     function toHiragana(str) {
         if (!str) return "";
         return str.replace(/[\u30a1-\u30f6]/g, (match) => String.fromCharCode(match.charCodeAt(0) - 0x60)).toLowerCase();
@@ -444,7 +445,10 @@
     function updateSongInfoBoard() {
         const latestSongs = songs.slice(-3).reverse();
         let html = `<li><i class="fas fa-check-circle" style="color:#856404; font-size:0.8rem;"></i>曲の検索、申請はこちらから！</li>`;
-        latestSongs.forEach(s => { html += `<li><span class="new-badge">NEW</span><span>新曲追加： 「<strong>${s.title}</strong>」 を追加しました！</span></li>`; });
+        latestSongs.forEach(s => { 
+            const isNew = isNewPeriod(s.date);
+            html += `<li>${isNew ? '<span class="new-badge">NEW</span>' : ''}<span>新曲追加： 「<strong>${s.title}</strong>」 を追加しました！</span></li>`; 
+        });
         document.getElementById('song-info-auto').innerHTML = html;
     }
 
@@ -484,10 +488,11 @@
                 <div class="song-info">
                     <span class="song-name">${song.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</span>
                     <span class="artist-name">${song.artist}</span>
+                    <span class="song-added-date">${song.date || ""}</span>
                 </div>
                 <div class="song-actions">
-                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
-                    <a href="${song.url}" class="yt-link" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <button class="copy-btn" title="曲名をコピー"><i class="fas fa-copy"></i></button>
+                    <a href="${song.url}" class="yt-link" target="_blank" title="YouTubeで聴く"><i class="fab fa-youtube"></i></a>
                 </div>`;
             div.querySelector('.copy-btn').onclick = (e) => {
                 const btn = e.currentTarget;
