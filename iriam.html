@@ -58,7 +58,6 @@
             z-index: 100;
         }
 
-        /* ナビゲーション内の右側グループ */
         .nav-right-group {
             display: flex;
             align-items: center;
@@ -223,7 +222,6 @@
             color: var(--badge-gold-text); display: inline-flex; align-items: center; gap: 6px;
         }
         .legend-badge { background: #fff; border: 2px solid var(--legend-color); color: var(--legend-color); }
-        .empty-slot { color: #ccc; border: 1px dashed #ccc; background: transparent; }
 
         .history-box { background: #f8fbff; padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-top: 10px; }
         .history-list { list-style: none; padding: 0; margin: 10px 0 0 0; color: #666; }
@@ -307,7 +305,7 @@
             <img src="profile_iriam.jpg" alt="warudora" class="profile-img" onerror="this.src='https://via.placeholder.com/180'">
             <div style="text-align: center;">
                 <p>こんにちは、高校生ライバーのwarudoraです！<br>
-                普段はMinecraftのMod制作やコミュニティ運営をしていますが、IRIAMではリスナーさんと「楽しく」「まったり」交流することを大切にしています。<br>
+                普段はMinecraftのMod制作やコミュニティ運営をしていますが、IRIAMではリスナーさんと「楽しく」「またり」交流することを大切にしています。<br>
                 歌うことが好きなので歌枠の時は、曲のリクエストお待ちしています！</p>
                 
                 <div class="sns-links-container">
@@ -333,32 +331,29 @@
             <h2><i class="fas fa-star"></i> 挨拶・ルール</h2>
             <p><strong>挨拶：</strong>入室「こんどら！」退室「おつどら！」</p>
             <p><strong>ルール：</strong>リスナーさん同士の挨拶・会話大歓迎！<br>
-            歌枠の曲のリクエストに関しては枠内、もしくは当ホームページの曲一覧にあるリクエストからご申請ください。</p>
+            歌枠のリクエストはリスト内、または専用フォームからお願いします。</p>
         </div>
     </div>
 
     <div class="card schedule-box">
         <h2><i class="fas fa-calendar-alt"></i> 配信予定日</h2>
-        <p>基本毎週月曜日〜金曜日 21:15〜 22:00<br>土曜日と日曜日はできる時に配信中！</p>
+        <p>基本毎週月曜日〜金曜日 21:15〜 22:00<br>土日はできる時に配信中！</p>
         <a href="guide.html" class="btn-detail"><i class="fas fa-info-circle"></i> 詳細スケジュール・応援ガイド</a>
     </div>
 
     <div class="card">
-        <h2><i class="fas fa-medal"></i> バッジ特典(2月)</h2>
+        <h2 id="badge-title-month"><i class="fas fa-medal"></i> バッジ特典</h2>
         <table class="badge-table">
             <thead><tr><th>星</th><th>特典内容</th></tr></thead>
-            <tbody>
-                <tr><td>★1</td><td>曲のリクエスト優先権 ＋ アイコンリング</td></tr>
-                <tr><td>★2</td><td>公式Discord招待 ＋ 曲のリクエスト最優先権</td></tr>
-                <tr><td>★3</td><td>アイコンリング　+ ヘッダー</td></tr>
-                <tr><td>★4</td><td>何か依頼されたものを作ります。</td></tr>
-                <tr><td>★5</td><td>シークレット特典（お楽しみに！）</td></tr>
-            </tbody>
+            <tbody id="badge-benefits-body"></tbody>
         </table>
+
         <h3><i class="fas fa-crown" style="color: #f39c12;"></i> 最初のバッジ獲得者（★1以上）</h3>
         <div id="first-three-members" class="badge-list"></div>
+
         <h3><i class="fas fa-award"></i> 今月のバッジ獲得者（★1以上）</h3>
         <div id="current-month-members" class="badge-list"></div>
+
         <h3><i class="fas fa-history"></i> 歴代のバッジ獲得者</h3>
         <div class="history-box"><ul id="history-members-list" class="history-list"></ul></div>
     </div>
@@ -396,45 +391,54 @@
 <footer><p>&copy; <span id="current-year"></span> warudora. All Rights Reserved.</p></footer>
 
 <script>
+    // 戻るボタンのスクロール位置復元
     if ('scrollRestoration' in history) { history.scrollRestoration = 'auto'; }
 
-    const newsData = [
-        { date: "2026/02/04", text: "バナイベ参加中です！　ご協力お願いします。" },
-        { date: "2026/02/04", text: "歌枠リストに22曲追加しました！！！" },
-    ];
-
-    const memberData = {
-        firstThree: ["寒咲伊織", null, null],
-        currentMonth: [],
-        history: [{ period: "2026年1月", names: ["寒咲伊織"] }]
+    let songs = [];
+    let config = {
+        newsData: [],
+        badgeBenefits: [],
+        memberData: { firstThree: [], currentMonth: [], history: [] },
+        faqData: []
     };
 
-    let songs = [];
-
     const now = new Date();
+
+    // 2日以内の投稿をNEW判定
     const isNewPeriod = (dateStr) => {
+        if (!dateStr) return false;
         const targetDate = new Date(dateStr);
         const diff = (now - targetDate) / (1000 * 60 * 60 * 24);
         return diff >= 0 && diff <= 2;
     };
 
+    // ひらがな変換（検索用）
     function toHiragana(str) {
         if (!str) return "";
         return str.replace(/[\u30a1-\u30f6]/g, (match) => String.fromCharCode(match.charCodeAt(0) - 0x60)).toLowerCase();
     }
 
+    // バッジメンバー表示 (null判定あり)
     function updateBadgeMembers() {
-        document.getElementById('first-three-members').innerHTML = memberData.firstThree.map((name, index) => 
-            name ? `<span class="fan-badge legend-badge"><i class="fas fa-crown"></i> ${name} さん</span>` 
-                 : `<span class="fan-badge empty-slot"><i class="fas fa-user-plus"></i> No.${index + 1} 募集中</span>`).join('');
+        const m = config.memberData;
+        
+        // 最初のバッジ獲得者 (nullを排除)
+        const firstFiltered = m.firstThree.filter(name => name !== null && name !== "");
+        document.getElementById('first-three-members').innerHTML = firstFiltered.length > 0
+            ? firstFiltered.map(name => `<span class="fan-badge legend-badge"><i class="fas fa-crown"></i> ${name} さん</span>`).join('')
+            : ''; // 全てnullなら何も表示しない
 
-        document.getElementById('current-month-members').innerHTML = memberData.currentMonth.length > 0 
-            ? memberData.currentMonth.map(name => `<span class="fan-badge"><i class="fas fa-star"></i> ${name} さん</span>`).join('')
+        // 今月のバッジ獲得者 (nullを排除)
+        const currentFiltered = m.currentMonth.filter(name => name !== null && name !== "");
+        document.getElementById('current-month-members').innerHTML = currentFiltered.length > 0 
+            ? currentFiltered.map(name => `<span class="fan-badge"><i class="fas fa-star"></i> ${name} さん</span>`).join('')
             : '<p style="color:#999; font-size:0.9rem;">今月のバッジ獲得者はまだいません。応援お待ちしています！</p>';
 
-        document.getElementById('history-members-list').innerHTML = memberData.history.map(item => `<li><strong>${item.period}</strong>：${item.names.join('、')}</li>`).join('');
+        // 履歴
+        document.getElementById('history-members-list').innerHTML = m.history.map(item => `<li><strong>${item.period}</strong>：${item.names.join('、')}</li>`).join('');
     }
 
+    // 歌枠情報の更新
     function updateSongInfoBoard() {
         const latestSongs = songs.slice(-3).reverse();
         let html = `<li><i class="fas fa-check-circle" style="color:#856404; font-size:0.8rem;"></i>曲の検索、申請はこちらから！</li>`;
@@ -442,6 +446,7 @@
         document.getElementById('song-info-auto').innerHTML = html;
     }
 
+    // 歌一覧の表示・検索
     function displaySongs(filterText = "") {
         const songList = document.getElementById('song-list');
         const clearBtn = document.getElementById('search-clear');
@@ -463,27 +468,20 @@
         document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
 
         if (filteredSongs.length === 0) {
-            if (filterText.length < 3 || /^[a-zA-Z]+$/.test(filterText.slice(-1))) {
-                return;
-            } else {
+            if (filterText.length >= 2) {
                 songList.innerHTML = `
                     <div class="no-result">
                         <p>「${filterText}」は見つかりませんでした。</p>
-                        <p style="font-size: 0.85rem; margin-bottom: 15px;">リストにない曲は、こちらから申請できます！</p>
-                        <a href="https://forms.gle/FqTqvBqH9RYQhM4k8" class="playlist-btn request-btn" target="_blank" style="display: inline-flex; justify-content: center; width: auto;">
+                        <a href="https://forms.gle/FqTqvBqH9RYQhM4k8" class="playlist-btn request-btn" target="_blank" style="margin-top:10px;">
                             <i class="fas fa-pen-nib"></i> 曲をリクエストする
                         </a>
                     </div>`;
             }
             return;
         }
-
-        renderList(filteredSongs, songList);
-    }
-
-    function renderList(targetSongs, container) {
-        container.innerHTML = "";
-        targetSongs.forEach(song => {
+        
+        songList.innerHTML = "";
+        filteredSongs.forEach(song => {
             const div = document.createElement('div');
             div.className = 'song-item';
             const isNew = isNewPeriod(song.date);
@@ -509,52 +507,68 @@
                     setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy"></i>'; btn.classList.remove('success'); }, 1500);
                 });
             };
-            container.appendChild(div);
+            songList.appendChild(div);
         });
     }
 
     async function init() {
-        const newsList = document.getElementById('news-list');
-        newsData.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'news-item';
-            const isNew = isNewPeriod(item.date);
-            const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
-            div.innerHTML = `<span class="news-date">${item.date}</span><span class="news-text">${item.text}${newLabel}</span>`;
-            newsList.appendChild(div);
-        });
-
-        const faqData = [
-            { q: "歌のリクエストはどうすればいい？", a: "バッジ特典(★1〜)をお持ちの方を優先していますが、初見さんもお気軽にどうぞ！" },
-            { q: "配信の切り抜きをSNSに上げてもいい？", a: "雑談や作業配信の切り抜きは大歓迎です！ただし歌唱部分の切り抜き投稿はご遠慮ください。" },
-        ];
-        const faqList = document.getElementById('faq-list');
-        faqData.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'faq-item';
-            div.innerHTML = `<div class="faq-q">${item.q}</div><div class="faq-a">${item.a}</div>`;
-            faqList.appendChild(div);
-        });
-
-        updateBadgeMembers();
-
-        try {
-            const response = await fetch('songs.json');
-            if (!response.ok) throw new Error();
-            songs = await response.json();
-            updateSongInfoBoard();
-            displaySongs();
-        } catch (e) {
-            document.getElementById('song-list').innerHTML = '<div class="no-result">曲データの読み込みに失敗しました。</div>';
+        // --- 1. 月の自動取得・更新 ---
+        const currentMonthNum = new Date().getMonth() + 1;
+        const badgeTitle = document.getElementById('badge-title-month');
+        if (badgeTitle) {
+            badgeTitle.innerHTML = `<i class="fas fa-medal"></i> バッジ特典(${currentMonthNum}月)`;
         }
 
+        try {
+            // Config読み込み
+            const configRes = await fetch('config.json');
+            if (configRes.ok) {
+                config = await configRes.json();
+                
+                // お知らせ表示
+                const newsList = document.getElementById('news-list');
+                config.newsData.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'news-item';
+                    const isNew = isNewPeriod(item.date);
+                    const newLabel = isNew ? '<span class="new-badge">NEW</span>' : '';
+                    div.innerHTML = `<span class="news-date">${item.date}</span><span class="news-text">${item.text}${newLabel}</span>`;
+                    newsList.appendChild(div);
+                });
+
+                // バッジ特典テーブル表示
+                const badgeBody = document.getElementById('badge-benefits-body');
+                badgeBody.innerHTML = config.badgeBenefits.map(b => `<tr><td>${b.star}</td><td>${b.text}</td></tr>`).join('');
+
+                // FAQ表示
+                const faqList = document.getElementById('faq-list');
+                config.faqData.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'faq-item';
+                    div.innerHTML = `<div class="faq-q">${item.q}</div><div class="faq-a">${item.a}</div>`;
+                    faqList.appendChild(div);
+                });
+
+                // メンバー表示呼び出し
+                updateBadgeMembers();
+            }
+
+            // Songs読み込み
+            const songRes = await fetch('songs.json');
+            if (songRes.ok) {
+                songs = await songRes.json();
+                updateSongInfoBoard();
+                displaySongs();
+            }
+
+        } catch (e) {
+            console.error("Data load error:", e);
+        }
+
+        // イベント設定
         const searchInput = document.getElementById('song-search');
         const clearBtn = document.getElementById('search-clear');
-
-        searchInput.addEventListener('input', (e) => {
-            displaySongs(e.target.value);
-        });
-
+        searchInput.addEventListener('input', (e) => displaySongs(e.target.value));
         clearBtn.addEventListener('click', () => {
             searchInput.value = "";
             displaySongs("");
