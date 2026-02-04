@@ -413,7 +413,6 @@
 
     const now = new Date();
 
-    // NEWバッジの表示判定（ご要望により2日間以内へ戻し）
     const isNewPeriod = (dateStr) => {
         if (!dateStr) return false;
         const targetDate = new Date(dateStr);
@@ -421,7 +420,6 @@
         return diff >= 0 && diff <= 2;
     };
 
-    // よみがな検索用の正規表現対応（セルフチェック済み）
     function toHiragana(str) {
         if (!str) return "";
         return str.replace(/[\u30a1-\u30f6]/g, (match) => String.fromCharCode(match.charCodeAt(0) - 0x60)).toLowerCase();
@@ -472,9 +470,12 @@
 
         document.getElementById('total-song-count').textContent = `全 ${songs.length} 曲`;
 
+        // 【修正ポイント】検索結果が0件かつ、入力文字数が2文字以上のときだけ「ありません」を表示
         if (filteredSongs.length === 0) {
             if (filterText.length >= 2) {
                 songList.innerHTML = `<div class="no-result"><p>「${filterText}」は見つかりませんでした。</p></div>`;
+            } else {
+                songList.innerHTML = ""; // 1文字の時はメッセージを出さず、ただリストを空にする
             }
             return;
         }
