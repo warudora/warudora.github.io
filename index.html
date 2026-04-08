@@ -26,9 +26,14 @@
             --tool-color: #27ae60;
             --link-color: #e67e22;
             --x-color: #000000;
-            --bg-color: #f4f7f6;
-            --text-color: #333;
+            --insta-color: #E1306C;
+            --yt-color: #FF0000;
+            --discord-color: #5865F2;
+            --bg-color: #f0f2f5;
+            --text-color: #2c3e50;
             --white: #ffffff;
+            --brand-color: #6c5ce7;
+            --server-color: #d35400;
         }
 
         body {
@@ -36,169 +41,170 @@
             line-height: 1.6;
             margin: 0;
             color: var(--text-color);
-            background-color: var(--bg-color);
+            background: linear-gradient(135deg, #f0f2f5 0%, #e0e6ed 100%);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
         nav.top-nav {
-            background: var(--white);
-            padding: 10px 5%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            padding: 12px 5%;
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
-        .logo-area img { height: 40px; width: auto; display: block; }
+        .logo-area img { height: 35px; width: auto; transition: transform 0.3s; }
 
         header {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a252f 100%);
             color: var(--white);
-            padding: 4rem 1rem;
+            padding: 5rem 1rem;
             text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
         }
 
+        header h1 { font-size: 2.5rem; margin: 0; letter-spacing: 2px; }
+
         .container {
-            max-width: 1100px;
-            width: 90%;
-            margin: 0 auto;
-            padding: 2rem 0;
+            max-width: 1200px;
+            width: 92%;
+            margin: -40px auto 0;
+            padding: 0 0 4rem 0;
             flex-grow: 1;
         }
 
+        /* Profile Card - Left Aligned */
         .profile-card {
             background: var(--white);
-            border-radius: 12px;
-            padding: 2.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 2.5rem;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-bottom: 3rem;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 20px;
+            flex-direction: row;
+            align-items: flex-start; /* 左上揃え */
+            text-align: left; /* 左詰め */
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .profile-card { flex-direction: column; align-items: center; text-align: center; padding: 2rem; }
         }
 
         .profile-thumb {
-            width: 150px;
-            height: 150px;
-            border-radius: 20px;
+            width: 180px;
+            height: 180px;
+            border-radius: 30px;
             object-fit: cover;
-            border: 4px solid var(--accent-color);
+            border: 5px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
-            justify-content: center;
         }
 
         section {
             background: var(--white);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
         }
 
-        section:hover { transform: translateY(-5px); }
+        section:hover { 
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
 
         h2 {
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 0.8rem;
-            color: var(--primary-color);
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
+            font-size: 1.4rem;
             margin-top: 0;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f2f5;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+
+        .work-item h3 { margin: 10px 0 5px 0; font-size: 1.1rem; }
+        .work-item p { font-size: 0.9rem; color: #666; margin-bottom: 15px; }
 
         .badge {
             display: inline-block;
-            background: var(--accent-color);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-bottom: 0.5rem;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 10px;
+            border-radius: 50px;
+            background: #edf2f7;
+            color: var(--accent-color);
         }
+        .badge-tool { background: #e6fffa; color: var(--tool-color); }
+        .badge-brand { background: #f3f0ff; color: var(--brand-color); }
+        .badge-server { background: #fff5eb; color: var(--server-color); }
 
-        .badge-tool { background: var(--tool-color); }
-
-        .work-item { width: 100%; margin-bottom: 1rem; }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 0.8rem;
-        }
+        .button-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
 
         .link-btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.85rem;
-            color: var(--link-color);
+            font-size: 0.8rem;
+            padding: 6px 15px;
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: bold;
-            padding: 0.4rem 1.2rem;
-            border: 1px solid var(--link-color);
-            border-radius: 20px;
-            transition: all 0.2s;
-        }
-
-        .link-btn:hover { background: var(--link-color); color: white; }
-
-        .link-btn.btn-x {
-            color: var(--x-color);
-            border-color: var(--x-color);
-        }
-        .link-btn.btn-x:hover {
-            background: var(--x-color);
-            color: white;
-        }
-
-        .btn-main {
-            display: inline-block;
-            background: linear-gradient(135deg, #6dd5ed, #2193b0);
-            color: white;
-            padding: 1rem 2.5rem;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-weight: 600;
             transition: all 0.3s;
+            border: 1px solid #ddd;
+            color: var(--text-color);
         }
+
+        .link-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .link-btn.btn-x:hover { background: var(--x-color); color: white; border-color: var(--x-color); }
+        .link-btn.btn-discord:hover { background: var(--discord-color); color: white; border-color: var(--discord-color); }
+        .link-btn.btn-server:hover { background: var(--server-color); color: white; border-color: var(--server-color); }
+        .link-btn.btn-primary { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
         .iriam-banner {
             grid-column: 1 / -1;
-            background: var(--white);
-            padding: 3.5rem;
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            color: white;
             text-align: center;
+            padding: 3rem;
+        }
+
+        .btn-main {
+            background: white;
+            color: var(--brand-color);
+            padding: 12px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: 0.3s;
         }
 
         footer {
             background: var(--primary-color);
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.5);
             text-align: center;
-            padding: 2rem;
-            margin-top: auto;
+            padding: 3rem;
+            margin-top: 4rem;
         }
 
-        hr { width: 60%; border: 0; border-top: 1px solid #eee; margin: 1.5rem auto; }
+        hr { border: 0; border-top: 1px solid #f0f2f5; margin: 1.5rem 0; }
     </style>
 </head>
 <body>
@@ -211,84 +217,107 @@
 
 <header>
     <h1>warudora's Portfolio</h1>
-    <p>Minecraft Mod Developer & IRIAM Liver</p>
+    <p>Engineer & Sales Representative at 5H1H0</p>
 </header>
 
 <div class="container">
     <div class="profile-card">
         <img src="profile_top.jpg" alt="warudora" class="profile-thumb" onerror="this.src='https://via.placeholder.com/150'">
         <div>
-            <h2><i class="fas fa-user-circle"></i> Profile</h2>
+            <h2><i class="fas fa-id-card"></i> Profile</h2>
             <p>
-                Japanituremod制作者、MJaS管理者、MTRJapanUsers創設者のwarudoraです。<br>
-                MinecraftのMod制作を軸に、鉄道アドオン支援システムの構築や、<br>
-                コミュニティ運営を通じて「創る楽しさ、交流の楽しさ」を共有しています。
+                Japanituremod制作者、MJaS管理者、MTRJapanUsers創設者の<strong>warudora</strong>です。<br>
+                5H1H0ブランドのエンジニア 兼 販売担当として、クリエイティブな活動とコミュニティ運営を両立。<br>
+                MinecraftのMod開発や便利なシステムの構築などを通じ、新しい体験を届けることを目標にしています。
             </p>
             <div class="button-group">
-                <a href="https://x.com/warudora36" class="link-btn btn-x" target="_blank"><i class="fab fa-x-twitter"></i> Official X</a>
+                <a href="https://x.com/warudora36" class="link-btn btn-x" target="_blank"><i class="fab fa-x-twitter"></i> X</a>
+                <a href="#" class="link-btn" style="color:#E1306C; border-color:#E1306C;" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#" class="link-btn" style="color:#FF0000; border-color:#FF0000;" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
             </div>
         </div>
     </div>
 
     <div class="grid">
         <section>
-            <h2><i class="fas fa-hammer"></i> Mod & Community</h2>
+            <h2><i class="fas fa-users"></i> Community</h2>
             <div class="work-item">
-                <span class="badge">Minecraft Mod</span>
-                <h3>Japanituremod</h3>
-                <p>日本の家具や内装を追加し、現代建築を彩るMod。</p>
+                <span class="badge">MTR Official JP Support</span>
+                <h3>MTRJapanUsers</h3>
+                <p>国内最大級のMTRMod非公式日本コミュニティ。Discordでの情報交換やアドオン支援をリードしています。</p>
                 <div class="button-group">
-                    <a href="https://modrinth.com/mod/japaniture/versions" class="link-btn" target="_blank"><i class="fas fa-download"></i> Download</a>
+                    <a href="https://discord.gg/your-link" class="link-btn btn-discord" target="_blank"><i class="fab fa-discord"></i> Join Discord</a>
                 </div>
             </div>
             <hr>
             <div class="work-item">
-                <span class="badge">Management</span>
-                <h3>MJaS / MTRJapanUsers</h3>
-                <p>国内最大級のMTRユーザーコミュニティを運営。</p>
+                <span class="badge badge-server">Minecraft Server</span>
+                <h3>MJaS</h3>
+                <p>MTRModを使用したMTRJapanUsers公式の日本最大級のMinecraftサーバー。MTRを軸とした鉄道・建築の場を提供。</p>
                 <div class="button-group">
-                    <a href="http://pro1.ssnetwork.io:54103/homepage/home" class="link-btn" target="_blank"><i class="fas fa-users"></i> Community</a>
-                    <a href="https://x.com/MJaS2024_MTR" class="link-btn btn-x" target="_blank"><i class="fab fa-x-twitter"></i> Community X</a>
+                    <a href="http://pro1.ssnetwork.io:54103/homepage/home" class="link-btn btn-primary" target="_blank"><i class="fas fa-home"></i> Official HP</a>
+                    <a href="https://x.com/MJaS2024_MTR" class="link-btn btn-x" target="_blank"><i class="fab fa-x-twitter"></i> Official X</a>
                 </div>
             </div>
         </section>
 
         <section>
-            <h2><i class="fas fa-code"></i> Systems</h2>
+            <h2><i class="fas fa-laptop-code"></i> Projects & Sales</h2>
             <div class="work-item">
-                <span class="badge badge-tool">Tool</span>
-                <h3>駅名標エディター</h3>
-                <p>誰でも簡単に高品質な駅名標が作れるエディター。</p>
+                <span class="badge badge-brand">Engineer / Sales</span>
+                <h3>5H1H0 Official Site</h3>
+                <p>所属ブランドの公式サイト。エンジニアとして構築を、販売担当としてプロダクト管理を行っています。</p>
                 <div class="button-group">
-                    <a href="https://drive.google.com/drive/folders/19q8T3CVB1trJgwMbGFnxpcy8ti7r1VvV" class="link-btn" target="_blank"><i class="fas fa-edit"></i> Open Editor</a>
+                    <a href="https://shihomotozono.com/" class="link-btn btn-primary" target="_blank"><i class="fas fa-external-link-alt"></i> View Site</a>
                 </div>
             </div>
             <hr>
             <div class="work-item">
-                <span class="badge badge-tool">Web tool</span>
-                <h3>soundjson作成システム</h3>
-                <p>複雑なjson設定を自動化し、制作効率を劇的に向上。</p>
+                <span class="badge badge-tool">Desktop Tool (exe)</span>
+                <h3>駅名標エディター</h3>
+                <p>高品質な駅名標をデザインできるツール。Googleドライブからexeファイルをダウンロードして使用可能です。</p>
                 <div class="button-group">
-                    <a href="https://sakurapack.f5.si/" class="link-btn" target="_blank"><i class="fas fa-cogs"></i> Use System</a>
+                    <a href="https://drive.google.com/drive/folders/19q8T3CVB1trJgwMbGFnxpcy8ti7r1VvV" class="link-btn" target="_blank"><i class="fas fa-download"></i> Download (Drive)</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2><i class="fas fa-cube"></i> Mod Development</h2>
+            <div class="work-item">
+                <span class="badge">Minecraft Mod</span>
+                <h3>Japanituremod</h3>
+                <p>日本の家具や家電を追加し、現代建築を彩るMod。幅広い建築が可能になることを目指しています。</p>
+                <div class="button-group">
+                    <a href="https://modrinth.com/mod/japaniture/versions" class="link-btn btn-primary" target="_blank"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+            <hr>
+            <div class="work-item">
+                <span class="badge badge-tool">Web Tool</span>
+                <h3>soundjson Generator</h3>
+                <p>リソースパックの煩雑なjson作成を自動化。クリエイターの工数削減を目的としたWebシステムです。</p>
+                <div class="button-group">
+                    <a href="https://sakurapack.f5.si/" class="link-btn" target="_blank"><i class="fas fa-bolt"></i> Use Tool</a>
                 </div>
             </div>
         </section>
 
         <section class="iriam-banner">
-            <h2><i class="fas fa-broadcast-tower"></i> IRIAM Streaming</h2>
+            <h2><i class="fas fa-microphone-alt"></i> IRIAM Live</h2>
             <p>
-                「warudora」として、雑談・歌・作業・勉強配信をメインに活動中！<br>
-                配信の雰囲気や詳細、挨拶のルールなどは専用ページをご覧ください。
-            </p>
-            <div style="margin-top: 1.5rem;">
-                <a href="iriam.html" class="btn-main">IRIAM専用ページへ</a>
-            </div>
+                「warudora」として、毎日の作業や勉強、雑談をリアルタイムでお届け。<br>
+                  エンジニアとしての裏側や制作の過程も配信しています。
+            </p>            <a href="iriam.html" class="btn-main">配信をチェックする</a>
         </section>
     </div>
 </div>
 
 <footer>
     <p>&copy; <span id="current-year"></span> warudora. All Rights Reserved.</p>
+    <div style="margin-top: 10px; font-size: 0.8rem;">
+        5H1H0 Engineer & Sales Rep / Admin of MJaS / Founder of MTRJapanUsers
+    </div>
 </footer>
 
 <script>
