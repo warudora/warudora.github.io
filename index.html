@@ -48,12 +48,13 @@
             flex-direction: column;
             min-height: 100vh;
             scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%; /* iOSでのテキストサイズ自動調整を防止 */
         }
 
         nav.top-nav {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(5px);
-            padding: 12px 5%;
+            padding: 10px 5%;
             display: flex;
             justify-content: flex-end;
             align-items: center;
@@ -63,62 +64,94 @@
             z-index: 100;
         }
 
-        .logo-area img { height: 35px; width: auto; transition: transform 0.3s; }
+        .logo-area img { 
+            height: 30px; 
+            width: auto; 
+            transition: transform 0.3s; 
+        }
 
         header {
             background: linear-gradient(135deg, var(--primary-color) 0%, #1a252f 100%);
             color: var(--white);
-            padding: 5rem 1rem;
+            padding: 4rem 1rem 6rem;
             text-align: center;
             clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
         }
 
-        header h1 { font-size: 2.5rem; margin: 0; letter-spacing: 2px; }
+        header h1 { 
+            font-size: 2rem; 
+            margin: 0; 
+            letter-spacing: 1px; 
+        }
 
         .container {
             max-width: 1200px;
-            width: 92%;
-            margin: -40px auto 0;
-            padding: 0 0 4rem 0;
+            width: 90%;
+            margin: -45px auto 0;
+            padding: 0 0 3rem 0;
             flex-grow: 1;
         }
 
         .profile-card {
             background: var(--white);
             border-radius: 20px;
-            padding: 3rem;
+            padding: 2.5rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             display: flex;
             flex-direction: row;
             align-items: flex-start;
             text-align: left;
-            gap: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .profile-card { flex-direction: column; align-items: center; text-align: center; padding: 2rem; }
+            gap: 35px;
         }
 
         .profile-thumb {
-            width: 180px;
-            height: 180px;
-            border-radius: 30px;
+            width: 160px;
+            height: 160px;
+            border-radius: 25px;
             object-fit: cover;
-            border: 5px solid #fff;
+            border: 4px solid #fff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        /* --- モバイル対応スタイル --- */
+        @media (max-width: 768px) {
+            header { padding: 3rem 1rem 5rem; }
+            header h1 { font-size: 1.7rem; }
+            
+            .container { width: 94%; margin-top: -35px; }
+            
+            .profile-card { 
+                flex-direction: column; 
+                align-items: center; 
+                text-align: center; 
+                padding: 2rem 1.5rem; 
+                gap: 20px;
+            }
+
+            .profile-thumb {
+                width: 120px;
+                height: 120px;
+            }
+
+            .button-group { justify-content: center; }
+            
+            .iriam-banner { padding: 3rem 1.5rem; }
+            .iriam-banner h2 { font-size: 1.5rem; }
+            .btn-iriam-custom { width: 100%; box-sizing: border-box; padding: 14px 20px; }
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
 
         section {
             background: var(--white);
             border-radius: 16px;
-            padding: 2rem;
+            padding: 1.8rem;
             box-shadow: 0 4px 20px rgba(0,0,0,0.04);
             transition: all 0.3s ease;
             display: flex;
@@ -126,14 +159,14 @@
         }
 
         section:hover { 
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         h2 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             margin-top: 0;
-            padding-bottom: 1rem;
+            padding-bottom: 0.8rem;
             border-bottom: 2px solid #f0f2f5;
             color: var(--primary-color);
             display: flex;
@@ -141,14 +174,14 @@
             gap: 10px;
         }
 
-        .work-item h3 { margin: 10px 0 5px 0; font-size: 1.1rem; }
-        .work-item p { font-size: 0.9rem; color: #666; margin-bottom: 15px; }
+        .work-item h3 { margin: 12px 0 6px 0; font-size: 1.05rem; }
+        .work-item p { font-size: 0.88rem; color: #666; margin-bottom: 12px; }
 
         .badge {
             display: inline-block;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
-            padding: 2px 10px;
+            padding: 2px 8px;
             border-radius: 50px;
             background: #edf2f7;
             color: var(--accent-color);
@@ -157,14 +190,14 @@
         .badge-brand { background: #f3f0ff; color: var(--brand-color); }
         .badge-server { background: #fff5eb; color: var(--server-color); }
 
-        .button-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
+        .button-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }
 
         .link-btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.8rem;
-            padding: 6px 15px;
+            font-size: 0.75rem;
+            padding: 7px 14px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
@@ -173,25 +206,23 @@
             color: var(--text-color);
         }
 
-        .link-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .link-btn:hover { background: #f8f9fa; }
         .link-btn.btn-x:hover { background: var(--x-color); color: white; border-color: var(--x-color); }
         .link-btn.btn-discord:hover { background: var(--discord-color); color: white; border-color: var(--discord-color); }
         .link-btn.btn-primary { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
-        /* --- 置き換えたIRIAMセクションのスタイル --- */
         .iriam-banner {
             grid-column: 1 / -1;
-            background: var(--white); /* 背景を白に統一 */
+            background: var(--white);
             color: var(--text-color);
             text-align: center;
-            padding: 4rem 2rem;
+            padding: 3.5rem 2rem;
             position: relative;
             overflow: hidden;
         }
 
-        /* 配信中をイメージした波紋アニメーション */
         .iriam-icon-wrapper {
-            font-size: 2.2rem;
+            font-size: 2rem;
             color: var(--primary-color);
             margin-bottom: 1rem;
             display: inline-block;
@@ -219,71 +250,66 @@
             justify-content: center;
             border-bottom: none;
             padding-bottom: 0;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
         }
 
         .iriam-divider {
-            width: 80%;
-            max-width: 600px;
+            width: 60%;
+            max-width: 400px;
             height: 2px;
             background: linear-gradient(90deg, transparent, #3498db, transparent);
-            margin: 1.5rem auto 2rem;
-            opacity: 0.6;
+            margin: 1.2rem auto 1.8rem;
+            opacity: 0.5;
         }
 
         .iriam-banner p {
-            font-size: 1.05rem;
-            max-width: 700px;
-            margin: 0 auto 2.5rem;
+            font-size: 0.95rem;
+            max-width: 650px;
+            margin: 0 auto 2rem;
             color: var(--text-color);
-            word-break: keep-all;
+            word-break: normal;
         }
 
-        /* 画像のような水色グラデーションボタン */
         .btn-iriam-custom {
             display: inline-block;
             background: var(--iriam-btn-grad);
             color: white;
-            padding: 16px 45px;
+            padding: 14px 40px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1.1rem;
-            box-shadow: 0 8px 20px rgba(69, 170, 242, 0.3);
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            font-size: 1rem;
+            box-shadow: 0 6px 15px rgba(69, 170, 242, 0.3);
+            transition: all 0.3s ease;
             border: none;
         }
 
-        .btn-iriam-custom:hover {
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 12px 25px rgba(69, 170, 242, 0.4);
-            filter: brightness(1.05);
-        }
+        .btn-iriam-custom:active { transform: scale(0.98); }
 
         footer {
             background: var(--primary-color);
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.6);
             text-align: center;
-            padding: 3rem;
-            margin-top: 4rem;
+            padding: 2.5rem 1rem;
+            margin-top: 3rem;
         }
 
         #back-to-top {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
+            bottom: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
             background-color: var(--accent-color);
             color: white;
             border: none;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
             opacity: 0;
             visibility: hidden;
@@ -291,9 +317,8 @@
         }
 
         #back-to-top.show { opacity: 1; visibility: visible; }
-        #back-to-top:hover { transform: translateY(-5px); background-color: var(--primary-color); }
 
-        hr { border: 0; border-top: 1px solid #f0f2f5; margin: 1.5rem 0; }
+        hr { border: 0; border-top: 1px solid #f0f2f5; margin: 1.2rem 0; }
     </style>
 </head>
 <body>
@@ -342,7 +367,7 @@
             <div class="work-item">
                 <span class="badge badge-server">Minecraft Server</span>
                 <h3>MJaS</h3>
-                <p>MTRModを使用したMTRJapanUsers公式の日本最大級のMinecraftサーバー。MTRを軸とした鉄道・建築の場を提供。</p>
+                <p>MTRModを使用したMTRJapanUsers公式の日本最大級のMinecraftサーバー。鉄道・建築の場を提供。</p>
                 <div class="button-group">
                     <a href="http://pro1.ssnetwork.io:54103/homepage/home" class="link-btn btn-primary" target="_blank"><i class="fas fa-home"></i> Official HP</a>
                     <a href="https://x.com/MJaS2024_MTR" class="link-btn btn-x" target="_blank"><i class="fab fa-x-twitter"></i> Official X</a>
@@ -364,9 +389,9 @@
             <div class="work-item">
                 <span class="badge badge-tool">Desktop Tool (exe)</span>
                 <h3>駅名標エディター</h3>
-                <p>高品質な駅名標をデザインできるツール。Googleドライブからexeファイルをダウンロードして使用可能です。</p>
+                <p>高品質な駅名標をデザインできるツール。Googleドライブからexeファイルをダウンロード可能です。</p>
                 <div class="button-group">
-                    <a href="https://drive.google.com/drive/folders/19q8T3CVB1trJgwMbGFnxpcy8ti7r1VvV" class="link-btn" target="_blank"><i class="fas fa-download"></i> Download (Drive)</a>
+                    <a href="https://drive.google.com/drive/folders/19q8T3CVB1trJgwMbGFnxpcy8ti7r1VvV" class="link-btn" target="_blank"><i class="fas fa-download"></i> Download</a>
                 </div>
             </div>
         </section>
@@ -385,7 +410,7 @@
             <div class="work-item">
                 <span class="badge badge-tool">Web Tool</span>
                 <h3>soundjson Generator</h3>
-                <p>リソースパックの煩雑なjson作成を自動化。クリエイターの工数削減を目的としたWebシステムです。</p>
+                <p>リソースパックのjson作成を自動化。クリエイターの工数削減を目的としたWebシステムです。</p>
                 <div class="button-group">
                     <a href="https://sakurapack.f5.si/" class="link-btn" target="_blank"><i class="fas fa-bolt"></i> Use Tool</a>
                 </div>
@@ -400,7 +425,7 @@
             <div class="iriam-divider"></div>
             <p>
                 「warudora」として、雑談・歌・作業・勉強配信をメインに活動中！<br>
-                配信の雰囲気や詳細、挨拶のルールなどは専用ページをご覧ください。
+                配信の詳細は専用ページをご覧ください。
             </p>
             <a href="iriam.html" class="btn-iriam-custom">IRIAM専用ページへ</a>
         </section>
@@ -409,7 +434,7 @@
 
 <footer>
     <p>&copy; <span id="current-year"></span> warudora. All Rights Reserved.</p>
-    <div style="margin-top: 10px; font-size: 0.8rem;">
+    <div style="margin-top: 10px; font-size: 0.75rem;">
         5H1H0 Engineer & Sales Rep / Admin of MJaS / Founder of MTRJapanUsers
     </div>
 </footer>
