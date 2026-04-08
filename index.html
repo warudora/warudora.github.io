@@ -11,7 +11,7 @@
     <link rel="canonical" href="https://warudora.github.io/">
 
     <meta property="og:title" content="warudora Official Hub">
-    <meta property="og:description" content="Minecraft Mod Developer & IRIAM Liver warudoraのポートフォリオサイト">
+    <meta property="og:description" content="Minecraft Mod Developer & IRIAM Liver warudora의 ポートフォリオサイト">
     <meta property="og:url" content="https://warudora.github.io/">
     <meta property="og:image" content="https://warudora.github.io/profile_top.jpg">
     <meta property="og:type" content="website">
@@ -45,6 +45,7 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            scroll-behavior: smooth; /* スムーズにスクロールさせる */
         }
 
         nav.top-nav {
@@ -80,7 +81,6 @@
             flex-grow: 1;
         }
 
-        /* Profile Card - Left Aligned */
         .profile-card {
             background: var(--white);
             border-radius: 20px;
@@ -89,8 +89,8 @@
             margin-bottom: 3rem;
             display: flex;
             flex-direction: row;
-            align-items: flex-start; /* 左上揃え */
-            text-align: left; /* 左詰め */
+            align-items: flex-start;
+            text-align: left;
             gap: 40px;
         }
 
@@ -174,7 +174,6 @@
         .link-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .link-btn.btn-x:hover { background: var(--x-color); color: white; border-color: var(--x-color); }
         .link-btn.btn-discord:hover { background: var(--discord-color); color: white; border-color: var(--discord-color); }
-        .link-btn.btn-server:hover { background: var(--server-color); color: white; border-color: var(--server-color); }
         .link-btn.btn-primary { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
         .iriam-banner {
@@ -202,6 +201,40 @@
             text-align: center;
             padding: 3rem;
             margin-top: 4rem;
+        }
+
+        /* ページトップに戻るボタン */
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #back-to-top:hover {
+            transform: translateY(-5px);
+            background-color: var(--primary-color);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
 
         hr { border: 0; border-top: 1px solid #f0f2f5; margin: 1.5rem 0; }
@@ -307,8 +340,9 @@
             <h2><i class="fas fa-microphone-alt"></i> IRIAM Live</h2>
             <p>
                 「warudora」として、毎日の作業や勉強、雑談をリアルタイムでお届け。<br>
-                  エンジニアとしての裏側や制作の過程も配信しています。
-            </p>            <a href="iriam.html" class="btn-main">配信をチェックする</a>
+                エンジニアとしての裏側や制作の過程も配信しています。
+            </p>
+            <a href="iriam.html" class="btn-main">配信をチェックする</a>
         </section>
     </div>
 </div>
@@ -320,8 +354,31 @@
     </div>
 </footer>
 
+<button id="back-to-top" title="Go to top">
+    <i class="fas fa-chevron-up"></i>
+</button>
+
 <script>
+    // 現在の年をセット
     document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // ページトップボタンの制御
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTopBtn.classList.add('show');
+        } else {
+            backToTopBtn.classList.remove('show');
+        }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
 </script>
 
 </body>
