@@ -230,41 +230,12 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        /* アンテナアイコン部分（完全に静止） */
-        .iriam-icon-wrapper {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            display: inline-block;
-            position: relative;
-            z-index: 1; /* 波紋の上にアイコンを表示 */
-        }
-        
-        /* 中心から円形に広がる波紋アニメーション（これだけを有効化） */
-        .iriam-icon-wrapper::after {
-            content: '';
-            position: absolute;
-            width: 100%; 
-            height: 100%;
-            top: 0; 
-            left: 0;
-            background: var(--accent-color);
-            border-radius: 50%;
-            z-index: -1;
-            opacity: 0;
-            animation: ripple 2.5s infinite cubic-bezier(0.1, 0.8, 0.3, 1);
-        }
-
-        @keyframes ripple {
-            0% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(2.5); opacity: 0; }
-        }
-
         .iriam-banner h2 {
             justify-content: center;
             border-bottom: none;
             padding-bottom: 0;
             font-size: 1.6rem;
+            margin-top: 0.5rem; /* アイコンを消した分のバランスを調整 */
         }
 
         .iriam-divider {
@@ -432,9 +403,6 @@
     </div>
 
     <section class="iriam-banner">
-        <div class="iriam-icon-wrapper">
-            <i class="fas fa-tower-broadcast"></i>
-        </div>
         <h2>IRIAM Streaming</h2>
         <div class="iriam-divider"></div>
         <p>
