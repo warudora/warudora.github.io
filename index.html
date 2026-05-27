@@ -72,7 +72,7 @@
         header {
             background: linear-gradient(135deg, var(--primary-color) 0%, #1a252f 100%);
             color: var(--white);
-            padding: 5rem 1rem 7rem; /* 下のパディングを少し増やして余白を確保 */
+            padding: 5rem 1rem 7rem;
             text-align: center;
             clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
         }
@@ -86,7 +86,7 @@
         .container {
             max-width: 1200px;
             width: 90%;
-            margin: -20px auto 0; /* ここを調整してカードを下げました */
+            margin: -20px auto 0;
             padding: 0 0 3rem 0;
             flex-grow: 1;
         }
@@ -120,7 +120,7 @@
             
             .container { 
                 width: 94%; 
-                margin-top: -10px; /* モバイル時も少し下げ気味に */
+                margin-top: -10px;
             }
             
             .profile-card { 
@@ -146,6 +146,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.8rem;
+            margin-bottom: 1.8rem;
         }
 
         section {
@@ -211,39 +212,52 @@
         .link-btn.btn-discord:hover { background: var(--discord-color); color: white; border-color: var(--discord-color); }
         .link-btn.btn-primary { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
+        /* IRIAMバナー設定 */
         .iriam-banner {
-            grid-column: 1 / -1;
             background: var(--white);
             color: var(--text-color);
             text-align: center;
             padding: 3.5rem 2rem;
             position: relative;
             overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            transition: all 0.3s ease;
         }
 
+        .iriam-banner:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        /* アンテナアイコン部分（完全に静止） */
         .iriam-icon-wrapper {
             font-size: 2rem;
             color: var(--primary-color);
             margin-bottom: 1rem;
             display: inline-block;
             position: relative;
+            z-index: 1; /* 波紋の上にアイコンを表示 */
         }
         
+        /* 中心から円形に広がる波紋アニメーション（これだけを有効化） */
         .iriam-icon-wrapper::after {
             content: '';
             position: absolute;
-            width: 100%; height: 100%;
-            top: 0; left: 0;
+            width: 100%; 
+            height: 100%;
+            top: 0; 
+            left: 0;
             background: var(--accent-color);
             border-radius: 50%;
             z-index: -1;
             opacity: 0;
-            animation: ripple 2.5s infinite;
+            animation: ripple 2.5s infinite cubic-bezier(0.1, 0.8, 0.3, 1);
         }
 
         @keyframes ripple {
-            0% { transform: scale(1); opacity: 0.4; }
-            100% { transform: scale(2.2); opacity: 0; }
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(2.5); opacity: 0; }
         }
 
         .iriam-banner h2 {
@@ -415,20 +429,20 @@
                 </div>
             </div>
         </section>
-
-        <section class="iriam-banner">
-            <div class="iriam-icon-wrapper">
-                <i class="fas fa-tower-broadcast"></i>
-            </div>
-            <h2>IRIAM Streaming</h2>
-            <div class="iriam-divider"></div>
-            <p>
-                「warudora」として、雑談・歌・作業・勉強配信をメインに活動中！<br>
-                配信の詳細は専用ページをご覧ください。
-            </p>
-            <a href="iriam.html" class="btn-iriam-custom">IRIAM専用ページへ</a>
-        </section>
     </div>
+
+    <section class="iriam-banner">
+        <div class="iriam-icon-wrapper">
+            <i class="fas fa-tower-broadcast"></i>
+        </div>
+        <h2>IRIAM Streaming</h2>
+        <div class="iriam-divider"></div>
+        <p>
+            「warudora」として、雑談・歌・作業・勉強配信をメインに活動中！<br>
+            配信の詳細は専用ページをご覧ください。
+        </p>
+        <a href="iriam.html" class="btn-iriam-custom">IRIAM専用ページへ</a>
+    </section>
 </div>
 
 <footer>
