@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High-Contrast 4K RGB Laser Projector Control Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@600;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"Share Tech Mono"', 'monospace'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        panelBg: '#090d14',
+                        boxBg: '#111823',
+                        borderHi: '#2e3e52',
+                        laserRed: '#ff2d55',
+                        laserGreen: '#00ff66',
+                        laserBlue: '#00c3ff',
+                        neonAmber: '#ffaa00',
+                        neonCyan: '#00f0ff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #030508;
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: 'Inter', sans-serif;
+            color: #f1f5f9;
+            overflow: hidden;
+        }
+
+        /* High Visibility Scanline Display */
+        .hi-vis-display {
+            background-color: #030a05;
+            border: 2px solid #00ff66;
+            box-shadow: inset 0 0 10px rgba(0, 255, 102, 0.25), 0 0 12px rgba(0, 255, 102, 0.3);
+            color: #00ff66;
+            text-shadow: 0 0 6px rgba(0, 255, 102, 0.8);
+        }
+
+        /* Industrial Physical Push Buttons */
+        .btn-industrial {
+            background: linear-gradient(180deg, #243040 0%, #151d27 100%);
+            border: 2px solid #3b4d63;
+            box-shadow: 0 4px 0 #0a0f14, inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            font-weight: 800;
+            transition: all 0.05s ease-in-out;
+        }
+        .btn-industrial:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0a0f14, inset 0 2px 4px rgba(0, 0, 0, 0.9);
+            background: linear-gradient(180deg, #121820 0%, #0a0e13 100%);
+        }
+
+        .btn-active-cyan {
+            background: linear-gradient(180deg, #00b4d8 0%, #0077b6 100%) !important;
+            border-color: #00f0ff !important;
+            box-shadow: 0 0 14px rgba(0, 240, 255, 0.8), inset 0 1px 0 #ffffff !important;
+            color: #ffffff !important;
+            text-shadow: 0 0 4px #000000;
+        }
+
+        .btn-danger-pwr {
+            background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
+            border: 2px solid #ef4444;
+            box-shadow: 0 4px 0 #450a0a, inset 0 1px 0 rgba(255,255,255,0.3);
+            color: #ffffff;
+            text-shadow: 0 1px 2px #000;
+        }
+        .btn-danger-pwr:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #450a0a, inset 0 2px 4px rgba(0,0,0,0.9);
+        }
+
+        /* High-Contrast Tabs */
+        .tab-btn {
+            background: #0f1622;
+            border: 2px solid #233145;
+            border-bottom: none;
+            color: #94a3b8;
+            font-weight: 800;
+        }
+        .tab-btn.active {
+            background: #172233;
+            border-color: #00f0ff;
+            color: #00f0ff;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+        }
+
+        /* Range Sliders */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: #080c12;
+            border: 2px solid #2a3a4e;
+            border-radius: 4px;
+            height: 10px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 22px;
+            width: 14px;
+            border-radius: 3px;
+            background: #00f0ff;
+            border: 1px solid #ffffff;
+            cursor: pointer;
+            box-shadow: 0 0 10px #00f0ff;
+        }
+
+        .glow-red { box-shadow: 0 0 12px #ff2d55; }
+        .glow-green { box-shadow: 0 0 12px #00ff66; }
+        .glow-blue { box-shadow: 0 0 12px #00c3ff; }
+        .glow-amber { box-shadow: 0 0 12px #ffaa00; }
+    </style>
+</head>
+<body class="w-screen h-screen flex items-center justify-center p-2 sm:p-3">
+
+    <div class="w-full max-w-[980px] h-full max-h-[600px] bg-panelBg rounded-xl p-3 border-4 border-slate-700 shadow-2xl flex flex-col justify-between relative overflow-hidden">
+        
+        <!-- TOP HEADER BAR: High Visibility Status -->
+        <div class="flex justify-between items-center pb-2 border-b-2 border-slate-700 text-xs font-mono shrink-0">
+            <!-- Left: Laser Safety Class Badge -->
+            <div class="flex items-center gap-2">
+                <span class="bg-amber-500 text-black font-extrabold px-2 py-0.5 rounded border-2 border-amber-300 tracking-wider flex items-center gap-1.5 shadow-[0_0_10px_rgba(255,170,0,0.6)]">
+                    <span id="laser-warning-led" class="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping"></span>
+                    CLASS 4 RGB LASER
+                </span>
+                <span class="text-neonCyan font-bold hidden sm:inline">OPTIX-4K INDUSTRIAL</span>
+            </div>
+
+            <!-- Center: Resolution & Signal Status -->
+            <div class="flex items-center gap-2 text-white font-extrabold">
+                <span class="bg-sky-600 text-white px-2 py-0.5 rounded border border-sky-300 font-mono">4K DCI (4096x2160)</span>
+            </div>
+
+            <!-- Right: Genlock & Clock -->
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1">
+                    <span class="text-slate-400">GENLOCK:</span>
+                    <span id="genlock-indicator" class="text-laserGreen font-bold tracking-wider">LOCKED 60Hz</span>
+                </div>
+                <span id="clock-display" class="text-neonAmber font-bold font-mono text-sm">11:30:22</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-3 my-2 flex-1 min-h-0">
+            
+            <!-- LEFT COLUMN: Hardware Metering & Laser Monitor (4 Cols) -->
+            <div class="col-span-4 bg-boxBg rounded-lg p-3 border-2 border-slate-700 flex flex-col justify-between font-mono text-xs">
+                <div>
+                    <!-- Emission Status Header -->
+                    <div class="flex justify-between items-center pb-2 border-b-2 border-slate-700">
+                        <span class="text-slate-300 font-sans font-extrabold">LASER EMISSION</span>
+                        <span id="pwr-status-badge" class="px-2.5 py-1 rounded bg-emerald-900 text-laserGreen border-2 border-laserGreen font-extrabold flex items-center gap-1.5 shadow-[0_0_10px_rgba(0,255,102,0.4)]">
+                            <span class="w-2 h-2 rounded-full bg-laserGreen glow-green animate-pulse"></span> EMITTING
+                        </span>
+                    </div>
+
+                    <!-- RGB Laser Output Bars -->
+                    <div class="space-y-3 mt-3">
+                        <div class="text-[11px] text-slate-300 font-sans font-bold flex justify-between">
+                            <span>RGB LASER DIODE DIAL</span>
+                            <span class="text-neonCyan">POWER / TEMP</span>
+                        </div>
+
+                        <!-- RED DIODE -->
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-laserRed font-extrabold">RED (638nm)</span>
+                                <span id="txt-bar-r" class="text-white font-bold">100% / 38°C</span>
+                            </div>
+                            <div class="w-full bg-slate-950 h-3 rounded border-2 border-slate-700 overflow-hidden">
+                                <div id="meter-bar-r" class="bg-laserRed h-full w-full transition-all duration-300 glow-red"></div>
+                            </div>
+                        </div>
+
+                        <!-- GREEN DIODE -->
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-laserGreen font-extrabold">GREEN (525nm)</span>
+                                <span id="txt-bar-g" class="text-white font-bold">100% / 41°C</span>
+                            </div>
+                            <div class="w-full bg-slate-950 h-3 rounded border-2 border-slate-700 overflow-hidden">
+                                <div id="meter-bar-g" class="bg-laserGreen h-full w-full transition-all duration-300 glow-green"></div>
+                            </div>
+                        </div>
+
+                        <!-- BLUE DIODE -->
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-laserBlue font-extrabold">BLUE (465nm)</span>
+                                <span id="txt-bar-b" class="text-white font-bold">100% / 39°C</span>
+                            </div>
+                            <div class="w-full bg-slate-950 h-3 rounded border-2 border-slate-700 overflow-hidden">
+                                <div id="meter-bar-b" class="bg-laserBlue h-full w-full transition-all duration-300 glow-blue"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- High-Contrast Green CRT Display Box -->
+                <div class="hi-vis-display rounded p-2 mt-2 space-y-1">
+                    <div class="flex justify-between border-b border-emerald-800 pb-0.5">
+                        <span>FAN RPM:</span>
+                        <span id="fan-rpm-val" class="font-bold">4,350 RPM</span>
+                    </div>
+                    <div class="flex justify-between border-b border-emerald-800 pb-0.5">
+                        <span>OPT ENGINE:</span>
+                        <span class="font-bold">39.2°C (OK)</span>
+                    </div>
+                    <div class="flex justify-between pt-0.5">
+                        <span>LASER LIFE:</span>
+                        <span class="font-bold">1,248 HOURS</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Interactive Projection Preview & Tab Controls (8 Cols) -->
+            <div class="col-span-8 flex flex-col justify-between space-y-2">
+                
+                <!-- 4K LIVE PROJECTION PREVIEW DISPLAY -->
+                <div class="bg-black rounded-lg border-2 border-slate-700 relative h-36 sm:h-44 overflow-hidden flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,1)]">
+                    <canvas id="projection-preview" class="w-full h-full object-contain"></canvas>
+                    
+                    <!-- HUD Status Tag -->
+                    <div class="absolute top-2 left-2 flex items-center gap-2 text-xs font-mono text-laserGreen bg-black/85 px-2.5 py-1 rounded border border-laserGreen font-bold">
+                        <span class="w-2 h-2 rounded-full bg-laserGreen animate-ping"></span>
+                        <span id="preview-mode-tag">REALTIME 4K PROJECTION PREVIEW</span>
+                    </div>
+
+                    <!-- AV Mute Shutter Screen -->
+                    <div id="shutter-overlay" class="absolute inset-0 bg-black/98 text-laserRed font-mono font-extrabold flex flex-col items-center justify-center gap-2 hidden">
+                        <svg class="w-10 h-10 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858-5.908a10.038 10.038 0 0110.123 7c-.571 1.825-1.63 3.415-3.003 4.607m-4.52-1.52A3 3 0 1012 15a2.99 2.99 0 002.458-1.282m-4.916-4.916A2.99 2.99 0 0112 9c.356 0 .692.062 1.004.175M3 3l18 18"></path></svg>
+                        <span class="text-sm tracking-widest bg-red-950 px-3 py-1 rounded border border-red-600">AV MUTE / LASER SHUTTER CLOSED</span>
+                    </div>
+                </div>
+
+                <!-- TAB SELECTOR BAR -->
+                <div class="grid grid-cols-4 gap-1.5 text-xs font-extrabold shrink-0">
+                    <button onclick="switchTab('home')" id="tab-home" class="tab-btn active py-2 text-center rounded-t-lg">1. HOME</button>
+                    <button onclick="switchTab('laser')" id="tab-laser" class="tab-btn py-2 text-center rounded-t-lg">2. RGB LASER</button>
+                    <button onclick="switchTab('lens')" id="tab-lens" class="tab-btn py-2 text-center rounded-t-lg">3. LENS / GEO</button>
+                    <button onclick="switchTab('sys')" id="tab-sys" class="tab-btn py-2 text-center rounded-t-lg">4. INPUT / SYS</button>
+                </div>
+
+                <!-- TAB PANELS CONTAINER -->
+                <div class="bg-boxBg p-3 rounded-b-lg border-2 border-slate-700 flex-1 flex flex-col justify-between overflow-y-auto">
+                    
+                    <!-- TAB 1: HOME -->
+                    <div id="view-home" class="tab-view space-y-2.5">
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="togglePower()" id="btn-power" class="btn-danger-pwr rounded-lg p-2.5 text-center font-extrabold text-sm flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                <span id="txt-power">POWER OFF</span>
+                            </button>
+                            
+                            <button onclick="toggleShutter()" id="btn-shutter" class="btn-industrial rounded-lg p-2.5 text-center text-neonAmber font-extrabold text-sm flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858-5.908a10.038 10.038 0 0110.123 7c-.571 1.825-1.63 3.415-3.003 4.607m-4.52-1.52A3 3 0 1012 15a2.99 2.99 0 002.458-1.282m-4.916-4.916A2.99 2.99 0 0112 9c.356 0 .692.062 1.004.175M3 3l18 18"></path></svg>
+                                <span>AV MUTE</span>
+                            </button>
+
+                            <button onclick="toggleTestPattern()" id="btn-pattern" class="btn-industrial rounded-lg p-2.5 text-center text-neonCyan font-extrabold text-sm flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                                <span>ALIGN PATTERN</span>
+                            </button>
+                        </div>
+
+                        <!-- Laser Output Preset Buttons -->
+                        <div class="bg-panelBg p-2.5 rounded-lg border-2 border-slate-700 space-y-2">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="font-extrabold text-slate-300">MAIN LASER POWER OUTPUT</span>
+                                <span id="laser-power-val" class="text-neonCyan font-mono font-extrabold text-sm">100% (BOOST)</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-4 gap-1.5 text-xs font-bold">
+                                <button onclick="setLaserPreset('ECO', 50)" id="pwr-eco" class="pwr-preset-btn btn-industrial rounded py-1.5">ECO (50%)</button>
+                                <button onclick="setLaserPreset('NORMAL', 80)" id="pwr-normal" class="pwr-preset-btn btn-industrial rounded py-1.5">NORM (80%)</button>
+                                <button onclick="setLaserPreset('BOOST', 100)" id="pwr-boost" class="pwr-preset-btn btn-industrial btn-active-cyan rounded py-1.5">BOOST (100%)</button>
+                                <button onclick="setLaserPreset('CUSTOM', null)" id="pwr-custom" class="pwr-preset-btn btn-industrial rounded py-1.5">CUSTOM</button>
+                            </div>
+
+                            <input type="range" id="slider-laser-pwr" min="30" max="100" value="100" oninput="onLaserSliderChange(this.value)" class="w-full mt-2">
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: RGB LASER / COLOR -->
+                    <div id="view-laser" class="tab-view hidden space-y-2.5">
+                        <div class="bg-panelBg p-2.5 rounded-lg border-2 border-slate-700 space-y-2">
+                            <span class="text-xs font-extrabold text-slate-300 block">RGB INDIVIDUAL LASER GAIN</span>
+                            
+                            <div class="flex items-center gap-3 text-xs">
+                                <span class="text-laserRed font-mono font-extrabold w-5">RED</span>
+                                <input type="range" id="gain-r" min="0" max="100" value="100" oninput="updateColorGains()" class="w-full accent-red-500">
+                                <span id="txt-gain-r" class="font-mono text-white font-extrabold w-10 text-right">100%</span>
+                            </div>
+
+                            <div class="flex items-center gap-3 text-xs">
+                                <span class="text-laserGreen font-mono font-extrabold w-5">GRN</span>
+                                <input type="range" id="gain-g" min="0" max="100" value="100" oninput="updateColorGains()" class="w-full accent-green-500">
+                                <span id="txt-gain-g" class="font-mono text-white font-extrabold w-10 text-right">100%</span>
+                            </div>
+
+                            <div class="flex items-center gap-3 text-xs">
+                                <span class="text-laserBlue font-mono font-extrabold w-5">BLU</span>
+                                <input type="range" id="gain-b" min="0" max="100" value="100" oninput="updateColorGains()" class="w-full accent-blue-500">
+                                <span id="txt-gain-b" class="font-mono text-white font-extrabold w-10 text-right">100%</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="bg-panelBg p-2 rounded-lg border-2 border-slate-700">
+                                <span class="text-slate-300 font-extrabold block mb-1">COLOR GAMUT</span>
+                                <div class="grid grid-cols-3 gap-1 font-extrabold">
+                                    <button onclick="setGamut('Rec.2020')" id="g-2020" class="gamut-btn btn-industrial btn-active-cyan rounded py-1.5">Rec.2020</button>
+                                    <button onclick="setGamut('DCI-P3')" id="g-p3" class="gamut-btn btn-industrial rounded py-1.5">DCI-P3</button>
+                                    <button onclick="setGamut('Rec.709')" id="g-709" class="gamut-btn btn-industrial rounded py-1.5">Rec.709</button>
+                                </div>
+                            </div>
+
+                            <div class="bg-panelBg p-2 rounded-lg border-2 border-slate-700">
+                                <span class="text-slate-300 font-extrabold block mb-1">DYNAMIC DIMMING</span>
+                                <button onclick="toggleDimming()" id="btn-dimming" class="btn-industrial rounded py-1.5 w-full text-laserGreen font-extrabold">
+                                    MODE: HIGH SPEED
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: LENS & GEOMETRY -->
+                    <div id="view-lens" class="tab-view hidden space-y-2">
+                        <div class="grid grid-cols-2 gap-2">
+                            <!-- Motorized Lens Shift Keypad -->
+                            <div class="bg-panelBg p-2 rounded-lg border-2 border-slate-700 flex items-center justify-between">
+                                <span class="text-xs font-extrabold text-slate-300">LENS SHIFT</span>
+                                <div class="grid grid-cols-3 gap-1 w-24 h-24">
+                                    <div></div>
+                                    <button onclick="adjustLens('V-SHIFT', -1)" class="btn-industrial rounded font-black text-sm">▲</button>
+                                    <div></div>
+                                    <button onclick="adjustLens('H-SHIFT', -1)" class="btn-industrial rounded font-black text-sm">◀</button>
+                                    <div class="flex items-center justify-center text-[9px] text-slate-400 font-mono">PAD</div>
+                                    <button onclick="adjustLens('H-SHIFT', 1)" class="btn-industrial rounded font-black text-sm">▶</button>
+                                    <div></div>
+                                    <button onclick="adjustLens('V-SHIFT', 1)" class="btn-industrial rounded font-black text-sm">▼</button>
+                                    <div></div>
+                                </div>
+                            </div>
+
+                            <!-- Focus/Zoom & Keystone -->
+                            <div class="space-y-1.5 text-xs">
+                                <div class="bg-panelBg p-2 rounded-lg border-2 border-slate-700 space-y-1.5">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-300 font-extrabold">FOCUS</span>
+                                        <div class="flex gap-1">
+                                            <button onclick="adjustLens('FOCUS', -1)" class="btn-industrial rounded px-3 py-1 font-extrabold">-</button>
+                                            <button onclick="adjustLens('FOCUS', 1)" class="btn-industrial rounded px-3 py-1 font-extrabold">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-300 font-extrabold">ZOOM</span>
+                                        <div class="flex gap-1">
+                                            <button onclick="adjustLens('ZOOM', -1)" class="btn-industrial rounded px-3 py-1 font-extrabold">-</button>
+                                            <button onclick="adjustLens('ZOOM', 1)" class="btn-industrial rounded px-3 py-1 font-extrabold">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button onclick="toggleKeystoneMode()" id="btn-keystone" class="btn-industrial rounded-lg p-2 text-center text-neonCyan font-extrabold text-xs w-full">
+                                    4-CORNER KEYSTONE: OFF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 4: INPUT & SYSTEM -->
+                    <div id="view-sys" class="tab-view hidden space-y-2">
+                        <div class="bg-panelBg p-2 rounded-lg border-2 border-slate-700 space-y-1.5 text-xs">
+                            <span class="text-slate-300 font-extrabold block">INPUT SOURCE SELECTION</span>
+                            <div class="grid grid-cols-3 gap-1.5 font-extrabold">
+                                <button onclick="setInput('12G-SDI 1')" id="inp-sdi1" class="inp-btn btn-industrial btn-active-cyan rounded py-1.5">12G-SDI 1</button>
+                                <button onclick="setInput('12G-SDI 2')" id="inp-sdi2" class="inp-btn btn-industrial rounded py-1.5">12G-SDI 2</button>
+                                <button onclick="setInput('HDMI 2.1')" id="inp-hdmi1" class="inp-btn btn-industrial rounded py-1.5">HDMI 2.1</button>
+                                <button onclick="setInput('DP 1.4')" id="inp-dp" class="inp-btn btn-industrial rounded py-1.5">DP 1.4</button>
+                                <button onclick="setInput('QUAD-SDI')" id="inp-quad" class="inp-btn btn-industrial rounded py-1.5">QUAD-SDI</button>
+                                <button onclick="setInput('HDBaseT')" id="inp-hdbt" class="inp-btn btn-industrial rounded py-1.5">HDBaseT</button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="bg-panelBg p-2 rounded-lg border-2 border-slate-700 flex justify-between items-center font-mono">
+                                <span class="text-slate-400">NET IP:</span>
+                                <span class="text-laserGreen font-bold">192.168.1.120</span>
+                            </div>
+                            <div class="bg-panelBg p-2 rounded-lg border-2 border-slate-700 flex justify-between items-center font-mono">
+                                <span class="text-slate-400">OSD LOCK:</span>
+                                <button onclick="toggleLock()" id="btn-lock" class="text-neonAmber font-extrabold">UNLOCKED</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER BAR -->
+        <div class="pt-1.5 border-t-2 border-slate-700 flex justify-between items-center text-[10px] font-mono text-slate-400 shrink-0">
+            <span>FIRMWARE: v4.2.0-PRO (HIGH-CONTRAST MODE)</span>
+            <span>SYSTEM STATUS: OK</span>
+            <span>EMBEDDED LCD 800x480</span>
+        </div>
+
+    </div>
+
+    <script>
+        // System State Definition
+        const state = {
+            power: true,
+            shutter: false,
+            testPattern: false,
+            keystoneActive: false,
+            laserPower: 100,
+            laserPreset: 'BOOST',
+            input: '12G-SDI 1',
+            gamut: 'Rec.2020',
+            dimming: 'HIGH SPEED',
+            locked: false,
+            gainR: 100,
+            gainG: 100,
+            gainB: 100,
+            vShift: 0,
+            hShift: 0,
+            focus: 0,
+            zoom: 0
+        };
+
+        // Web Audio Synthesizer Feedback
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function playBeep(freq = 1000, duration = 0.04, type = 'sine') {
+            try {
+                if (!audioCtx) audioCtx = new AudioContext();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        // Canvas Live Projection Renderer
+        const canvas = document.getElementById('projection-preview');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+            drawProjection();
+        }
+
+        function drawProjection() {
+            const w = canvas.width;
+            const h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            if (!state.power || state.shutter) return;
+
+            ctx.save();
+
+            // Transformations: Lens Shift & Zoom
+            const shiftX = state.hShift * 4;
+            const shiftY = state.vShift * 4;
+            const zoomFactor = 1 + (state.zoom * 0.06);
+
+            ctx.translate(w / 2 + shiftX, h / 2 + shiftY);
+            ctx.scale(zoomFactor, zoomFactor);
+
+            // Keystone Matrix Transformation
+            if (state.keystoneActive) {
+                ctx.transform(1, 0.08, -0.05, 0.95, 0, 0);
+            }
+
+            const drawW = w * 0.82;
+            const drawH = h * 0.82;
+            const left = -drawW / 2;
+            const top = -drawH / 2;
+
+            // RGB Modulation Background
+            const rVal = Math.floor((state.gainR / 100) * (state.laserPower / 100) * 255);
+            const gVal = Math.floor((state.gainG / 100) * (state.laserPower / 100) * 255);
+            const bVal = Math.floor((state.gainB / 100) * (state.laserPower / 100) * 255);
+
+            ctx.fillStyle = `rgb(${Math.floor(rVal * 0.2)}, ${Math.floor(gVal * 0.25)}, ${Math.floor(bVal * 0.3)})`;
+            ctx.fillRect(left, top, drawW, drawH);
+
+            if (state.testPattern) {
+                // Alignment Pattern Render
+                ctx.strokeStyle = `rgb(${rVal}, ${gVal}, ${bVal})`;
+                ctx.lineWidth = 1.5;
+
+                // Grid Lines
+                for (let x = left; x <= left + drawW; x += 20) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, top);
+                    ctx.lineTo(x, top + drawH);
+                    ctx.stroke();
+                }
+                for (let y = top; y <= top + drawH; y += 15) {
+                    ctx.beginPath();
+                    ctx.moveTo(left, y);
+                    ctx.lineTo(left + drawW, y);
+                    ctx.stroke();
+                }
+
+                // Center Circle & Crosshair
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(0, 0, 30, 0, Math.PI * 2);
+                ctx.moveTo(-drawW / 2, 0);
+                ctx.lineTo(drawW / 2, 0);
+                ctx.moveTo(0, -drawH / 2);
+                ctx.lineTo(0, drawH / 2);
+                ctx.stroke();
+
+            } else {
+                // Live 4K Feed Simulation Display
+                ctx.fillStyle = `rgb(${rVal}, ${gVal}, ${bVal})`;
+                ctx.font = 'bold 14px "Share Tech Mono"';
+                ctx.textAlign = 'center';
+                ctx.fillText(`LIVE 4K FEED: ${state.input}`, 0, -8);
+
+                ctx.fillStyle = '#00ff66';
+                ctx.font = 'bold 11px "Share Tech Mono"';
+                ctx.fillText(`COLOR GAMUT: ${state.gamut}`, 0, 12);
+            }
+
+            ctx.restore();
+        }
+
+        // Tab Switcher
+        function switchTab(tabName) {
+            playBeep(1200, 0.03);
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-view').forEach(view => view.classList.add('hidden'));
+
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.getElementById(`view-${tabName}`).classList.remove('hidden');
+        }
+
+        // Power Control
+        function togglePower() {
+            state.power = !state.power;
+            const btn = document.getElementById('btn-power');
+            const txt = document.getElementById('txt-power');
+            const badge = document.getElementById('pwr-status-badge');
+
+            if (state.power) {
+                playBeep(1500, 0.08);
+                btn.className = "btn-danger-pwr rounded-lg p-2.5 text-center font-extrabold text-sm flex items-center justify-center gap-2";
+                txt.innerText = "POWER OFF";
+                badge.className = "px-2.5 py-1 rounded bg-emerald-900 text-laserGreen border-2 border-laserGreen font-extrabold flex items-center gap-1.5 shadow-[0_0_10px_rgba(0,255,102,0.4)]";
+                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-laserGreen glow-green animate-pulse"></span> EMITTING`;
+            } else {
+                playBeep(450, 0.1, 'sawtooth');
+                btn.className = "btn-industrial rounded-lg p-2.5 text-center text-laserGreen font-extrabold text-sm flex items-center justify-center gap-2";
+                txt.innerText = "POWER ON";
+                badge.className = "px-2.5 py-1 rounded bg-red-950 text-laserRed border-2 border-laserRed font-extrabold flex items-center gap-1.5";
+                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-laserRed glow-red"></span> STANDBY`;
+            }
+            updateMeters();
+            drawProjection();
+        }
+
+        // AV Mute
+        function toggleShutter() {
+            if (!state.power) return;
+            state.shutter = !state.shutter;
+            playBeep(state.shutter ? 600 : 1100, 0.05);
+
+            const btn = document.getElementById('btn-shutter');
+            const overlay = document.getElementById('shutter-overlay');
+
+            if (state.shutter) {
+                btn.classList.add('btn-active-cyan');
+                overlay.classList.remove('hidden');
+            } else {
+                btn.classList.remove('btn-active-cyan');
+                overlay.classList.add('hidden');
+            }
+            drawProjection();
+        }
+
+        // Test Pattern
+        function toggleTestPattern() {
+            if (!state.power) return;
+            state.testPattern = !state.testPattern;
+            playBeep(state.testPattern ? 1300 : 850, 0.04);
+
+            const btn = document.getElementById('btn-pattern');
+            const tag = document.getElementById('preview-mode-tag');
+
+            if (state.testPattern) {
+                btn.classList.add('btn-active-cyan');
+                tag.innerText = "ALIGNMENT GRID / TEST PATTERN";
+            } else {
+                btn.classList.remove('btn-active-cyan');
+                tag.innerText = "REALTIME 4K PROJECTION PREVIEW";
+            }
+            drawProjection();
+        }
+
+        // Laser Preset Buttons
+        function setLaserPreset(preset, val) {
+            if (!state.power) return;
+            playBeep(1100, 0.04);
+            state.laserPreset = preset;
+
+            document.querySelectorAll('.pwr-preset-btn').forEach(b => b.classList.remove('btn-active-cyan'));
+            if (preset === 'ECO') document.getElementById('pwr-eco').classList.add('btn-active-cyan');
+            if (preset === 'NORMAL') document.getElementById('pwr-normal').classList.add('btn-active-cyan');
+            if (preset === 'BOOST') document.getElementById('pwr-boost').classList.add('btn-active-cyan');
+            if (preset === 'CUSTOM') document.getElementById('pwr-custom').classList.add('btn-active-cyan');
+
+            if (val !== null) {
+                state.laserPower = val;
+                document.getElementById('slider-laser-pwr').value = val;
+            }
+            document.getElementById('laser-power-val').innerText = `${state.laserPower}% (${state.laserPreset})`;
+            updateMeters();
+            drawProjection();
+        }
+
+        function onLaserSliderChange(val) {
+            state.laserPower = val;
+            setLaserPreset('CUSTOM', null);
+        }
+
+        // Metering Update
+        function updateMeters() {
+            const factor = state.power ? (state.laserPower / 100) : 0;
+            const rPwr = Math.floor((state.gainR / 100) * factor * 100);
+            const gPwr = Math.floor((state.gainG / 100) * factor * 100);
+            const bPwr = Math.floor((state.gainB / 100) * factor * 100);
+
+            document.getElementById('meter-bar-r').style.width = `${rPwr}%`;
+            document.getElementById('meter-bar-g').style.width = `${gPwr}%`;
+            document.getElementById('meter-bar-b').style.width = `${bPwr}%`;
+
+            document.getElementById('txt-bar-r').innerText = `${rPwr}% / 38°C`;
+            document.getElementById('txt-bar-g').innerText = `${gPwr}% / 41°C`;
+            document.getElementById('txt-bar-b').innerText = `${bPwr}% / 39°C`;
+        }
+
+        function updateColorGains() {
+            state.gainR = document.getElementById('gain-r').value;
+            state.gainG = document.getElementById('gain-g').value;
+            state.gainB = document.getElementById('gain-b').value;
+
+            document.getElementById('txt-gain-r').innerText = `${state.gainR}%`;
+            document.getElementById('txt-gain-g').innerText = `${state.gainG}%`;
+            document.getElementById('txt-gain-b').innerText = `${state.gainB}%`;
+
+            updateMeters();
+            drawProjection();
+        }
+
+        function setGamut(gamut) {
+            if (!state.power) return;
+            playBeep(1000, 0.04);
+            state.gamut = gamut;
+            document.querySelectorAll('.gamut-btn').forEach(b => b.classList.remove('btn-active-cyan'));
+            if (gamut === 'Rec.2020') document.getElementById('g-2020').classList.add('btn-active-cyan');
+            if (gamut === 'DCI-P3') document.getElementById('g-p3').classList.add('btn-active-cyan');
+            if (gamut === 'Rec.709') document.getElementById('g-709').classList.add('btn-active-cyan');
+            drawProjection();
+        }
+
+        function toggleDimming() {
+            if (!state.power) return;
+            playBeep(900, 0.04);
+            state.dimming = state.dimming === 'HIGH SPEED' ? 'OPTIMAL' : (state.dimming === 'OPTIMAL' ? 'OFF' : 'HIGH SPEED');
+            document.getElementById('btn-dimming').innerText = `MODE: ${state.dimming}`;
+        }
+
+        function adjustLens(type, step) {
+            if (!state.power) return;
+            playBeep(1400, 0.03);
+            if (type === 'V-SHIFT') state.vShift += step;
+            if (type === 'H-SHIFT') state.hShift += step;
+            if (type === 'FOCUS') state.focus += step;
+            if (type === 'ZOOM') state.zoom += step;
+            drawProjection();
+        }
+
+        function toggleKeystoneMode() {
+            if (!state.power) return;
+            playBeep(1100, 0.04);
+            state.keystoneActive = !state.keystoneActive;
+            const btn = document.getElementById('btn-keystone');
+            btn.innerText = `4-CORNER KEYSTONE: ${state.keystoneActive ? 'ACTIVE' : 'OFF'}`;
+            if (state.keystoneActive) btn.classList.add('btn-active-cyan');
+            else btn.classList.remove('btn-active-cyan');
+            drawProjection();
+        }
+
+        function setInput(inpName) {
+            if (!state.power) return;
+            playBeep(1000, 0.04);
+            state.input = inpName;
+            document.querySelectorAll('.inp-btn').forEach(b => b.classList.remove('btn-active-cyan'));
+            
+            if (inpName === '12G-SDI 1') document.getElementById('inp-sdi1').classList.add('btn-active-cyan');
+            if (inpName === '12G-SDI 2') document.getElementById('inp-sdi2').classList.add('btn-active-cyan');
+            if (inpName === 'HDMI 2.1') document.getElementById('inp-hdmi1').classList.add('btn-active-cyan');
+            if (inpName === 'DP 1.4') document.getElementById('inp-dp').classList.add('btn-active-cyan');
+            if (inpName === 'QUAD-SDI') document.getElementById('inp-quad').classList.add('btn-active-cyan');
+            if (inpName === 'HDBaseT') document.getElementById('inp-hdbt').classList.add('btn-active-cyan');
+
+            drawProjection();
+        }
+
+        function toggleLock() {
+            playBeep(state.locked ? 1200 : 500, 0.06);
+            state.locked = !state.locked;
+            const btn = document.getElementById('btn-lock');
+            btn.innerText = state.locked ? 'LOCKED' : 'UNLOCKED';
+            btn.className = state.locked ? 'text-laserRed font-extrabold' : 'text-neonAmber font-extrabold';
+        }
+
+        // Live Clock & Fan Fluctuation Loop
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock-display').innerText = now.toTimeString().split(' ')[0];
+            if (state.power) {
+                document.getElementById('fan-rpm-val').innerText = `${4300 + Math.floor(Math.random() * 100)} RPM`;
+            }
+        }, 1000);
+
+        // Window Handlers
+        window.addEventListener('resize', resizeCanvas);
+        window.onload = () => {
+            resizeCanvas();
+            updateMeters();
+        };
+    </script>
+</body>
+</html>
