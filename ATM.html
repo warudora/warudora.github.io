@@ -3,414 +3,173 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Japaniture 銀行 ATM</title>
+  <title>Japaniture Bank ATM UI</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,900;1,900&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Noto Sans JP', sans-serif;
       user-select: none;
+      background-color: #0f172a;
     }
-    .font-brand {
+    .font-logo {
       font-family: 'Montserrat', sans-serif;
     }
-    .atm-screen-shadow {
-      box-shadow: inset 0 0 12px rgba(0,0,0,0.15);
+    /* タッチパネル独特のグラデーションとシャドウ */
+    .btn-glass {
+      background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+      box-shadow: 0 4px 0 0 #cbd5e1, 0 8px 16px rgba(0,0,0,0.1);
     }
-    .btn-touch {
-      transition: all 0.1s ease;
+    .btn-main-primary {
+      background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+      box-shadow: 0 6px 0 0 #1e3a8a, 0 10px 20px rgba(37,99,235,0.3);
     }
-    .btn-touch:active {
-      transform: scale(0.97);
-      box-shadow: inset 0 3px 5px rgba(0,0,0,0.2);
+    .btn-main-dark {
+      background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+      box-shadow: 0 6px 0 0 #0f172a, 0 10px 20px rgba(0,0,0,0.3);
     }
-    /* アニメーション用 */
-    @keyframes slotOpen {
-      0% { height: 8px; background-color: #334155; }
-      50% { height: 28px; background-color: #22c55e; }
-      100% { height: 8px; background-color: #334155; }
+    .screen-glass {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.08);
     }
-    .animate-slot {
-      animation: slotOpen 2.5s infinite;
+    .slant-bar {
+      transform: skewX(-20deg);
     }
   </style>
 </head>
-<body class="bg-slate-900 min-h-screen flex items-center justify-center p-2 sm:p-6 text-slate-800">
+<body class="min-h-screen flex items-center justify-center p-4 sm:p-8">
 
-  <!-- ATM 筐体フレーム -->
-  <div class="w-full max-w-4xl bg-slate-200 border-4 border-slate-400 rounded-3xl p-4 sm:p-8 shadow-2xl relative overflow-hidden">
+  <!-- ATM 液晶ディスプレイ外郭フレーム -->
+  <div class="w-full max-w-5xl bg-slate-300 rounded-3xl p-3 sm:p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] border-4 border-slate-400">
     
-    <!-- ATM 上部ランプ/ヘッダー -->
-    <div class="flex items-center justify-between bg-slate-800 text-white px-6 py-3 rounded-2xl mb-4 border border-slate-700">
-      <div class="flex items-center space-x-3">
-        <!-- ロゴ再現 -->
+    <!-- 液晶画面エリア -->
+    <div class="screen-glass rounded-2xl border-2 border-slate-300 p-6 sm:p-8 flex flex-col justify-between min-h-[640px] relative overflow-hidden">
+      
+      <!-- 画面上部：ブランディング＆ヘッダーバー -->
+      <div class="flex justify-between items-start border-b-2 border-slate-300 pb-5">
+        
+        <!-- JapanitureMOD ロゴ部分 -->
         <div class="flex flex-col">
-          <div class="flex items-baseline space-x-0.5 font-brand tracking-tight">
-            <span class="text-2xl font-extrabold text-white">Japaniture</span>
-            <span class="text-2xl font-bold text-slate-300">MOD</span>
+          <div class="flex items-baseline font-logo tracking-tighter">
+            <span class="text-3xl sm:text-4xl font-extrabold text-black italic">Japaniture</span>
+            <span class="text-3xl sm:text-4xl font-extrabold text-black">MOD</span>
           </div>
-          <!-- アンダーライン＆青のアクセントスラッシュ -->
-          <div class="flex items-center mt-0.5">
-            <div class="h-[2px] bg-white flex-grow"></div>
-            <div class="w-12 h-[2px] bg-slate-800"></div>
-            <div class="flex space-x-1 ml-1 transform -skew-x-12">
-              <div class="w-2 h-2.5 bg-sky-400"></div>
-              <div class="w-2 h-2.5 bg-blue-500"></div>
-              <div class="w-2 h-2.5 bg-indigo-600"></div>
+          <!-- 下部の直線アンダーライン＆右側の斜めバー3本 -->
+          <div class="flex items-center mt-1">
+            <div class="h-[3px] bg-black w-56 sm:w-64"></div>
+            <div class="flex space-x-1 ml-2">
+              <div class="w-3 h-3 bg-slate-400 slant-bar"></div>
+              <div class="w-3 h-3 bg-slate-500 slant-bar"></div>
+              <div class="w-3 h-3 bg-slate-600 slant-bar"></div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="text-right">
-        <span class="text-xs text-slate-400 block">Japaniture Bank ATM #104</span>
-        <span id="current-time" class="text-sm font-mono font-bold text-sky-400">00:00:00</span>
-      </div>
-    </div>
 
-    <!-- 液晶画面エリア -->
-    <div class="bg-slate-50 border-4 border-slate-300 rounded-2xl p-4 sm:p-6 atm-screen-shadow min-h-[500px] flex flex-col justify-between relative overflow-hidden">
-      
-      <!-- 画面内ヘッダー -->
-      <div class="flex justify-between items-center border-b border-slate-200 pb-3">
-        <div class="flex items-center space-x-2">
-          <span class="inline-block w-3 h-3 rounded-full bg-blue-600"></span>
-          <h1 id="screen-title" class="text-xl sm:text-2xl font-bold text-slate-800">ご希望の取引をお選びください</h1>
-        </div>
-        <div id="step-indicator" class="text-xs font-semibold px-3 py-1 bg-slate-200 text-slate-600 rounded-full">
-          取引選択
+        <!-- 状態 / 言語切り替え -->
+        <div class="flex flex-col items-end space-y-2">
+          <div class="flex space-x-2">
+            <button class="px-4 py-1.5 bg-slate-800 text-white font-bold rounded-lg text-xs shadow">English</button>
+            <button class="px-4 py-1.5 bg-slate-200 text-slate-700 font-bold rounded-lg text-xs border border-slate-300">中文 / 한국語</button>
+          </div>
+          <span class="text-xs font-bold text-slate-500 font-mono tracking-wider">ATM #JPN-0810</span>
         </div>
       </div>
 
-      <!-- 画面コンテンツ切替エリア -->
-      <div id="screen-content" class="my-auto py-4">
+      <!-- メインガイドメッセージ -->
+      <div class="my-6 text-center">
+        <h1 class="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight">
+          ご希望のお取引ボタンを押してください
+        </h1>
+        <p class="text-slate-500 text-sm font-bold mt-1">
+          キャッシュカードまたは通帳をお持ちのお客様はそのままお挿入いただけます
+        </p>
+      </div>
+
+      <!-- 取引選択ボタンエリア -->
+      <div class="grid grid-cols-2 gap-4 sm:gap-6 my-auto">
         
-        <!-- 1. メインメニュー画面 -->
-        <div id="view-main" class="grid grid-cols-2 gap-4 sm:gap-6">
-          <button onclick="selectTransaction('引き出し')" class="btn-touch bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl p-5 sm:p-8 flex flex-col items-center justify-center shadow-lg border-b-4 border-indigo-900">
-            <svg class="w-10 h-10 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d=" "></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-            <span class="text-xl sm:text-2xl font-bold">お引き出し</span>
-            <span class="text-xs text-blue-100 mt-1">ご現金のお引出し</span>
-          </button>
-
-          <button onclick="selectTransaction('預入れ')" class="btn-touch bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900 text-white rounded-xl p-5 sm:p-8 flex flex-col items-center justify-center shadow-lg border-b-4 border-slate-950">
-            <svg class="w-10 h-10 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <span class="text-xl sm:text-2xl font-bold">お預入れ</span>
-            <span class="text-xs text-slate-300 mt-1">ご現金のお預け入れ</span>
-          </button>
-
-          <button onclick="selectTransaction('残高照会')" class="btn-touch bg-white border-2 border-slate-300 hover:bg-slate-100 text-slate-800 rounded-xl p-4 sm:p-6 flex flex-col items-center justify-center shadow-md">
-            <svg class="w-8 h-8 mb-1 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-            <span class="text-lg font-bold">残高照会</span>
-          </button>
-
-          <button onclick="selectTransaction('お振込み')" class="btn-touch bg-white border-2 border-slate-300 hover:bg-slate-100 text-slate-800 rounded-xl p-4 sm:p-6 flex flex-col items-center justify-center shadow-md">
-            <svg class="w-8 h-8 mb-1 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
-            <span class="text-lg font-bold">お振込み</span>
-          </button>
-        </div>
-
-        <!-- 2. 暗証番号入力画面 -->
-        <div id="view-pin" class="hidden flex flex-col items-center">
-          <p class="text-sm text-slate-500 mb-2">キャッシュカードの暗証番号（4桁）を入力してください</p>
-          <div class="flex justify-center space-x-3 mb-6">
-            <div id="pin-1" class="w-12 h-14 border-2 border-slate-400 rounded-lg bg-white flex items-center justify-center text-3xl font-bold"></div>
-            <div id="pin-2" class="w-12 h-14 border-2 border-slate-400 rounded-lg bg-white flex items-center justify-center text-3xl font-bold"></div>
-            <div id="pin-3" class="w-12 h-14 border-2 border-slate-400 rounded-lg bg-white flex items-center justify-center text-3xl font-bold"></div>
-            <div id="pin-4" class="w-12 h-14 border-2 border-slate-400 rounded-lg bg-white flex items-center justify-center text-3xl font-bold"></div>
+        <!-- お引き出し -->
+        <button class="btn-main-primary rounded-2xl p-6 sm:p-8 text-white flex items-center justify-between group transition">
+          <div class="text-left">
+            <span class="block text-2xl sm:text-4xl font-black tracking-wide">お引き出し</span>
+            <span class="text-xs sm:text-sm text-blue-100 font-bold mt-1 block">ご現金のお引出し・定期預金解約</span>
           </div>
-
-          <!-- テンキー -->
-          <div class="grid grid-cols-3 gap-3 w-64">
-            <button onclick="pressNum('1')" class="btn-touch bg-white border border-slate-300 hover:bg-slate-100 text-2xl font-bold p-3 rounded-lg shadow">1</button>
-            <button onclick="pressNum('2')" class="btn-touch bg-white border border-slate-300 hover:bg-slate-100 text-2xl font-bold p-3 rounded-lg shadow">2</button>
-            <button onclick="pressNum('3')" class="btn-touch bg-white border border-slate-300 hover:bg-slate-100 text-2xl font-bold p-3 rounded-lg shadow">3</button>
-            <button onclick="pressNum('4')" class="btn-touch bg-white border border-slate-300 hover:bg-slate-100 text-2xl font-bold p-3 rounded-lg shadow">4</button>
-            <button onclick="pressNum('5')" class="btn-touch bg-white border border-slate-300 hover:bg-slate-100 text-2xl font-bold p-3 rounded-lg shadow">5</button>
-            <button onclick="pressNum('6')" class="btn-touch bg-white border border-slate-300 hover:bg-slate-100 text-2xl font-bold p-3 rounded-lg shadow">6</button>
-            <button onclick="pressNum('7')" class="btn-touch bg-white border border-slate-300 hover:bg-slate-100 text-2xl font-bold p-3 rounded-lg shadow">7</button>
-            <button onclick="pressNum('8')" class="btn-touch bg-white border border-slate-300 hover:bg-slate-100 text-2xl font-bold p-3 rounded-lg shadow">8</button>
-            <button onclick="pressNum('9')" class="btn-touch bg-white border border-slate-300 hover:bg-slate-100 text-2xl font-bold p-3 rounded-lg shadow">9</button>
-            <button onclick="clearPin()" class="btn-touch bg-amber-500 hover:bg-amber-600 text-white font-bold p-3 rounded-lg shadow text-sm">訂正</button>
-            <button onclick="pressNum('0')" class="btn-touch bg-white border border-slate-300 hover:bg-slate-100 text-2xl font-bold p-3 rounded-lg shadow">0</button>
-            <button onclick="cancelTransaction()" class="btn-touch bg-red-500 hover:bg-red-600 text-white font-bold p-3 rounded-lg shadow text-sm">とりけし</button>
+          <div class="w-14 h-14 bg-white/10 rounded-xl flex items-center justify-center border border-white/20">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
           </div>
-        </div>
-
-        <!-- 3. 金額入力画面 -->
-        <div id="view-amount" class="hidden flex flex-col items-center">
-          <p class="text-sm text-slate-500 mb-2">お引出し金額を入力し「確認」を押してください</p>
-          
-          <div class="bg-white border-2 border-slate-400 rounded-xl p-3 w-80 mb-4 text-right shadow-inner">
-            <span id="amount-display" class="text-3xl font-extrabold text-slate-800 font-mono">0</span>
-            <span class="text-xl font-bold ml-1">円</span>
-          </div>
-
-          <!-- クイック選択ボタン -->
-          <div class="grid grid-cols-4 gap-2 w-80 mb-4">
-            <button onclick="setAmount(10000)" class="btn-touch bg-slate-200 hover:bg-slate-300 text-xs font-bold py-2 rounded">1万円</button>
-            <button onclick="setAmount(30000)" class="btn-touch bg-slate-200 hover:bg-slate-300 text-xs font-bold py-2 rounded">3万円</button>
-            <button onclick="setAmount(50000)" class="btn-touch bg-slate-200 hover:bg-slate-300 text-xs font-bold py-2 rounded">5万円</button>
-            <button onclick="setAmount(100000)" class="btn-touch bg-slate-200 hover:bg-slate-300 text-xs font-bold py-2 rounded">10万円</button>
-          </div>
-
-          <!-- テンキー（金額用） -->
-          <div class="grid grid-cols-3 gap-2 w-80">
-            <button onclick="pressAmount('1')" class="btn-touch bg-white border border-slate-300 text-xl font-bold p-2.5 rounded">1</button>
-            <button onclick="pressAmount('2')" class="btn-touch bg-white border border-slate-300 text-xl font-bold p-2.5 rounded">2</button>
-            <button onclick="pressAmount('3')" class="btn-touch bg-white border border-slate-300 text-xl font-bold p-2.5 rounded">3</button>
-            <button onclick="pressAmount('4')" class="btn-touch bg-white border border-slate-300 text-xl font-bold p-2.5 rounded">4</button>
-            <button onclick="pressAmount('5')" class="btn-touch bg-white border border-slate-300 text-xl font-bold p-2.5 rounded">5</button>
-            <button onclick="pressAmount('6')" class="btn-touch bg-white border border-slate-300 text-xl font-bold p-2.5 rounded">6</button>
-            <button onclick="pressAmount('7')" class="btn-touch bg-white border border-slate-300 text-xl font-bold p-2.5 rounded">7</button>
-            <button onclick="pressAmount('8')" class="btn-touch bg-white border border-slate-300 text-xl font-bold p-2.5 rounded">8</button>
-            <button onclick="pressAmount('9')" class="btn-touch bg-white border border-slate-300 text-xl font-bold p-2.5 rounded">9</button>
-            <button onclick="pressAmount('万')" class="btn-touch bg-slate-100 border border-slate-300 text-lg font-bold p-2.5 rounded text-blue-600">万</button>
-            <button onclick="pressAmount('0')" class="btn-touch bg-white border border-slate-300 text-xl font-bold p-2.5 rounded">0</button>
-            <button onclick="clearAmount()" class="btn-touch bg-amber-500 text-white font-bold p-2.5 rounded text-xs">クリア</button>
-          </div>
-
-          <div class="flex space-x-4 w-80 mt-4">
-            <button onclick="cancelTransaction()" class="btn-touch w-1/2 bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl shadow">とりけし</button>
-            <button onclick="confirmAmount()" class="btn-touch w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow border-b-2 border-blue-900">確認</button>
-          </div>
-        </div>
-
-        <!-- 4. 処理中画面 -->
-        <div id="view-processing" class="hidden flex flex-col items-center justify-center py-8">
-          <div class="animate-spin rounded-full h-16 w-16 border-4 border-blue-600 border-t-transparent mb-4"></div>
-          <p class="text-xl font-bold text-slate-700">ただいま処理中です</p>
-          <p class="text-sm text-slate-500 mt-2">しばらくそのままお待ちください...</p>
-        </div>
-
-        <!-- 5. 完了・明細受取画面 -->
-        <div id="view-complete" class="hidden flex flex-col items-center">
-          <div class="text-center mb-4">
-            <p class="text-lg font-bold text-blue-600">お取引が完了いたしました</p>
-            <p class="text-xs text-slate-500">現金とご利用明細票をお受け取りください</p>
-          </div>
-
-          <!-- 疑似レシート -->
-          <div class="bg-white border border-slate-300 rounded p-4 w-72 shadow-md text-xs font-mono space-y-1 my-2">
-            <div class="text-center font-bold text-sm mb-2 border-b pb-1">Japaniture 銀行 利用明細票</div>
-            <div class="flex justify-between"><span>日時:</span><span id="receipt-date">2026/10/06 17:15</span></div>
-            <div class="flex justify-between"><span>取引種別:</span><span id="receipt-type">お引出し</span></div>
-            <div class="flex justify-between"><span>取引金額:</span><span id="receipt-amount">¥10,000</span></div>
-            <div class="flex justify-between font-bold border-t pt-1 mt-1"><span>差引残高:</span><span id="receipt-balance">¥490,000</span></div>
-          </div>
-
-          <button onclick="resetATM()" class="btn-touch bg-slate-800 text-white font-bold px-8 py-3 rounded-xl shadow mt-4">最初の画面へ戻る</button>
-        </div>
-
-      </div>
-
-      <!-- 画面下部ナビゲーション / 案内 -->
-      <div class="border-t border-slate-200 pt-3 flex justify-between items-center text-xs text-slate-500">
-        <div class="flex items-center space-x-1">
-          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-          <span>稼働中（オンライン）</span>
-        </div>
-        <button id="cancel-btn" onclick="cancelTransaction()" class="text-red-600 border border-red-200 bg-red-50 hover:bg-red-100 px-3 py-1 rounded font-bold transition">
-          最初に戻る
         </button>
+
+        <!-- お預入れ -->
+        <button class="btn-main-dark rounded-2xl p-6 sm:p-8 text-white flex items-center justify-between group transition">
+          <div class="text-left">
+            <span class="block text-2xl sm:text-4xl font-black tracking-wide">お預入れ</span>
+            <span class="text-xs sm:text-sm text-slate-300 font-bold mt-1 block">紙幣・硬貨のお預け入れ</span>
+          </div>
+          <div class="w-14 h-14 bg-white/10 rounded-xl flex items-center justify-center border border-white/20">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+        </button>
+
+        <!-- 残高照会 -->
+        <button class="btn-glass rounded-2xl p-5 sm:p-6 text-slate-800 border border-slate-200 flex items-center justify-between">
+          <div class="text-left">
+            <span class="block text-xl sm:text-2xl font-black">残高照会</span>
+            <span class="text-xs text-slate-500 font-bold mt-0.5 block">口座残高・履歴のご確認</span>
+          </div>
+          <div class="w-10 h-10 bg-slate-200/60 rounded-lg flex items-center justify-center text-slate-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          </div>
+        </button>
+
+        <!-- お振込み -->
+        <button class="btn-glass rounded-2xl p-5 sm:p-6 text-slate-800 border border-slate-200 flex items-center justify-between">
+          <div class="text-left">
+            <span class="block text-xl sm:text-2xl font-black">お振込み</span>
+            <span class="text-xs text-slate-500 font-bold mt-0.5 block">他行・当行口座へのお振込み</span>
+          </div>
+          <div class="w-10 h-10 bg-slate-200/60 rounded-lg flex items-center justify-center text-slate-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+          </div>
+        </button>
+
+        <!-- 通帳記入・繰越 -->
+        <button class="btn-glass rounded-2xl p-5 sm:p-6 text-slate-800 border border-slate-200 flex items-center justify-between">
+          <div class="text-left">
+            <span class="block text-xl sm:text-2xl font-black">通帳記入 / 繰越</span>
+            <span class="text-xs text-slate-500 font-bold mt-0.5 block">通帳の記帳・新通帳発行</span>
+          </div>
+          <div class="w-10 h-10 bg-slate-200/60 rounded-lg flex items-center justify-center text-slate-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          </div>
+        </button>
+
+        <!-- その他取引 / 暗証番号変更 -->
+        <button class="btn-glass rounded-2xl p-5 sm:p-6 text-slate-800 border border-slate-200 flex items-center justify-between">
+          <div class="text-left">
+            <span class="block text-xl sm:text-2xl font-black">各種変更・その他</span>
+            <span class="text-xs text-slate-500 font-bold mt-0.5 block">暗証番号変更・限度額設定など</span>
+          </div>
+          <div class="w-10 h-10 bg-slate-200/60 rounded-lg flex items-center justify-center text-slate-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg>
+          </div>
+        </button>
+
       </div>
 
-    </div>
-
-    <!-- ATM本体の物理パーツ（スロット演出） -->
-    <div class="mt-4 bg-slate-800 rounded-xl p-4 flex justify-around items-center border border-slate-700">
-      <!-- カード挿入口 -->
-      <div class="text-center">
-        <span class="text-[10px] text-slate-400 block mb-1">カード・通帳</span>
-        <div class="w-24 h-2 bg-slate-900 border border-slate-600 rounded-full mx-auto relative overflow-hidden">
-          <div id="card-slot-light" class="w-full h-full bg-slate-700"></div>
+      <!-- 画面下部案内インフォメーション -->
+      <div class="border-t-2 border-slate-300 pt-4 flex justify-between items-center text-xs sm:text-sm font-bold text-slate-600">
+        <div class="flex items-center space-x-2">
+          <span class="inline-block w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>お取り扱い中（手数料無料時間帯）</span>
+        </div>
+        <div class="flex space-x-6 text-slate-500">
+          <span>インターホン：画面右上</span>
+          <span>点字案内対応</span>
         </div>
       </div>
 
-      <!-- 現金出入口 -->
-      <div class="text-center">
-        <span class="text-[10px] text-slate-400 block mb-1">紙幣出入口</span>
-        <div id="cash-slot" class="w-36 h-2 bg-slate-900 border border-slate-600 rounded mx-auto transition-all duration-500"></div>
-      </div>
-
-      <!-- 明細受入口 -->
-      <div class="text-center">
-        <span class="text-[10px] text-slate-400 block mb-1">明細票</span>
-        <div class="w-20 h-1.5 bg-slate-900 border border-slate-600 rounded mx-auto"></div>
-      </div>
     </div>
-
   </div>
 
-  <script>
-    // 状態管理
-    let state = {
-      transaction: '',
-      pin: '',
-      amountStr: '0',
-      balance: 500000 // 初期残高50万円
-    };
-
-    // タッチ効果音（Web Audio API）
-    function playBeep() {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, ctx.currentTime);
-        gain.gain.setValueAtTime(0.05, ctx.currentTime);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.08);
-      } catch(e){}
-    }
-
-    // 時計更新
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('current-time').innerText = now.toLocaleTimeString('ja-JP');
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // 画面切り替えヘルパー
-    function showView(viewId, title, step) {
-      ['view-main', 'view-pin', 'view-amount', 'view-processing', 'view-complete'].forEach(id => {
-        document.getElementById(id).classList.add('hidden');
-      });
-      document.getElementById(viewId).classList.remove('hidden');
-      document.getElementById('screen-title').innerText = title;
-      document.getElementById('step-indicator').innerText = step;
-    }
-
-    // 1. 取引選択
-    function selectTransaction(type) {
-      playBeep();
-      state.transaction = type;
-      if (type === '残高照会') {
-        showProcessing(() => {
-          alert(`現在の残高は ¥${state.balance.toLocaleString()} です。`);
-          resetATM();
-        });
-      } else {
-        showView('view-pin', '暗証番号を入力してください', '暗証番号入力');
-      }
-    }
-
-    // 2. 暗証番号入力
-    function pressNum(num) {
-      playBeep();
-      if (state.pin.length < 4) {
-        state.pin += num;
-        updatePinDisplay();
-        if (state.pin.length === 4) {
-          setTimeout(() => {
-            showView('view-amount', 'お引出し金額をご入力ください', '金額入力');
-          }, 300);
-        }
-      }
-    }
-
-    function clearPin() {
-      playBeep();
-      state.pin = '';
-      updatePinDisplay();
-    }
-
-    function updatePinDisplay() {
-      for (let i = 1; i <= 4; i++) {
-        const el = document.getElementById(`pin-${i}`);
-        el.innerText = i <= state.pin.length ? '●' : '';
-      }
-    }
-
-    // 3. 金額入力
-    function pressAmount(val) {
-      playBeep();
-      if (val === '万') {
-        let num = parseInt(state.amountStr) || 0;
-        if (num === 0) num = 1;
-        state.amountStr = (num * 10000).toString();
-      } else {
-        if (state.amountStr === '0') state.amountStr = val;
-        else state.amountStr += val;
-      }
-      updateAmountDisplay();
-    }
-
-    function setAmount(amt) {
-      playBeep();
-      state.amountStr = amt.toString();
-      updateAmountDisplay();
-    }
-
-    function clearAmount() {
-      playBeep();
-      state.amountStr = '0';
-      updateAmountDisplay();
-    }
-
-    function updateAmountDisplay() {
-      const num = parseInt(state.amountStr) || 0;
-      document.getElementById('amount-display').innerText = num.toLocaleString();
-    }
-
-    function confirmAmount() {
-      playBeep();
-      const amt = parseInt(state.amountStr) || 0;
-      if (amt <= 0) {
-        alert('金額を入力してください');
-        return;
-      }
-      if (amt > state.balance && state.transaction === '引き出し') {
-        alert('残高が不足しています');
-        return;
-      }
-
-      showProcessing(() => {
-        // 残高計算
-        if (state.transaction === '引き出し') state.balance -= amt;
-        else if (state.transaction === '預入れ') state.balance += amt;
-
-        // 明細更新
-        const now = new Date();
-        document.getElementById('receipt-date').innerText = now.toLocaleString('ja-JP');
-        document.getElementById('receipt-type').innerText = state.transaction;
-        document.getElementById('receipt-amount').innerText = `¥${amt.toLocaleString()}`;
-        document.getElementById('receipt-balance').innerText = `¥${state.balance.toLocaleString()}`;
-
-        // 出入口アニメーション演出
-        const slot = document.getElementById('cash-slot');
-        slot.classList.add('animate-slot');
-
-        showView('view-complete', 'お受け取りください', '完了');
-      });
-    }
-
-    // 4. 処理中演出
-    function showProcessing(callback) {
-      showView('view-processing', '処理中', '処理中');
-      setTimeout(() => {
-        callback();
-      }, 2000);
-    }
-
-    // リセット / キャンセル
-    function cancelTransaction() {
-      playBeep();
-      resetATM();
-    }
-
-    function resetATM() {
-      state.transaction = '';
-      state.pin = '';
-      state.amountStr = '0';
-      updatePinDisplay();
-      updateAmountDisplay();
-      document.getElementById('cash-slot').classList.remove('animate-slot');
-      showView('view-main', 'ご希望の取引をお選びください', '取引選択');
-    }
-  </script>
 </body>
 </html>
