@@ -289,6 +289,14 @@
         .btn-live { display: block; background: var(--iriam-grad); color: white; text-align: center; padding: 1.2rem; text-decoration: none; border-radius: 50px; font-weight: bold; margin-top: 2rem; box-shadow: 0 4px 15px rgba(33, 147, 176, 0.3); }
 
         footer { text-align: center; padding: 2rem; color: #999; }
+    
+        :root[data-theme="dark"] { color-scheme:dark; --primary-color:#e7edf9; --iriam-blue:#8bcaff; --bg-color:#0b1120; --text-color:#e7edf9; --white:#152035; }
+        :root[data-theme="dark"] .card, :root[data-theme="dark"] .style-item, :root[data-theme="dark"] .tag-box { background:#152035; color:#e7edf9; border-color:#354761; }
+        :root[data-theme="dark"] .dict-desc, :root[data-theme="dark"] .card p { color:#c3cde0; }
+        .theme-toggle { border:1px solid currentColor; border-radius:999px; padding:8px 12px; background:var(--white); color:var(--iriam-blue); cursor:pointer; font:inherit; }
+        .style-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr)); }
+        a:focus-visible,button:focus-visible { outline:3px solid var(--iriam-blue); outline-offset:3px; }
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;}}
     </style>
 </head>
 <body>
@@ -299,6 +307,7 @@
         <a href="guide.html" class="guide-nav-btn"><i class="fas fa-book-open"></i> 応援ガイド</a>
         <div class="logo-area"><img src="logo.png" alt="warudora logo" onerror="this.style.display='none';"></div>
     </div>
+<button class="theme-toggle" id="theme-toggle" type="button">テーマ切替</button>
 </nav>
 
 <div class="hero">
@@ -562,6 +571,24 @@
     }
 
     document.addEventListener('DOMContentLoaded', init);
+</script>
+<script>
+    (() => {
+      const button = document.getElementById('theme-toggle');
+      const saved = localStorage.getItem('warudora-theme');
+      const initial = saved === 'dark' || saved === 'light' ? saved : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const apply = theme => {
+        document.documentElement.dataset.theme = theme;
+        button.textContent = theme === 'dark' ? '☀️ ライト' : '🌙 ダーク';
+        button.setAttribute('aria-label', theme === 'dark' ? 'ライトテーマに切り替える' : 'ダークテーマに切り替える');
+      };
+      apply(initial);
+      button.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('warudora-theme', next);
+        apply(next);
+      });
+    })();
 </script>
 </body>
 </html>
