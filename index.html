@@ -303,14 +303,37 @@
         #back-to-top.show { opacity: 1; visibility: visible; }
 
         hr { border: 0; border-top: 1px solid #f0f2f5; margin: 1.2rem 0; }
+    
+        /* Accessible theme system */
+        :root { color-scheme: light; }
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+            --primary-color:#e7edf9; --accent-color:#80b9ff;
+            --bg-color:#0b1120; --text-color:#e7edf9; --white:#151f32;
+            --tool-color:#6fe0ad; --link-color:#ffbc78;
+        }
+        body { background:var(--bg-color); transition:background .2s,color .2s; }
+        nav.top-nav { background:var(--white); justify-content:space-between; gap:1rem; }
+        .theme-toggle { cursor:pointer; border:1px solid var(--accent-color); border-radius:999px; background:var(--white); color:var(--text-color); padding:.55rem .9rem; font:inherit; }
+        :root[data-theme="dark"] header, :root[data-theme="dark"] footer { background:#101a2b; }
+        :root[data-theme="dark"] .work-item p { color:#b9c7dc; }
+        :root[data-theme="dark"] .link-btn { color:var(--text-color); border-color:#52627b; }
+        :root[data-theme="dark"] .link-btn:hover { background:#27364d; }
+        :root[data-theme="dark"] .badge { background:#26364f; }
+        :root[data-theme="dark"] h2 { color:var(--text-color); border-color:#34435c; }
+        .grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); }
+        section,.profile-card,.iriam-banner { min-width:0; }
+        a:focus-visible,button:focus-visible { outline:3px solid var(--accent-color); outline-offset:3px; }
+        @media(prefers-reduced-motion:reduce) { *,*::before,*::after {scroll-behavior:auto!important;transition:none!important;} }
     </style>
 </head>
 <body>
 
-<nav class="top-nav">
+<nav class="top-nav" aria-label="メインナビゲーション">
     <div class="logo-area">
         <img src="logo.png" alt="warudora logo" onerror="this.src='https://via.placeholder.com/200x50?text=WARUDORA+LOGO'">
     </div>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="テーマを切り替える">🌙 ダーク</button>
 </nav>
 
 <header>
@@ -425,6 +448,20 @@
 </button>
 
 <script>
+    const themeButton = document.getElementById('theme-toggle');
+    const storedTheme = localStorage.getItem('warudora-theme');
+    const initialTheme = storedTheme === 'dark' || storedTheme === 'light' ? storedTheme : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    function applyTheme(theme) {
+        document.documentElement.dataset.theme = theme;
+        themeButton.textContent = theme === 'dark' ? '☀️ ライト' : '🌙 ダーク';
+        themeButton.setAttribute('aria-label', theme === 'dark' ? 'ライトテーマに切り替える' : 'ダークテーマに切り替える');
+    }
+    applyTheme(initialTheme);
+    themeButton.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('warudora-theme', next);
+        applyTheme(next);
+    });
     document.getElementById('current-year').textContent = new Date().getFullYear();
     const backToTopBtn = document.getElementById('back-to-top');
 
