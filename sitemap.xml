@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://warudora.github.io/</loc><priority>1.0</priority></url>
+<url><loc>https://warudora.github.io/</loc></url>
+<url><loc>https://warudora.github.io/projects/m-mas.html</loc></url>
+<url><loc>https://warudora.github.io/projects/k-sys.html</loc></url>
+<url><loc>https://warudora.github.io/projects/warusigns.html</loc></url>
+<url><loc>https://warudora.github.io/projects/mjx-media.html</loc></url>
+<url><loc>https://warudora.github.io/projects/mjx-ps.html</loc></url>
+<url><loc>https://warudora.github.io/projects/5h1h0-web.html</loc></url>
+<url><loc>https://warudora.github.io/projects/mjx-core.html</loc></url>
+<url><loc>https://warudora.github.io/projects/mjx-modpack.html</loc></url>
+<url><loc>https://warudora.github.io/projects/timecard.html</loc></url>
+<url><loc>https://warudora.github.io/projects/railpack.html</loc></url>
+<url><loc>https://warudora.github.io/iriam.html</loc></url>
 </urlset>
