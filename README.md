@@ -1,25 +1,31 @@
-# warudora official website
+# warudora | Official Website
 
-<p align="center"><img src="./profile_top.jpg" alt="warudora 公式サイトのアイコン（赤く光るPCの写真）" width="220"></p>
+<p align="center">
+  <img src="./profile_top.jpg" alt="warudoraの公式サイトで使用しているPCの写真" width="220">
+</p>
 
-warudoraの公式ポートフォリオサイト。GitHub Pagesで公開しています。
+<p align="center"><strong>warudora（ワルドラ）の公式ポートフォリオサイト</strong></p>
 
-**公開サイト:** https://warudora.github.io/
+Minecraft Modの開発、Web・ソフトウェア制作、コミュニティ運営など、warudoraの活動と制作実績を紹介しています。
 
-## サイトロゴ・リンク表示
-- **個人サイトの画像:** `profile_top.jpg`（赤く光るPCの元写真。トップページやREADMEで使用）
-- **ブラウザのアイコン（favicon）:** `favicon-warudora.png`（元写真を小さくしたもの。`index.html`から参照）
-- **リンク共有時の画像:** `profile_top.jpg`（トップページの`og:image`で使用）
-- **MJXのロゴ:** 本サイトとは分離し、[MJX公式サイト](https://warudora.github.io/MJX-/)および[`warudora/MJX-`](https://github.com/warudora/MJX-)で管理します。
+**公式サイト：** https://warudora.github.io/
 
-## 構成
-- `index.html`: 白を基調としたトップページ、自己紹介、代表作、作品一覧、活動記録
-- `assets/site.css`: 共通デザイン・レスポンシブ対応
-- `assets/site.js`: モバイルメニュー・カテゴリ切り替え
-- `projects/*.html`: 制作実績の独立した紹介ページ（10件）
+## 著作権・利用について
 
-## 公開方針
-紹介ページは非公開リポジトリに依存しません。開発途中の内容は完成と誤認されないよう、状態と注記を掲載しています。既存の`iriam.html`、ガイド、画像、各種ページは維持します。
+**本サイトはwarudoraが管理・公開する公式サイトです。**
 
-## 修正方法
-各作品の文面は対応する`projects/*.html`を編集してください。共通見た目は`assets/site.css`、メニューや絞り込みは`assets/site.js`を編集します。
+サイトに掲載されたwarudora制作の文章・画像・写真・ロゴ・デザイン・ソースコードなどの著作権その他の権利は、warudoraに帰属します。第三者が制作した素材や、別途権利表示・ライセンスが付されたものの権利は、それぞれの権利者に帰属します。
+
+**権利者の許諾なく、掲載物を転載・複製・改変・再配布したり、他のサイト・制作物・サービスに流用したりすることは認めません。** 特に、公式サイトや管理者を装う行為、公式の承認・提携があると誤認させる利用はお断りします。
+
+GitHub上で閲覧できることは、掲載物を自由に利用できることを意味しません。個別のファイルやプロジェクトに明示されたライセンスがある場合は、その条件が優先します。法令で認められた引用などや、GitHubの利用規約に基づく操作は妨げません。
+
+公式ページへの**通常のリンク共有は歓迎**します。掲載物の利用許諾が必要な場合は、事前に権利者へご相談ください。
+
+## 関連サイト
+
+- [MTR Japan Nexus（MJX）公式ルールブック・案内サイト](https://warudora.github.io/MJX-/) — MJXの名称・ロゴ・コンテンツは、MJX運営および各権利者の管理対象です。個人サイトとは別に扱います。
+
+---
+
+© 2026 warudora. All rights reserved.（権利が帰属する制作物について）
