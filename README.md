@@ -1,6 +1,16 @@
 # warudora official website
 
+<p align="center"><img src="./profile_top.jpg" alt="warudora 公式サイトのアイコン（赤く光るPCの写真）" width="220"></p>
+
 warudoraの公式ポートフォリオサイト。GitHub Pagesで公開しています。
+
+**公開サイト:** https://warudora.github.io/
+
+## サイトロゴ・リンク表示
+- **個人サイトの画像:** `profile_top.jpg`（赤く光るPCの元写真。トップページやREADMEで使用）
+- **ブラウザのアイコン（favicon）:** `favicon-warudora.png`（元写真を小さくしたもの。`index.html`から参照）
+- **リンク共有時の画像:** `profile_top.jpg`（トップページの`og:image`で使用）
+- **MJXのロゴ:** 本サイトとは分離し、[MJX公式サイト](https://warudora.github.io/MJX-/)および[`warudora/MJX-`](https://github.com/warudora/MJX-)で管理します。
 
 ## 構成
 - `index.html`: 白を基調としたトップページ、自己紹介、代表作、作品一覧、活動記録
